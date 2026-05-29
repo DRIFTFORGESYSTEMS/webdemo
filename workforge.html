@@ -1,0 +1,2152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workforge Systems — Advanced Systems Crafting</title>
+<meta name="description" content="Custom-built automation software, operational tools, and data systems for businesses that are serious about scaling.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --black: #050508;
+  --white: #ffffff;
+  --cream: #f0ecf4;
+  --accent: #ff0055;
+  --accent-glow: 0 0 20px rgba(255, 0, 85, 0.7), 0 0 45px rgba(255, 0, 85, 0.3);
+  --muted: #88888b;
+  --mid: #0d0d12;
+  --border: rgba(255, 255, 255, 0.12);
+  --border-thick: 2px solid var(--border);
+  --success: #00d4b4;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 500; overflow-x: hidden; }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 40px; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 24px 56px; transition: background 0.4s, padding 0.3s, top 0.3s;
+}
+nav.scrolled {
+  background: rgba(5, 5, 8, 0.95); backdrop-filter: blur(20px);
+  padding: 16px 56px; border-bottom: 1px solid var(--border);
+}
+.nav-logo { display: flex; align-items: center; gap: 14px; text-decoration: none; position: relative; z-index: 201; }
+.nav-logo-text { display: flex; flex-direction: column; line-height: 0.9; font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 4px; }
+.nav-logo-text .top { color: var(--white); }
+.nav-logo-text .bottom { color: var(--accent); text-shadow: var(--accent-glow); }
+.nav-links { display: flex; gap: 40px; list-style: none; }
+.nav-links a { color: var(--white); text-decoration: none; font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; opacity: 0.6; transition: opacity 0.2s, color 0.2s; }
+.nav-links a:hover { opacity: 1; color: var(--accent); text-shadow: var(--accent-glow); }
+.nav-workspace { color: var(--white); text-decoration: none; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; opacity: 0.7; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; white-space: nowrap; }
+.nav-workspace::before { content: '⬡'; color: var(--accent); font-size: 14px; text-shadow: var(--accent-glow); }
+.nav-workspace:hover { opacity: 1; color: var(--accent); text-shadow: var(--accent-glow); }
+.nav-cta { background: var(--accent); color: var(--white); padding: 14px 32px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; font-weight: 700; box-shadow: var(--accent-glow); border: 2px solid var(--accent); transition: all 0.2s; border-radius: 2px; white-space: nowrap; }
+.nav-cta:hover { background: transparent; color: var(--accent); }
+
+/* ─── HAMBURGER ─── */
+.hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 201; padding: 4px; }
+.hamburger span { display: block; width: 26px; height: 2px; background: var(--white); transition: transform 0.3s, opacity 0.3s; transform-origin: center; border-radius: 2px; }
+.hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+.mobile-menu { display: none; position: fixed; inset: 0; background: var(--black); z-index: 199; flex-direction: column; justify-content: center; align-items: center; gap: 36px; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.mobile-menu.open { opacity: 1; pointer-events: all; }
+.mobile-menu a { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 4px; color: var(--white); text-decoration: none; transition: color 0.2s; }
+.mobile-menu a:hover { color: var(--accent); text-shadow: var(--accent-glow); }
+.mobile-menu .mob-cta { font-family: 'Bebas Neue', sans-serif; font-size: 32px; background: var(--accent); color: var(--white); padding: 12px 36px; letter-spacing: 3px; text-decoration: none; box-shadow: var(--accent-glow); }
+
+@media (max-width: 900px) {
+  nav { padding: 14px 20px; top: 0 !important; background: rgba(5,5,8,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+  nav.scrolled { padding: 14px 20px; }
+
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .mobile-menu { display: flex; }
+  .nav-cta { display: none; }
+  .nav-logo-text { font-size: 20px; letter-spacing: 3px; }
+}
+
+/* ─── HERO ─── */
+.hero { min-height: 100vh; display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: center; padding: 175px 56px 70px; position: relative; overflow: hidden; }
+.hero-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.hero-bg canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+.glow-orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; }
+.glow-orb-1 { width: 700px; height: 700px; background: radial-gradient(circle, rgba(255,0,85,0.15) 0%, transparent 65%); top: -10%; left: -10%; animation: orbFloat 12s ease-in-out infinite; }
+.glow-orb-2 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(45,107,255,0.1) 0%, transparent 65%); bottom: 0; right: 0; animation: orbFloat 15s ease-in-out infinite reverse; }
+@keyframes orbFloat { 0%, 100% { transform: translateY(0px) scale(1); } 50% { transform: translateY(-50px) scale(1.05); } }
+
+.hero-left { position: relative; z-index: 2; }
+.hero-tag { display: inline-flex; align-items: center; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 28px; opacity: 0; animation: fadeUp 0.6s 0.1s forwards; text-shadow: 0 0 10px rgba(255,0,85,0.5); }
+.hero-tag::before { content: ''; display: block; width: 36px; height: 2px; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+.hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(80px, 9vw, 130px); line-height: 0.88; letter-spacing: 2px; margin-bottom: 32px; opacity: 0; animation: fadeUp 0.6s 0.25s forwards; text-transform: uppercase; }
+.hero-title .accent-line { color: var(--accent); text-shadow: var(--accent-glow); }
+.hero-body { font-size: 16px; line-height: 1.75; color: rgba(255,255,255,0.65); max-width: 520px; margin-bottom: 36px; opacity: 0; animation: fadeUp 0.6s 0.4s forwards; }
+.hero-actions { display: flex; align-items: center; gap: 32px; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.6s 0.55s forwards; }
+.btn-primary { background: var(--accent); color: var(--white); padding: 18px 36px; font-size: 13px; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 700; text-decoration: none; transition: all 0.2s; display: inline-block; border: 2px solid var(--accent); border-radius: 2px; box-shadow: var(--accent-glow); }
+.btn-primary:hover { background: transparent; color: var(--accent); transform: translateY(-2px); }
+.btn-ghost { color: var(--white); font-size: 12px; letter-spacing: 2.5px; font-weight: 700; text-transform: uppercase; opacity: 0.7; text-decoration: none; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 4px; transition: all 0.2s; }
+.btn-ghost:hover { opacity: 1; border-color: var(--accent); color: var(--accent); text-shadow: var(--accent-glow); }
+.hero-stats { display: flex; gap: 36px; margin-top: 48px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.1); opacity: 0; animation: fadeUp 0.6s 0.7s forwards; flex-wrap: wrap; }
+.hero-stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 42px; letter-spacing: 2px; color: var(--white); line-height: 1; }
+.hero-stat-val em { color: var(--accent); font-style: normal; text-shadow: var(--accent-glow); }
+.hero-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+
+/* ─── DASHBOARD MOCKUP ─── */
+.hero-right { position: relative; display: flex; justify-content: center; align-items: center; z-index: 2; opacity: 0; animation: fadeIn 0.8s 0.65s forwards; }
+.dashboard-wrap { position: relative; width: 100%; max-width: 580px; }
+.float-badge { position: absolute; top: -20px; right: -20px; background: var(--mid); border: 1px solid rgba(255,255,255,0.15); padding: 12px 18px; display: flex; align-items: center; gap: 10px; z-index: 10; animation: floatY 4s ease-in-out infinite; box-shadow: 0 20px 40px rgba(0,0,0,0.8); border-radius: 4px; }
+.badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: pulse 1.8s infinite; box-shadow: 0 0 10px var(--accent); }
+.badge-text { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 10px; letter-spacing: 1px; color: var(--accent); text-transform: uppercase; }
+@keyframes floatY { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.dashboard-mock { background: #0a0a0e; border: 2px solid rgba(255,255,255,0.08); border-radius: 8px; width: 100%; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.9), 0 0 80px rgba(255,0,85,0.08); }
+.dash-topbar { background: #050508; padding: 16px 20px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.dash-dot { width: 10px; height: 10px; border-radius: 50%; }
+.dash-dot:nth-child(1) { background: #ff5f57; } .dash-dot:nth-child(2) { background: #febc2e; } .dash-dot:nth-child(3) { background: #28c840; }
+.dash-url { margin-left: 12px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: 1px; text-transform: uppercase; }
+.dash-body { padding: 24px; }
+.dash-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px; }
+.kpi-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); padding: 18px; border-radius: 4px; }
+.kpi-label { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.kpi-val { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 1px; color: var(--white); line-height: 1; }
+.kpi-delta { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 9px; color: #00d4b4; margin-top: 6px; }
+.dash-chart-area { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 20px; margin-bottom: 16px; }
+.dash-chart-title { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 9px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; margin-bottom: 16px; }
+.chart-bars { display: flex; align-items: flex-end; gap: 8px; height: 70px; }
+.chart-bar { flex: 1; background: rgba(255,0,85,0.15); border-top: 2px solid rgba(255,0,85,0.4); border-radius: 2px; }
+.chart-bar.active { background: rgba(255,0,85,0.5); border-color: var(--accent); box-shadow: 0 0 15px rgba(255,0,85,0.4); }
+.dash-rows { display: flex; flex-direction: column; gap: 10px; }
+.dash-row { display: flex; align-items: center; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; gap: 14px; }
+.row-icon { width: 32px; height: 32px; background: rgba(255,0,85,0.1); border: 1px solid rgba(255,0,85,0.3); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.row-info { flex: 1; min-width: 0; }
+.row-name { font-size: 13px; font-weight: 700; color: var(--white); }
+.row-sub { font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 9px; color: var(--muted); margin-top: 4px; }
+.row-status { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 9px; color: var(--accent); display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.row-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; box-shadow: 0 0 8px var(--accent); }
+
+/* ─── MARQUEE ─── */
+.marquee-strip { border-top: var(--border-thick); border-bottom: var(--border-thick); padding: 15px 0; overflow: hidden; background: #08080a; }
+.marquee-track { display: flex; animation: marquee 24s linear infinite; white-space: nowrap; }
+.marquee-item { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 3px; color: rgba(255,255,255,0.25); padding: 0 32px; display: inline-flex; align-items: center; gap: 32px; }
+.marquee-item .dot { color: var(--accent); font-size: 24px; text-shadow: var(--accent-glow); }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ─── SECTIONS ─── */
+section { padding: 90px 56px; }
+.section-eyebrow { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; display: flex; align-items: center; gap: 16px; text-shadow: 0 0 10px rgba(255,0,85,0.4); }
+.section-eyebrow::after { content: ''; display: block; height: 2px; width: 40px; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+.section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(50px, 6vw, 80px); letter-spacing: 2px; line-height: 0.95; margin-bottom: 24px; text-transform: uppercase; }
+
+/* ─── SERVICES ─── */
+.services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; background: rgba(255,255,255,0.1); margin-top: 40px; border: 2px solid rgba(255,255,255,0.1); }
+.service-card { background: var(--mid); padding: 48px 36px; position: relative; overflow: hidden; transition: background 0.3s; }
+.service-card:hover { background: #16161c; }
+.service-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; }
+.service-card:hover::after { transform: scaleX(1); }
+.service-num { font-family: 'Bebas Neue', sans-serif; font-size: 70px; color: rgba(255,255,255,0.03); position: absolute; top: 16px; right: 24px; line-height: 1; pointer-events: none; }
+.service-icon { width: 48px; height: 48px; background: rgba(255,0,85,0.1); border: 2px solid rgba(255,0,85,0.3); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 24px; border-radius: 4px; }
+.service-name { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 1.5px; margin-bottom: 16px; }
+.service-desc { font-size: 14px; line-height: 1.85; font-weight: 500; color: rgba(255,255,255,0.55); }
+
+/* ─── STATS ─── */
+.stats-section { background: var(--mid); border-top: var(--border-thick); border-bottom: var(--border-thick); padding: 56px 56px; }
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: rgba(255,255,255,0.1); border: var(--border-thick); }
+.stat-item { padding: 56px 40px; background: var(--mid); position: relative; overflow: hidden; }
+.stat-item::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.6s ease; }
+.stat-item.visible::before { transform: scaleX(1); }
+.stat-val { display: block; font-family: 'Bebas Neue', sans-serif; font-size: clamp(50px, 5vw, 80px); letter-spacing: 2px; line-height: 1; margin-bottom: 12px; }
+.stat-val em { color: var(--accent); font-style: normal; text-shadow: var(--accent-glow); }
+.stat-label { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); display: block; }
+
+/* ─── PROCESS ─── */
+.process-section { background: var(--black); }
+.process-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; margin-top: 50px; }
+.process-steps { display: flex; flex-direction: column; }
+.process-step { display: flex; gap: 24px; padding: 24px 0; border-bottom: 1px solid rgba(255,255,255,0.1); transition: padding-left 0.3s; cursor: default; }
+.process-step:hover { padding-left: 12px; border-bottom-color: rgba(255,0,85,0.4); }
+.process-step:last-child { border-bottom: none; }
+.step-num { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; color: var(--accent); letter-spacing: 1px; padding-top: 4px; min-width: 30px; }
+.step-title { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 1.5px; margin-bottom: 10px; }
+.step-desc { font-size: 14px; font-weight: 500; line-height: 1.85; color: rgba(255,255,255,0.55); }
+.process-right { position: sticky; top: 120px; }
+.terminal { background: #0a0a0e; border: 2px solid rgba(255,255,255,0.1); border-radius: 6px; overflow: hidden; box-shadow: 0 50px 80px rgba(0,0,0,0.8), 0 0 40px rgba(255,0,85,0.05); }
+.terminal-header { background: #14141a; padding: 14px 20px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.t-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.2); }
+.t-title { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 1.5px; margin-left: 12px; text-transform: uppercase; }
+.terminal-body { padding: 24px; display: flex; flex-direction: column; gap: 8px; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 12px; line-height: 1.7; }
+.t-line { display: block; }
+.t-prompt { color: var(--accent); } .t-cmd { color: var(--white); font-weight: 700; } .t-comment { color: rgba(255,255,255,0.35); } .t-success { color: #ff0055; font-weight: 700; } .t-info { color: rgba(255,255,255,0.7); }
+.t-cursor { display: inline-block; width: 8px; height: 14px; background: var(--accent); vertical-align: middle; animation: blink 1.2s step-end infinite; }
+
+/* ─── PORTFOLIO ─── */
+#portfolio { background: var(--mid); border-top: var(--border-thick); }
+.portfolio-intro { max-width: 560px; margin-bottom: 8px; }
+.portfolio-intro p { font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.85; margin-top: 16px; }
+
+/* ─── PRODUCT CARDS ─── */
+.products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; background: rgba(255,255,255,0.1); border: var(--border-thick); margin-top: 60px; }
+.product-card { background: var(--mid); padding: 40px 36px; position: relative; overflow: hidden; transition: background 0.3s; }
+.product-card:hover { background: #16161c; }
+.product-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; }
+.product-card:hover::after { transform: scaleX(1); }
+.product-card.full-width { grid-column: span 2; }
+
+/* ─── PRODUCT SCREEN WRAPPER ─── */
+.product-screen { width: 100%; border-radius: 8px; overflow: hidden; margin-bottom: 28px; box-shadow: 0 20px 60px rgba(0,0,0,0.85); border: 1px solid rgba(255,255,255,0.07); }
+.screen-bar { padding: 9px 14px; display: flex; align-items: center; gap: 6px; }
+.s-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink:0; }
+.s-dot:nth-child(1) { background: #ff5f57; } .s-dot:nth-child(2) { background: #febc2e; } .s-dot:nth-child(3) { background: #28c840; }
+.s-url { margin-left: 8px; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.35); letter-spacing: 1px; }
+
+/* ─── AUTOFLOW MOCKUP ─── */
+/* Matches: dark navy bg, purple/cyan gradient, collapsible sidebar at 68px */
+.af-mock { background: #05080f; display: grid; grid-template-columns: 68px 1fr; min-height: 200px; }
+.af-mock-sidebar { background: rgba(8,13,23,0.97); border-right: 1px solid #1a2744; display: flex; flex-direction: column; align-items: center; padding: 14px 0 10px; gap: 2px; }
+.af-mock-logo { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #6c3fff, #00d4ff); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; color: #fff; margin-bottom: 14px; box-shadow: 0 0 12px rgba(108,63,255,0.4); font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
+.af-mock-nav { width: 42px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin: 1px 0; font-size: 11px; color: rgba(255,255,255,0.3); }
+.af-mock-nav.active { background: rgba(108,63,255,0.18); border: 1px solid rgba(108,63,255,0.3); color: #9b70ff; }
+.af-mock-nav:hover { color: #00d4ff; }
+.af-mock-main { display: flex; flex-direction: column; overflow: hidden; }
+.af-mock-topbar { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: rgba(5,8,15,0.9); border-bottom: 1px solid #1a2744; }
+.af-mock-title { font-family: 'Bebas Neue', sans-serif; font-size: 14px; letter-spacing: 2px; color: #dce8f8; }
+.af-mock-pill { display: flex; align-items: center; gap: 4px; font-family: 'JetBrains Mono', monospace; font-size: 7px; letter-spacing: 1px; color: #4a6480; border: 1px solid #1a2744; padding: 3px 8px; border-radius: 10px; }
+.af-mock-dot { width: 5px; height: 5px; border-radius: 50%; background: #00e5a0; box-shadow: 0 0 4px #00e5a0; }
+.af-mock-content { padding: 12px 14px; }
+.af-mock-stag { font-family: 'JetBrains Mono', monospace; font-size: 7px; color: #00d4ff; border: 1px solid rgba(0,212,255,0.22); padding: 1px 7px; border-radius: 3px; letter-spacing: 1px; display: inline-block; margin-bottom: 10px; }
+.af-mock-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; margin-bottom: 10px; }
+.af-mock-kpi { background: #0c1221; border: 1px solid #1a2744; border-radius: 8px; padding: 10px 10px 8px; position: relative; overflow: hidden; }
+.af-mock-kpi::after { content:''; position:absolute; top:0; left:0; right:0; height:1px; }
+.af-mock-kpi:nth-child(1)::after { background: #00d4ff; }
+.af-mock-kpi:nth-child(2)::after { background: #9b70ff; }
+.af-mock-kpi:nth-child(3)::after { background: #00e5a0; }
+.af-mock-kpi:nth-child(4)::after { background: #ffb830; }
+.af-mock-kpi-icon { font-size: 13px; margin-bottom: 5px; }
+.af-mock-kpi-l { font-size: 6px; letter-spacing: 1.2px; text-transform: uppercase; color: #4a6480; font-family: 'JetBrains Mono', monospace; margin-bottom: 3px; }
+.af-mock-kpi-v { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1px; line-height: 1; }
+.af-mock-kpi:nth-child(1) .af-mock-kpi-v { color: #00d4ff; }
+.af-mock-kpi:nth-child(2) .af-mock-kpi-v { color: #9b70ff; }
+.af-mock-kpi:nth-child(3) .af-mock-kpi-v { color: #00e5a0; }
+.af-mock-kpi:nth-child(4) .af-mock-kpi-v { color: #ffb830; }
+.af-mock-kpi-d { font-size: 7px; color: #00e5a0; margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+.af-mock-tools { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.af-mock-tc { background: #0c1221; border: 1px solid #1a2744; border-radius: 8px; padding: 9px 10px; }
+.af-mock-tc-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
+.af-mock-tc-icon { font-size: 12px; }
+.af-mock-tc-s { font-size: 6px; color: #00e5a0; background: rgba(0,229,160,0.1); border: 1px solid rgba(0,229,160,0.2); padding: 1px 5px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; }
+.af-mock-tc-name { font-size: 9px; font-weight: 800; color: #dce8f8; }
+.af-mock-tc-desc { font-size: 7px; color: #4a6480; margin-top: 2px; line-height: 1.4; }
+
+/* ─── SALES TOOL MOCKUP ─── */
+/* Matches: dark #080A0F bg, pink #FF2D6B accent, Rajdhani font, top header + nav tabs */
+.st-mock { background: #080A0F; min-height: 200px; }
+.st-mock-header { background: rgba(8,10,15,0.85); border-bottom: 1px solid rgba(255,255,255,0.07); padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
+.st-mock-logo { display: flex; align-items: center; gap: 8px; }
+.st-mock-logo-icon { width: 26px; height: 26px; border-radius: 6px; background: linear-gradient(135deg, #FF2D6B, #8B0FFF); display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 800; color: #fff; }
+.st-mock-logo-name { font-size: 11px; font-weight: 700; color: #E8ECF8; letter-spacing: 1px; }
+.st-mock-logo-ver { font-size: 8px; color: #FF2D6B; margin-left: 4px; font-family: 'JetBrains Mono', monospace; }
+.st-mock-btns { display: flex; gap: 5px; }
+.st-mock-btn { font-size: 7px; padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.07); color: #8B93B0; background: transparent; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; }
+.st-mock-btn.pink { background: #FF2D6B; color: #fff; border-color: #FF2D6B; }
+.st-mock-nav { background: rgba(8,10,15,0.75); border-bottom: 1px solid rgba(255,255,255,0.06); padding: 0 16px; display: flex; gap: 0; }
+.st-mock-tab { font-size: 9px; padding: 9px 14px; color: #4A5270; border-bottom: 2px solid transparent; font-weight: 600; letter-spacing: 0.5px; }
+.st-mock-tab.active { color: #FF2D6B; border-bottom-color: #FF2D6B; }
+.st-mock-body { padding: 12px 16px; }
+.st-mock-eyebrow { font-size: 7px; color: #FF2D6B; letter-spacing: 2px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; margin-bottom: 3px; }
+.st-mock-h { font-size: 16px; font-weight: 700; color: #E8ECF8; letter-spacing: 0.5px; margin-bottom: 2px; }
+.st-mock-sub { font-size: 8px; color: #4A5270; margin-bottom: 10px; }
+.st-mock-slide { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; overflow: hidden; }
+.st-mock-slide-top { padding: 10px 14px 8px; background: linear-gradient(135deg, rgba(255,45,107,0.06) 0%, transparent 70%); position: relative; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.st-mock-slide-num { font-size: 36px; font-weight: 800; color: rgba(255,255,255,0.03); position: absolute; right: 10px; top: 5px; line-height: 1; }
+.st-mock-slide-tag { font-size: 7px; color: #FF2D6B; font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; margin-bottom: 3px; }
+.st-mock-slide-h { font-size: 11px; font-weight: 600; color: #E8ECF8; line-height: 1.35; }
+.st-mock-slide-body { padding: 8px 14px 10px; }
+.st-mock-slide-p { font-size: 8px; color: #8B93B0; line-height: 1.6; margin-bottom: 7px; }
+.st-mock-chips { display: flex; gap: 4px; flex-wrap: wrap; }
+.st-mock-chip { font-size: 7px; padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(255,45,107,0.4); color: #FF5588; background: rgba(255,45,107,0.08); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; }
+.st-mock-chip.b { border-color: rgba(45,107,255,0.4); color: #6690FF; background: rgba(45,107,255,0.08); }
+.st-mock-chip.t { border-color: rgba(0,212,180,0.35); color: #00D4B4; background: rgba(0,212,180,0.08); }
+
+/* ─── AGRICORE MOCKUP ─── */
+/* Matches: #09090b bg, pink #ff1a5e + green #00e87a accents, sidebar with nav sections */
+.ag-mock { background: #09090b; display: grid; grid-template-columns: 160px 1fr; min-height: 200px; }
+.ag-mock-sidebar { background: #0e0e12; border-right: 1px solid rgba(255,255,255,0.055); padding: 0; display: flex; flex-direction: column; }
+.ag-mock-logo { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.055); display: flex; align-items: center; gap: 7px; }
+.ag-mock-logo-icon { width: 24px; height: 24px; background: #ff1a5e; border-radius: 5px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ag-mock-logo-icon svg { width: 12px; height: 12px; fill: none; stroke: #fff; stroke-width: 2.5; }
+.ag-mock-logo-t1 { font-size: 8px; font-weight: 800; letter-spacing: 1px; color: #ededf0; line-height: 1; }
+.ag-mock-logo-t2 { font-size: 7px; font-weight: 700; letter-spacing: 1.5px; color: #00e87a; line-height: 1; }
+.ag-mock-sect { font-size: 7px; letter-spacing: 1.5px; color: #52525e; padding: 8px 12px 3px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+.ag-mock-nav { display: flex; align-items: center; gap: 7px; padding: 6px 12px; font-size: 9px; color: #9898a8; border-left: 2px solid transparent; cursor: default; }
+.ag-mock-nav.active { background: rgba(0,232,122,0.11); color: #00e87a; border-left-color: #00e87a; }
+.ag-mock-nav svg { width: 11px; height: 11px; flex-shrink: 0; opacity: 0.7; }
+.ag-mock-badge { font-size: 7px; margin-left: auto; padding: 1px 5px; border-radius: 6px; font-weight: 700; background: #00e87a; color: #000; }
+.ag-mock-badge.red { background: #ff1a5e; color: #fff; }
+.ag-mock-farm { margin: auto 10px 10px; background: #141418; border: 1px solid rgba(255,255,255,0.10); border-radius: 7px; padding: 8px 10px; }
+.ag-mock-farm-lbl { font-size: 6px; color: #52525e; letter-spacing: 1px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+.ag-mock-farm-name { font-size: 9px; font-weight: 700; color: #ededf0; margin-top: 1px; }
+.ag-mock-farm-sub { font-size: 7px; color: #52525e; margin-top: 1px; }
+.ag-mock-main { display: flex; flex-direction: column; overflow: hidden; }
+.ag-mock-topbar { padding: 9px 14px; border-bottom: 1px solid rgba(255,255,255,0.055); display: flex; align-items: center; justify-content: space-between; background: #09090b; }
+.ag-mock-page-title { font-size: 8px; font-weight: 800; letter-spacing: 2px; color: #ededf0; text-transform: uppercase; }
+.ag-mock-page-title span { color: #00e87a; }
+.ag-mock-mode { display: flex; align-items: center; gap: 5px; background: #141418; border: 1px solid rgba(255,255,255,0.10); border-radius: 5px; padding: 3px 8px; }
+.ag-mock-mode-lbl { font-size: 7px; color: #9898a8; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; }
+.ag-mock-mode-pill { font-size: 7px; font-weight: 700; background: #00e87a; color: #000; padding: 1px 6px; border-radius: 3px; letter-spacing: 0.5px; }
+.ag-mock-content { padding: 12px 14px; }
+.ag-mock-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; margin-bottom: 10px; }
+.ag-mock-kpi { background: #0e0e12; border: 1px solid rgba(255,255,255,0.055); border-radius: 8px; padding: 9px 10px; }
+.ag-mock-kpi-icon { font-size: 12px; margin-bottom: 4px; }
+.ag-mock-kpi-l { font-size: 6px; letter-spacing: 1px; text-transform: uppercase; color: rgba(0,232,122,0.7); font-family: 'JetBrains Mono', monospace; margin-bottom: 2px; }
+.ag-mock-kpi-v { font-size: 18px; font-weight: 800; color: #00e87a; line-height: 1; }
+.ag-mock-kpi-v.red { color: #ff1a5e; }
+.ag-mock-kpi-sub { font-size: 7px; color: #52525e; margin-top: 2px; }
+.ag-mock-chart-wrap { background: rgba(0,232,122,0.03); border: 1px solid rgba(0,232,122,0.12); border-radius: 6px; padding: 10px 12px; }
+.ag-mock-chart-title { font-size: 7px; color: #52525e; letter-spacing: 1px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; margin-bottom: 8px; }
+.ag-mock-chart { display: flex; align-items: flex-end; gap: 4px; height: 44px; }
+.ag-mock-bar { flex: 1; border-radius: 2px 2px 0 0; background: rgba(0,232,122,0.18); transition: background 0.2s; }
+.ag-mock-bar.hi { background: rgba(0,232,122,0.55); }
+
+/* ─── VIDEO SCRAPER MOCKUP ─── */
+/* Matches: terminal/pipeline style, black bg, accent red, JetBrains Mono throughout */
+.vs-mock { background: #0a0a0a; min-height: 200px; padding: 14px 16px; }
+.vs-mock-topbar { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.vs-mock-title-wrap { display: flex; flex-direction: column; }
+.vs-mock-title { font-family: 'Bebas Neue', sans-serif; font-size: 14px; letter-spacing: 2px; color: #fff; }
+.vs-mock-sub { font-size: 7px; color: rgba(255,255,255,0.3); font-family: 'JetBrains Mono', monospace; margin-top: 1px; }
+.vs-mock-status { margin-left: auto; display: flex; align-items: center; gap: 5px; font-size: 7px; color: rgba(255,255,255,0.3); font-family: 'JetBrains Mono', monospace; border: 1px solid rgba(255,255,255,0.08); padding: 3px 8px; border-radius: 4px; }
+.vs-mock-status-dot { width: 5px; height: 5px; border-radius: 50%; background: #ff0055; animation: vspulse 1.5s infinite; }
+@keyframes vspulse { 0%,100%{opacity:1}50%{opacity:0.2} }
+.vs-mock-files { margin-bottom: 12px; }
+.vs-mock-files-label { font-size: 7px; color: rgba(255,255,255,0.25); font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
+.vs-mock-file-row { display: flex; align-items: center; gap: 8px; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.vs-mock-file-row:last-child { border-bottom: none; }
+.vs-mock-file-icon { font-size: 10px; }
+.vs-mock-file-name { font-size: 8px; color: rgba(255,255,255,0.7); font-family: 'JetBrains Mono', monospace; flex: 1; }
+.vs-mock-file-dur { font-size: 7px; color: rgba(255,255,255,0.3); font-family: 'JetBrains Mono', monospace; }
+.vs-mock-pipeline-label { font-size: 7px; color: rgba(255,255,255,0.25); font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+.vs-mock-step { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.vs-mock-step:last-child { border-bottom: none; }
+.vs-mock-step-icon { font-size: 9px; width: 14px; text-align: center; flex-shrink: 0; }
+.vs-mock-step-text { font-size: 8px; color: rgba(255,255,255,0.7); font-family: 'JetBrains Mono', monospace; flex: 1; }
+.vs-mock-step-text.dim { color: rgba(255,255,255,0.25); }
+.vs-mock-step-done { font-size: 7px; color: #00d4b4; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; }
+.vs-mock-step-prog { flex: 1; max-width: 60px; }
+.vs-mock-prog-bar { background: rgba(255,255,255,0.06); border-radius: 2px; height: 3px; }
+.vs-mock-prog-fill { background: #ff0055; border-radius: 2px; height: 100%; }
+.vs-mock-output { margin-top: 10px; background: rgba(255,0,85,0.04); border: 1px solid rgba(255,0,85,0.18); border-radius: 4px; padding: 7px 10px; font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.55); }
+
+/* ─── INFLUENCER HUB MOCKUP ─── */
+/* Matches: #0D0D0D bg, #FF0055 accent, IBM Plex Mono, Workforge Nexus logo, dashboard/roster tabs */
+.ih-mock { background: #0D0D0D; min-height: 200px; }
+.ih-mock-header { background: #111; border-bottom: 1px solid rgba(255,255,255,0.07); padding: 9px 14px; display: flex; align-items: center; justify-content: space-between; }
+.ih-mock-logo { display: flex; align-items: center; gap: 8px; }
+.ih-mock-logo-icon { position: relative; width: 22px; height: 22px; }
+.ih-mock-logo-r1 { position: absolute; top:0; left:0; width:12px; height:12px; background:#FF0055; border-radius:1.5px; }
+.ih-mock-logo-r2 { position: absolute; top:0; left:5px; width:12px; height:12px; background:rgba(255,0,85,0.4); border-radius:1.5px; }
+.ih-mock-logo-r3 { position: absolute; top:5px; left:10px; width:12px; height:12px; background:rgba(255,0,85,0.2); border-radius:1.5px; }
+.ih-mock-logo-text { line-height: 1.2; }
+.ih-mock-logo-t1 { font-size: 9px; font-weight: 700; letter-spacing: 1px; color: #fff; font-family: 'JetBrains Mono', monospace; }
+.ih-mock-logo-t2 { font-size: 7px; letter-spacing: 2px; color: #FF0055; font-family: 'JetBrains Mono', monospace; }
+.ih-mock-mode-toggle { display: flex; gap: 4px; }
+.ih-mock-mode-btn { font-size: 7px; padding: 3px 9px; border-radius: 4px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.4); font-family: 'JetBrains Mono', monospace; }
+.ih-mock-mode-btn.active { background: rgba(255,0,85,0.15); border-color: rgba(255,0,85,0.4); color: #FF0055; }
+.ih-mock-tabs { background: #111; border-bottom: 1px solid rgba(255,255,255,0.06); padding: 0 14px; display: flex; }
+.ih-mock-tab { font-size: 8px; padding: 8px 12px; color: rgba(255,255,255,0.3); border-bottom: 2px solid transparent; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; }
+.ih-mock-tab.active { color: #FF0055; border-bottom-color: #FF0055; }
+.ih-mock-body { padding: 12px 14px; }
+.ih-mock-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; margin-bottom: 10px; }
+.ih-mock-kpi { background: #181818; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 8px 10px; }
+.ih-mock-kpi-l { font-size: 6px; color: rgba(255,255,255,0.3); letter-spacing: 1px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; margin-bottom: 3px; }
+.ih-mock-kpi-v { font-size: 18px; font-weight: 700; color: #FF0055; line-height: 1; font-family: 'JetBrains Mono', monospace; }
+.ih-mock-kpi-sub { font-size: 7px; color: rgba(255,255,255,0.25); margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+.ih-mock-roster { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+.ih-mock-card { background: #181818; border: 1px solid rgba(255,255,255,0.06); border-radius: 7px; padding: 9px 10px; position: relative; overflow: hidden; }
+.ih-mock-card::before { content:''; position: absolute; top:0; left:0; right:0; height:2px; background: #FF0055; opacity: 0.5; }
+.ih-mock-card-avatar { width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; color: #fff; margin-bottom: 5px; }
+.ih-mock-card-name { font-size: 9px; font-weight: 700; color: #fff; }
+.ih-mock-card-handle { font-size: 7px; color: rgba(255,255,255,0.3); font-family: 'JetBrains Mono', monospace; margin-top: 1px; }
+.ih-mock-card-row { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
+.ih-mock-card-followers { font-size: 11px; font-weight: 700; color: #FF0055; font-family: 'JetBrains Mono', monospace; }
+.ih-mock-card-plat { font-size: 7px; color: rgba(255,255,255,0.25); }
+.ih-mock-card-niche { font-size: 7px; color: rgba(255,255,255,0.2); margin-top: 3px; padding: 1px 5px; background: rgba(255,255,255,0.04); border-radius: 3px; border: 1px solid rgba(255,255,255,0.07); display: inline-block; }
+
+.product-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.product-label .prop-badge { background: rgba(255,0,85,0.12); border: 1px solid rgba(255,0,85,0.35); padding: 2px 8px; border-radius: 2px; font-size: 8px; }
+.product-name { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 1.5px; margin-bottom: 12px; }
+.product-desc { font-size: 14px; line-height: 1.85; color: rgba(255,255,255,0.55); margin-bottom: 20px; }
+.product-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.product-tag { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 1.5px; padding: 4px 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 2px; color: rgba(255,255,255,0.6); }
+
+/* ─── CLIENT RESULTS ─── */
+.results-section { background: var(--black); border-top: var(--border-thick); }
+.results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: rgba(255,255,255,0.1); border: var(--border-thick); margin-top: 60px; }
+.result-card { background: var(--mid); padding: 40px 32px; transition: background 0.3s; }
+.result-card:hover { background: #16161c; }
+.rc-industry { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+.rc-name { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 1.5px; margin-bottom: 12px; }
+.rc-desc { font-size: 14px; line-height: 1.85; color: rgba(255,255,255,0.55); margin-bottom: 24px; }
+.rc-result { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--success); letter-spacing: 1px; }
+
+/* ─── CTA ─── */
+.cta-section { background: var(--accent); padding: 80px 56px; position: relative; overflow: hidden; }
+.cta-section::before { content: 'SYSTEMS'; position: absolute; font-family: 'Bebas Neue', sans-serif; font-size: clamp(120px, 20vw, 260px); color: rgba(0,0,0,0.1); top: 50%; left: 50%; transform: translate(-50%, -50%); white-space: nowrap; pointer-events: none; letter-spacing: 12px; }
+.cta-inner { max-width: 680px; position: relative; }
+.cta-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(50px, 7vw, 90px); letter-spacing: 2px; line-height: 0.9; color: var(--white); margin-bottom: 28px; text-transform: uppercase; }
+.cta-body { font-size: 16px; font-weight: 500; line-height: 1.85; color: rgba(255,255,255,0.9); max-width: 480px; margin-bottom: 40px; }
+.btn-cta-dark { background: var(--black); color: var(--white); padding: 18px 40px; font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; display: inline-block; transition: all 0.2s; border: 2px solid var(--black); border-radius: 2px; }
+.btn-cta-dark:hover { background: transparent; color: var(--black); border-color: var(--black); transform: translateY(-2px); }
+.cta-sub { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: rgba(0,0,0,0.6); letter-spacing: 1px; margin-top: 20px; }
+
+/* ─── CONTACT FORM ─── */
+.contact-section { background: var(--mid); border-top: var(--border-thick); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 40px; }
+.contact-info { }
+.contact-info h3 { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 2px; margin-bottom: 16px; }
+.contact-info p { font-size: 14px; line-height: 1.75; color: rgba(255,255,255,0.6); margin-bottom: 24px; }
+.contact-detail { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; font-size: 14px; color: rgba(255,255,255,0.7); }
+.contact-detail span { color: var(--accent); }
+
+.contact-form-wrap { }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.form-field { margin-bottom: 16px; }
+.form-field label { display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.form-field input, .form-field select, .form-field textarea { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 14px; padding: 14px 16px; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,0,85,0.1); }
+.form-field input::placeholder, .form-field textarea::placeholder { color: rgba(255,255,255,0.25); }
+.form-field select { appearance: none; cursor: pointer; }
+.form-field select option { background: #0d0d12; }
+.form-field textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+.form-submit { width: 100%; background: var(--accent); color: var(--white); border: 2px solid var(--accent); padding: 18px; font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; border-radius: 2px; font-family: 'DM Sans', sans-serif; }
+.form-submit:hover { background: transparent; color: var(--accent); }
+.form-success { display: none; text-align: center; padding: 40px; }
+.form-success .checkmark { font-size: 48px; margin-bottom: 16px; }
+.form-success h4 { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 2px; margin-bottom: 12px; }
+.form-success p { color: rgba(255,255,255,0.6); font-size: 14px; line-height: 1.7; }
+
+/* ─── FOOTER ─── */
+footer { background: var(--black); border-top: var(--border-thick); padding: 56px 56px 32px; }
+.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; padding-bottom: 60px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 30px; }
+.footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 6px; color: var(--white); margin-bottom: 20px; display: block; line-height: 0.9; }
+.footer-logo span { color: var(--accent); text-shadow: var(--accent-glow); display: block; font-size: 24px; letter-spacing: 4px; }
+.footer-tagline { font-size: 13px; font-weight: 500; line-height: 1.8; color: rgba(255,255,255,0.5); max-width: 240px; }
+.footer-col-title { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 24px; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.footer-links li { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.55); transition: all 0.2s; cursor: pointer; }
+.footer-links li:hover { color: var(--accent); transform: translateX(2px); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+.footer-copy { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 2px; text-transform: uppercase; }
+
+/* ─── WORKSPACE MODALS ─── */
+#pw-gate, #tool-select, #workspace {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100%; height: 100%;
+  z-index: 9999;
+  background: rgba(5,5,8,0.98);
+  backdrop-filter: blur(24px);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  -webkit-overflow-scrolling: touch;
+}
+#tool-select { overflow-y: auto; overflow-x: hidden; padding: 80px 40px 60px; align-items: center; justify-content: flex-start; }
+#pw-gate.open, #tool-select.open, #workspace.open { display: flex; }
+.modal-x { position: absolute; top: 32px; right: 40px; background: none; border: none; color: rgba(255,255,255,0.4); font-size: 28px; cursor: pointer; transition: all 0.2s; }
+.modal-x:hover { color: var(--accent); transform: scale(1.1); }
+.pw-box { max-width: 400px; width: 90%; text-align: center; }
+.pw-title { font-family: 'Bebas Neue', sans-serif; font-size: 42px; letter-spacing: 6px; color: var(--white); margin-bottom: 8px; }
+.pw-sub { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 40px; }
+.pw-field { width: 100%; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.2); color: var(--white); font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; letter-spacing: 10px; text-align: center; padding: 18px; outline: none; margin-bottom: 16px; border-radius: 4px; transition: all 0.2s; }
+.pw-field:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,0,85,0.15); }
+.pw-field.shake { animation: pwshake 0.35s ease; }
+@keyframes pwshake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-12px)} 60%{transform:translateX(12px)} 80%{transform:translateX(-6px)} }
+.pw-err { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--accent); margin-bottom: 16px; min-height: 16px; font-family: 'JetBrains Mono', monospace; }
+.pw-go { width: 100%; background: var(--accent); color: var(--white); border: 2px solid var(--accent); padding: 16px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; border-radius: 4px; transition: all 0.2s; }
+.pw-go:hover { background: transparent; color: var(--accent); }
+
+.ts-title { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; letter-spacing: 8px; color: var(--white); text-align: center; margin-bottom: 12px; }
+.ts-sub { font-size: 12px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: rgba(255,255,255,0.5); text-align: center; margin-bottom: 48px; }
+.ts-cards { display: flex; gap: 32px; flex-wrap: wrap; justify-content: center; max-width: 720px; }
+.ts-card { flex: 1; min-width: 260px; background: rgba(255,255,255,0.02); border: 2px solid rgba(255,255,255,0.15); padding: 40px 32px; text-align: center; cursor: pointer; transition: all 0.3s; border-radius: 6px; }
+.ts-card:hover { border-color: var(--accent); background: rgba(255,0,85,0.05); transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+.ts-card-name { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 3px; color: var(--white); margin-bottom: 12px; margin-top: 16px; text-transform: uppercase; }
+.ts-card-desc { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.5); line-height: 1.8; }
+.ts-card-cta { margin-top: 32px; display: inline-block; font-weight: 700; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); border-bottom: 2px solid rgba(255,0,85,0.5); padding-bottom: 4px; transition: all 0.2s; }
+
+.ts-pitch { max-width: 860px; margin-bottom: 48px; text-align: center; }
+.ts-pitch-headline { font-family: 'Bebas Neue', sans-serif; font-size: 1.35rem; letter-spacing: 6px; color: var(--accent); margin-bottom: 20px; text-transform: uppercase; }
+.ts-pitch-tagline { font-size: 15px; font-weight: 500; color: rgba(255,255,255,0.75); line-height: 1.8; margin-bottom: 32px; max-width: 640px; margin-left: auto; margin-right: auto; }
+.ts-stats { display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.07); border-bottom: 1px solid rgba(255,255,255,0.07); margin-bottom: 36px; }
+.ts-stat { text-align: center; }
+.ts-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 3px; color: var(--accent); line-height: 1; }
+.ts-stat-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-top: 6px; }
+.ts-divider-label { font-size: 10px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 24px; display: flex; align-items: center; gap: 16px; justify-content: center; }
+.ts-divider-label::before, .ts-divider-label::after { content: ''; flex: 1; max-width: 120px; height: 1px; background: rgba(255,255,255,0.1); }
+.ts-products { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-bottom: 32px; }
+.ts-product-pill { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,0,85,0.3); border-radius: 4px; padding: 12px 20px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.85); transition: all 0.25s; cursor: default; }
+.ts-product-pill:hover { border-color: var(--accent); background: rgba(255,0,85,0.07); color: var(--white); transform: translateY(-2px); }
+.ts-product-pill .pill-icon { font-size: 16px; color: var(--accent); flex-shrink: 0; }
+.ts-product-pill .pill-desc { font-size: 10px; font-weight: 500; letter-spacing: 1px; color: rgba(255,255,255,0.4); text-transform: none; margin-top: 2px; }
+.ts-product-pill-inner { text-align: left; }
+
+#workspace { background: #050508; }
+.ws-bar { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 60px; background: #0a0a0e; border-bottom: 2px solid rgba(255,0,85,0.2); width: 100%; flex-shrink: 0; }
+.ws-brand { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 4px; color: var(--white); display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.ws-tabs { display: flex; gap: 4px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 4px; }
+.ws-tab { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; padding: 8px 20px; border-radius: 4px; border: 1px solid transparent; background: transparent; color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+.ws-tab.active { background: rgba(255,0,85,0.15); border-color: rgba(255,0,85,0.4); color: var(--accent); }
+.ws-exit { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 8px 16px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: rgba(255,255,255,0.6); cursor: pointer; transition: all 0.2s; }
+.ws-exit:hover { border-color: var(--accent); color: var(--accent); }
+.ws-frames { flex: 1; width: 100%; position: relative; min-height: 0; }
+.ws-frame { display: none; width: 100%; height: 100%; border: none; position: absolute; top: 0; left: 0; }
+.ws-frame.active { display: block; }
+
+/* ─── FREE TOOLS BANNER ─── */
+.free-tools-bar {
+  background: linear-gradient(90deg, rgba(255,0,85,0.07) 0%, rgba(10,10,18,0.97) 50%, rgba(0,180,130,0.07) 100%);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding: 0 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 201;
+  transition: transform 0.3s;
+  backdrop-filter: blur(12px);
+}
+.free-tools-bar.hidden { transform: translateY(-100%); }
+.free-tools-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.28);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 3px 9px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.free-tools-sep {
+  display: block;
+  width: 1px;
+  height: 18px;
+  background: rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+.free-tools-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  text-decoration: none;
+  transition: all 0.22s;
+  padding: 4px 14px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+}
+.free-tools-link:hover {
+  background: rgba(255,0,85,0.08);
+  border-color: rgba(255,0,85,0.22);
+}
+.free-tools-link--green:hover {
+  background: rgba(0,212,180,0.07);
+  border-color: rgba(0,212,180,0.22);
+}
+.free-tools-link .ftl-icon {
+  font-size: 11px;
+  color: var(--accent);
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+.free-tools-link--green .ftl-icon {
+  color: var(--success);
+}
+.free-tools-link .ftl-name,
+.free-tools-link {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.75);
+}
+.free-tools-link:hover .ftl-name,
+.free-tools-link:hover {
+  color: rgba(255,255,255,0.95);
+}
+.ftl-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.7;
+  padding: 2px 7px;
+  background: rgba(255,0,85,0.08);
+  border: 1px solid rgba(255,0,85,0.2);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.free-tools-link--green .ftl-tag {
+  color: var(--success);
+  background: rgba(0,212,180,0.07);
+  border-color: rgba(0,212,180,0.2);
+}
+
+/* ─── MOBILE FREE TOOLS DRAWER ─── */
+.mobile-free-tools {
+  display: none;
+}
+@media (max-width: 900px) {
+  /* Hide the desktop banner on mobile */
+  .free-tools-bar { display: none !important; }
+
+  /* Show mobile version instead */
+  .mobile-free-tools {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 300;
+    background: rgba(5,5,8,0.97);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(20px);
+    padding: 12px 16px 16px;
+    box-shadow: 0 -8px 40px rgba(0,0,0,0.6);
+  }
+  .mft-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.22);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .mft-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+  .mft-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px 8px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.03);
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .mft-btn:active { transform: scale(0.96); }
+  .mft-btn--red { border-color: rgba(255,0,85,0.25); background: rgba(255,0,85,0.06); }
+  .mft-btn--green { border-color: rgba(0,212,180,0.22); background: rgba(0,212,180,0.05); }
+  .mft-btn--workspace { border-color: rgba(255,0,85,0.4); background: rgba(255,0,85,0.12); }
+  .mft-icon {
+    font-size: 18px;
+    line-height: 1;
+  }
+  .mft-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.8);
+    letter-spacing: 0.3px;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .mft-btn--workspace .mft-name { color: var(--accent); }
+  .mft-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.5px;
+    text-align: center;
+  }
+  .mft-btn--red .mft-sub { color: rgba(255,0,85,0.6); }
+  .mft-btn--green .mft-sub { color: rgba(0,212,180,0.55); }
+  .mft-btn--workspace .mft-sub { color: rgba(255,0,85,0.65); }
+}
+
+/* ─── HERO TITLE ANIMATED WORD ─── */
+.hero-title-word {
+  display: inline-block;
+  vertical-align: top;
+}
+.hero-title-word span {
+  display: inline-block;
+  animation: fadeUp 0.7s 0.3s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+
+/* ─── UNDER DEVELOPMENT BADGE ─── */
+.dev-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #ffb830;
+  background: rgba(255,184,48,0.1);
+  border: 1px solid rgba(255,184,48,0.35);
+  padding: 3px 10px;
+  border-radius: 2px;
+  margin-left: 8px;
+}
+.dev-badge::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ffb830;
+  animation: pulse 1.5s infinite;
+  box-shadow: 0 0 6px #ffb830;
+}
+.product-card.under-dev { opacity: 0.88; }
+.product-card.under-dev:hover { opacity: 1; }
+
+/* ─── HEADER SCAN LINE EFFECT ─── */
+.hero-scan {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(255,0,85,0.012) 3px,
+    rgba(255,0,85,0.012) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+  animation: scanMove 8s linear infinite;
+}
+@keyframes scanMove {
+  from { background-position: 0 0; }
+  to   { background-position: 0 200px; }
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── INLINE PASSWORD FIELD ─── */
+.ts-inline-pw {
+  width: 100%; max-width: 480px;
+  margin: 0 auto 40px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 24px 28px;
+  text-align: center;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.ts-inline-pw:focus-within {
+  border-color: rgba(255,0,85,0.4);
+  box-shadow: 0 0 0 3px rgba(255,0,85,0.08);
+}
+.ts-inline-pw.unlocked-state {
+  border-color: rgba(0,212,180,0.4) !important;
+  background: rgba(0,212,180,0.03) !important;
+  box-shadow: 0 0 0 3px rgba(0,212,180,0.07) !important;
+}
+.ts-inline-pw-icon {
+  width: 36px; height: 36px;
+  margin: 0 auto 12px;
+  color: rgba(255,255,255,0.22);
+  transition: color 0.3s;
+}
+.ts-inline-pw:focus-within .ts-inline-pw-icon { color: var(--accent); }
+.ts-inline-pw-icon svg { width: 100%; height: 100%; }
+.ts-inline-pw-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+.ts-inline-pw-row {
+  display: flex; gap: 0; align-items: stretch;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px; overflow: hidden;
+  transition: border-color 0.2s;
+}
+.ts-inline-pw-row:focus-within { border-color: rgba(255,0,85,0.45); }
+.ts-pw-input {
+  flex: 1;
+  background: rgba(255,255,255,0.04);
+  border: none; outline: none;
+  color: var(--white);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px; font-weight: 600;
+  letter-spacing: 4px;
+  padding: 12px 16px;
+  text-align: center;
+  min-width: 0;
+}
+.ts-pw-input::placeholder { letter-spacing: 2px; font-size: 12px; color: rgba(255,255,255,0.2); }
+.ts-pw-btn {
+  background: var(--accent);
+  border: none; cursor: pointer;
+  padding: 0 18px;
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.ts-pw-btn:hover { background: #cc0044; }
+.ts-pw-err {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 1px; color: var(--accent);
+  margin-top: 10px; min-height: 14px;
+}
+@keyframes inlinePwShake {
+  0%,100%{transform:translateX(0)} 20%{transform:translateX(-10px)} 60%{transform:translateX(10px)} 80%{transform:translateX(-5px)}
+}
+.ts-pw-input.shake { animation: inlinePwShake 0.35s ease; }
+
+/* ─── LOCK / UNLOCK ANIMATIONS ─── */
+.ts-card-lock { display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; margin: 0 auto 4px; }
+.lock-icon { width: 40px; height: 40px; color: rgba(255,255,255,0.3); transition: all 0.3s; }
+.ts-card:hover .lock-icon { color: var(--accent); filter: drop-shadow(0 0 8px rgba(255,0,85,0.6)); }
+.ts-card-lock.unlocking .lock-icon { animation: unlockShake 0.35s ease forwards; color: var(--accent); }
+@keyframes unlockShake {
+  0% { transform: rotate(0deg); }
+  20% { transform: rotate(-15deg) translateY(-2px); }
+  40% { transform: rotate(10deg) translateY(-4px); }
+  60% { transform: rotate(-5deg) translateY(-6px); }
+  80% { transform: rotate(3deg) translateY(-8px); }
+  100% { transform: rotate(0deg) translateY(-12px); opacity: 0; }
+}
+@keyframes iconPop {
+  0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+  70% { transform: scale(1.2) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.ts-card.unlocked { border-color: rgba(255,0,85,0.5) !important; background: rgba(255,0,85,0.06) !important; }
+
+/* ─── WELCOME OVERLAY ─── */
+#welcome-overlay {
+  position: fixed; inset: 0; z-index: 10001; display: flex; align-items: center; justify-content: center;
+  pointer-events: none; opacity: 0; transition: opacity 0.3s;
+}
+#welcome-overlay.active { opacity: 1; }
+.welcome-text {
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(64px, 12vw, 120px);
+  letter-spacing: 12px; color: var(--white);
+  text-shadow: 0 0 40px rgba(255,0,85,0.8), 0 0 80px rgba(255,0,85,0.4);
+  animation: welcomePop 0.5s cubic-bezier(0.16,1,0.3,1) forwards;
+  opacity: 0;
+}
+#welcome-overlay.active .welcome-text { opacity: 1; }
+@keyframes welcomePop {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ─── CONFETTI ─── */
+.confetti-piece {
+  position: fixed; top: -10px; z-index: 10002;
+  animation: confettiFall linear forwards;
+  pointer-events: none;
+}
+@keyframes confettiFall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* ─── PW LOCK ICON ─── */
+.pw-lock-anim { margin-bottom: 20px; display: flex; justify-content: center; }
+
+/* ─── MOBILE IMPROVEMENTS ─── */
+@media (max-width: 768px) {
+  /* Services grid goes 1-col on small screens */
+  .services-grid { grid-template-columns: 1fr; }
+  /* Free tools bar scrollable on mobile */
+  .free-tools-bar { overflow-x: auto; justify-content: flex-start; padding: 0 16px; gap: 12px; }
+  .free-tools-bar::-webkit-scrollbar { display: none; }
+  /* Hero stats better spacing */
+  .hero-stats { gap: 24px; }
+  /* Tool select modal padding */
+  #tool-select { padding: 60px 20px 40px; }
+  .ts-title { font-size: 1.6rem; letter-spacing: 5px; }
+  .ts-cards { gap: 16px; }
+  .ts-card { min-width: unset; width: 100%; padding: 28px 20px; }
+  /* Password modal */
+  .pw-box { padding: 0 16px; }
+  .pw-field { font-size: 16px; letter-spacing: 6px; }
+  /* Stats grid mobile */
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-item { padding: 32px 20px; }
+  /* Products grid 1 col */
+  .products-grid { grid-template-columns: 1fr; }
+  /* Process layout stack */
+  .process-layout { grid-template-columns: 1fr; }
+  .process-right { position: static; }
+  /* Contact grid */
+  .contact-grid { grid-template-columns: 1fr; }
+  /* Footer */
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 24px; }
+}
+
+@media (max-width: 480px) {
+  .free-tools-bar { height: auto; min-height: 40px; flex-wrap: nowrap; }
+  .free-tools-badge { display: none; }
+  .free-tools-sep { display: none; }
+  /* Nav tighter */
+  nav { padding: 14px 16px; }
+  .nav-logo-text { font-size: 18px; letter-spacing: 3px; }
+  /* Hero */
+  .hero { padding: 84px 16px 40px; }
+  .hero-title { font-size: clamp(44px, 14vw, 68px); }
+  .hero-body { font-size: 14px; }
+  .hero-actions { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .btn-primary { width: 100%; text-align: center; padding: 15px 24px; }
+  /* Sections tighter */
+  section { padding: 44px 16px; }
+  .section-title { font-size: clamp(28px, 9vw, 44px); }
+  /* Service cards */
+  .service-card { padding: 28px 20px; }
+  /* Footer single column */
+  .footer-top { grid-template-columns: 1fr; }
+  footer { padding: 36px 16px 24px; }
+  /* Workspace tabs */
+  .ws-bar { flex-wrap: wrap; height: auto; padding: 10px 14px; gap: 8px; }
+  .ws-tabs { width: 100%; justify-content: center; order: 3; }
+  .ws-exit { order: 2; }
+}
+
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  nav.scrolled { padding: 12px 24px; }
+  .free-tools-label { font-size: 9px; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .mobile-menu { display: flex; }
+  /* Push page content above bottom bar */
+  body { padding-bottom: 80px; }
+  .hero { grid-template-columns: 1fr; padding: 130px 24px 48px; min-height: auto; }
+  .hero-right { display: none; }
+  .hero-title { font-size: clamp(56px, 13vw, 100px); margin-bottom: 20px; }
+  .hero-body { font-size: 15px; margin-bottom: 28px; }
+  .hero-stats { margin-top: 36px; padding-top: 24px; gap: 28px; }
+  .hero-stat-val { font-size: 34px; }
+  section { padding: 60px 24px; }
+  .section-title { font-size: clamp(32px, 8vw, 56px); }
+  .stats-section { padding: 44px 24px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-val { font-size: clamp(42px, 10vw, 72px); }
+  .services-grid { grid-template-columns: 1fr; }
+  .service-card { padding: 32px 24px; }
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 28px; }
+  footer { padding: 44px 24px 28px; }
+  .cta-section { padding: 60px 24px; }
+  .ts-cards { flex-direction: column; max-width: 100%; }
+  .ts-card { min-width: unset; padding: 28px 20px; }
+  .ws-brand span { display: none; }
+  .form-row { grid-template-columns: 1fr; gap: 0; }
+  .product-card { padding: 24px 20px; }
+  .product-screen { margin-bottom: 20px; }
+  .contact-grid { gap: 28px; }
+  .contact-info h3 { font-size: 28px; }
+}
+
+@media (max-width: 600px) {
+  nav { padding: 14px 18px; }
+  .nav-cta { display: none; }
+  .nav-workspace { font-size: 10px; letter-spacing: 1px; }
+  .nav-logo-text { font-size: 20px; }
+  .hero { padding: 88px 18px 40px; }
+  .hero-tag { font-size: 9px; margin-bottom: 16px; }
+  .hero-title { font-size: clamp(48px, 15vw, 72px); line-height: 0.9; margin-bottom: 16px; }
+  .hero-body { font-size: 14px; line-height: 1.65; margin-bottom: 24px; }
+  .hero-actions { gap: 14px; }
+  .btn-primary, .btn-ghost { padding: 13px 22px; font-size: 11px; }
+  .hero-stats { margin-top: 28px; padding-top: 20px; gap: 20px; flex-wrap: wrap; }
+  .hero-stat-val { font-size: 28px; }
+  .hero-stat-label { font-size: 8px; }
+  section { padding: 48px 18px; }
+  .section-eyebrow { font-size: 10px; }
+  .section-title { font-size: clamp(28px, 10vw, 48px); }
+  .stats-section { padding: 36px 18px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .stat-item { padding: 28px 16px; }
+  .stat-val { font-size: clamp(36px, 11vw, 56px); }
+  .services-grid { gap: 1px; }
+  .service-card { padding: 28px 18px; }
+  .service-name { font-size: 16px; }
+  .process-step { gap: 16px; padding: 20px 0; }
+  .step-num { font-size: 10px; min-width: 24px; }
+  .step-title { font-size: 14px; }
+  .step-desc { font-size: 13px; }
+  .portfolio-intro p { font-size: 14px; }
+  .product-name { font-size: 26px; }
+  .product-desc { font-size: 13px; }
+  .af-mock { grid-template-columns: 52px 1fr; }
+  .af-mock-kpis { grid-template-columns: repeat(2, 1fr); }
+  .ag-mock { grid-template-columns: 120px 1fr; }
+  .ag-mock-sidebar { display: none; }
+  .ag-mock { grid-template-columns: 1fr; }
+  .ih-mock-roster { grid-template-columns: 1fr 1fr; }
+  .ih-mock-kpis { grid-template-columns: repeat(2, 1fr); }
+  .product-card.full-width > div { grid-template-columns: 1fr !important; }
+  .cta-title { font-size: clamp(32px, 10vw, 56px); }
+  .cta-section { padding: 48px 18px; }
+  .footer-top { grid-template-columns: 1fr; gap: 28px; }
+  footer { padding: 36px 18px 24px; }
+  .footer-logo { font-size: 24px; }
+  .modal-x { top: 14px; right: 18px; font-size: 22px; }
+  .pw-title { font-size: 30px; letter-spacing: 4px; }
+  .pw-field { font-size: 16px; padding: 14px; }
+  .ts-title { font-size: 1.6rem; letter-spacing: 5px; }
+  .ts-pitch-tagline { font-size: 13px; }
+  .ts-stats { gap: 16px; }
+  .ts-product-pill { padding: 9px 14px; font-size: 11px; }
+  .ws-bar { flex-wrap: wrap; height: auto; padding: 10px 14px; gap: 8px; }
+  .ws-tabs { width: 100%; justify-content: center; }
+  .ws-tab { font-size: 9px; padding: 6px 14px; }
+  .ws-exit { font-size: 9px; padding: 6px 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="free-tools-bar" id="freeToolsBar">
+  <span class="free-tools-badge">Free Tools</span>
+  <a href="https://www.workforgesystems.com/creatornexus" target="_blank" rel="noopener" class="free-tools-link">
+    <span class="ftl-icon">✦</span>Creator Nexus<span class="ftl-tag">For Creators</span>
+  </a>
+  <span class="free-tools-sep"></span>
+  <a href="https://www.workforgesystems.com/doublechecker" target="_blank" rel="noopener" class="free-tools-link free-tools-link--green">
+    <span class="ftl-icon">⚡</span>Business Efficiency Check<span class="ftl-tag">Free · No Signup</span>
+  </a>
+</div>
+
+<!-- ─── MOBILE BOTTOM BAR (Free Tools + Workspace) ─── -->
+<div class="mobile-free-tools" id="mobileFreeTools">
+  <div class="mft-label">Quick Access</div>
+  <div class="mft-row">
+    <a href="https://www.workforgesystems.com/creatornexus" target="_blank" rel="noopener" class="mft-btn mft-btn--red">
+      <span class="mft-icon">✦</span>
+      <span class="mft-name">Creator Nexus</span>
+      <span class="mft-sub">Free Tool</span>
+    </a>
+    <a href="https://www.workforgesystems.com/doublechecker" target="_blank" rel="noopener" class="mft-btn mft-btn--green">
+      <span class="mft-icon">⚡</span>
+      <span class="mft-name">Efficiency Check</span>
+      <span class="mft-sub">Free · No Signup</span>
+    </a>
+    <button class="mft-btn mft-btn--workspace" onclick="openToolSelect(event)">
+      <span class="mft-icon">⬡</span>
+      <span class="mft-name">Team Workspace</span>
+      <span class="mft-sub">Internal Portal</span>
+    </button>
+  </div>
+</div>
+
+<nav id="nav">
+  <a class="nav-logo" href="#">
+    <svg width="36" height="32" viewBox="0 0 64 48" fill="none" stroke="var(--accent)" stroke-width="3" style="filter: drop-shadow(0 0 10px var(--accent));">
+      <path d="M12 16 L8 24 L16 32 H48 L56 24 L52 16 H12 Z" fill="rgba(255,0,85,0.1)"/>
+      <path d="M24 16 V8 H40 V16" />
+      <path d="M24 32 V40 H40 V32" />
+      <circle cx="32" cy="24" r="3" fill="var(--accent)" />
+      <line x1="20" y1="24" x2="44" y2="24" stroke="var(--accent)" stroke-width="2" />
+    </svg>
+    <div class="nav-logo-text">
+      <span class="top">WORKFORGE</span>
+      <span class="bottom">SYSTEMS</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Systems</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div style="display:flex; align-items:center; gap:20px;">
+    <a href="#" class="nav-workspace" onclick="openToolSelect(event)">Team Workspace</a>
+    <a href="#contact" class="nav-cta">Get Started</a>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" onclick="closeMobile()">Systems</a>
+  <a href="#process" onclick="closeMobile()">Process</a>
+  <a href="#portfolio" onclick="closeMobile()">Portfolio</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+  <a href="#" style="font-size:32px;opacity:0.55" onclick="closeMobile();openToolSelect(event)">Team Workspace</a>
+  <a href="#contact" class="mob-cta" onclick="closeMobile()">Get Started</a>
+</div>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-bg">
+    <canvas id="particleCanvas"></canvas>
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+    <div class="hero-scan"></div>
+  </div>
+
+  <div class="hero-left">
+    <div class="hero-tag">Custom Software for Growing Businesses</div>
+    <h1 class="hero-title">
+      <span class="hero-title-word"><span>We Build</span></span><br>
+      <span class="hero-title-word" style="animation-delay:0.12s"><span>Systems That</span></span><br>
+      <span class="accent-line hero-title-word" style="animation-delay:0.24s"><span>Scale You</span></span>
+    </h1>
+    <p class="hero-body">We design and build custom automation software, operational tools, and data systems — so your team stops doing things manually and starts scaling.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Book a Free Audit</a>
+      <a href="#services" class="btn-ghost">See What We Build</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-val">48<em>hr</em></div>
+        <div class="hero-stat-label">Avg Build Kickoff</div>
+      </div>
+      <div>
+        <div class="hero-stat-val">3<em>x</em></div>
+        <div class="hero-stat-label">Avg Efficiency Gain</div>
+      </div>
+      <div>
+        <div class="hero-stat-val">5<em>+</em></div>
+        <div class="hero-stat-label">Products in Market</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="dashboard-wrap">
+      <div class="float-badge">
+        <div class="badge-dot"></div>
+        <span class="badge-text">Systems Running</span>
+      </div>
+      <div class="dashboard-mock">
+        <div class="dash-topbar">
+          <div class="dash-dot"></div><div class="dash-dot"></div><div class="dash-dot"></div>
+          <span class="dash-url">Workforge Operations</span>
+        </div>
+        <div class="dash-body">
+          <div class="dash-kpis">
+            <div class="kpi-card"><div class="kpi-label">Systems Live</div><div class="kpi-val">18</div><div class="kpi-delta">↑ Active</div></div>
+            <div class="kpi-card"><div class="kpi-label">Uptime</div><div class="kpi-val">99.9<span style="font-size:16px">%</span></div><div class="kpi-delta">↑ All systems</div></div>
+            <div class="kpi-card"><div class="kpi-label">Tools Built</div><div class="kpi-val">5<span style="font-size:16px">↑</span></div><div class="kpi-delta">Growing fast</div></div>
+          </div>
+          <div class="dash-chart-area">
+            <div class="dash-chart-title">Automation Runs — Last 7 Days</div>
+            <div class="chart-bars">
+              <div class="chart-bar" style="height:42%"></div><div class="chart-bar" style="height:58%"></div>
+              <div class="chart-bar" style="height:48%"></div><div class="chart-bar" style="height:72%"></div>
+              <div class="chart-bar" style="height:63%"></div><div class="chart-bar active" style="height:88%"></div>
+              <div class="chart-bar active" style="height:82%"></div>
+            </div>
+          </div>
+          <div class="dash-rows">
+            <div class="dash-row">
+              <div class="row-icon">⬡</div>
+              <div class="row-info"><div class="row-name">AutoFlow Pipeline</div><div class="row-sub">Email → Parse → Log → Notify</div></div>
+              <div class="row-status">RUNNING</div>
+            </div>
+            <div class="dash-row">
+              <div class="row-icon">🌾</div>
+              <div class="row-info"><div class="row-name">AgriCore Monitor</div><div class="row-sub">Sensor feed — all zones active</div></div>
+              <div class="row-status">ACTIVE</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span class="marquee-item">Workflow Automation <span class="dot">·</span> CRM Integration <span class="dot">·</span> Data Pipelines <span class="dot">·</span> Custom Dashboards <span class="dot">·</span> AgriTech Software <span class="dot">·</span> Influencer Tools <span class="dot">·</span> Sales Infrastructure <span class="dot">·</span></span>
+    <span class="marquee-item">Workflow Automation <span class="dot">·</span> CRM Integration <span class="dot">·</span> Data Pipelines <span class="dot">·</span> Custom Dashboards <span class="dot">·</span> AgriTech Software <span class="dot">·</span> Influencer Tools <span class="dot">·</span> Sales Infrastructure <span class="dot">·</span></span>
+  </div>
+</div>
+
+<!-- ─── SERVICES ─── -->
+<section id="services">
+  <div class="section-eyebrow">What We Build</div>
+  <h2 class="section-title reveal">Software That<br>Works For You</h2>
+  <p class="reveal" style="max-width:520px; font-size:16px; color:rgba(255,255,255,0.6); line-height:1.85; margin-top:16px;">Every system we build is built around your exact workflow — handling the repeatable tasks that eat up your team's day, automatically.</p>
+
+  <div class="services-grid" style="margin-top:64px;">
+    <div class="service-card reveal"><div class="service-num">01</div><div class="service-icon">⚡</div><div class="service-name">Workflow Automation</div><p class="service-desc">Map any repeatable process — approvals, data entry, notifications, reporting — and we'll build software that runs it automatically.</p></div>
+    <div class="service-card reveal"><div class="service-num">02</div><div class="service-icon">🔗</div><div class="service-name">System Integration</div><p class="service-desc">Connect your CRM, accounting software, spreadsheets, and internal tools into one real-time ecosystem. No more copy-pasting between apps.</p></div>
+    <div class="service-card reveal"><div class="service-num">03</div><div class="service-icon">📈</div><div class="service-name">Custom Dashboards</div><p class="service-desc">Get the exact KPIs and reports your team needs, auto-generated and delivered on schedule. Raw data turned into clear, actionable views.</p></div>
+    <div class="service-card reveal"><div class="service-num">04</div><div class="service-icon">🌾</div><div class="service-name">AgriTech Systems <span class="dev-badge" style="font-size:8px;vertical-align:middle;">Dev</span></div><p class="service-desc">Precision agriculture software — crop monitoring, yield analytics, soil health tracking, and automated farm management dashboards.</p></div>
+    <div class="service-card reveal"><div class="service-num">05</div><div class="service-icon">🎯</div><div class="service-name">Creator & Influencer Tools</div><p class="service-desc">Brand deal management, collab matching engines, audience analytics, and campaign tracking for creators and talent agencies.</p></div>
+    <div class="service-card reveal"><div class="service-num">06</div><div class="service-icon">🎬</div><div class="service-name">Media Pipelines</div><p class="service-desc">Video processing, content automation, data extraction, and beat-synced output — custom tooling built around your use case.</p></div>
+  </div>
+</section>
+
+<!-- ─── STATS ─── -->
+<section class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-item reveal"><span class="stat-val">48<em>hr</em></span><span class="stat-label">Avg Build Kickoff</span></div>
+    <div class="stat-item reveal"><span class="stat-val">5<em>+</em></span><span class="stat-label">Products Launched</span></div>
+    <div class="stat-item reveal"><span class="stat-val">3<em>x</em></span><span class="stat-label">Avg Efficiency Gain</span></div>
+    <div class="stat-item reveal"><span class="stat-val">∞</span><span class="stat-label">Commission Cap</span></div>
+  </div>
+</section>
+
+<!-- ─── PROCESS ─── -->
+<section id="process" class="process-section">
+  <div class="section-eyebrow">How It Works</div>
+  <h2 class="section-title reveal">From Discovery<br>To Deployed</h2>
+  <div class="process-layout">
+    <div class="process-steps">
+      <div class="process-step reveal"><div class="step-num">01</div><div><div class="step-title">Discovery & Mapping</div><p class="step-desc">We get inside your operations — talking to your team, documenting workflows, and pinpointing exactly where time and money are being lost.</p></div></div>
+      <div class="process-step reveal"><div class="step-num">02</div><div><div class="step-title">Solution Design</div><p class="step-desc">We design the full blueprint: which tools connect, how data flows, what triggers what. You approve every detail before we write a single line of code.</p></div></div>
+      <div class="process-step reveal"><div class="step-num">03</div><div><div class="step-title">Build & Test</div><p class="step-desc">We build your automation in focused sprints with regular demos. Everything gets tested against your real data and edge cases before it touches production.</p></div></div>
+      <div class="process-step reveal"><div class="step-num">04</div><div><div class="step-title">Launch & Handoff</div><p class="step-desc">We deploy to your environment, train your team, and hand off clear documentation. Most clients are fully live within 3–6 weeks of kickoff.</p></div></div>
+    </div>
+    <div class="process-right reveal">
+      <div class="terminal">
+        <div class="terminal-header">
+          <div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div>
+          <span class="t-title">workforge — deploy</span>
+        </div>
+        <div class="terminal-body">
+          <span class="t-line"><span class="t-prompt">$ </span><span class="t-cmd">workforge deploy --client meridian-agri</span></span>
+          <span class="t-line t-comment"># Connecting to production...</span>
+          <span class="t-line t-success">✓ Auth verified</span>
+          <span class="t-line t-success">✓ Environment variables loaded</span>
+          <span class="t-line t-comment"># Building pipelines...</span>
+          <span class="t-line t-info">→ Compiling sensor-ingestion v1.2.0</span>
+          <span class="t-line t-info">→ Compiling yield-dashboard v2.1.0</span>
+          <span class="t-line t-success">✓ Build complete (2.8s)</span>
+          <span class="t-line t-comment"># Running pre-deploy tests...</span>
+          <span class="t-line t-success">✓ 84/84 tests passing</span>
+          <span class="t-line t-comment"># Deploying to production...</span>
+          <span class="t-line t-success">✓ sensor-ingestion — LIVE</span>
+          <span class="t-line t-success">✓ yield-dashboard — LIVE</span>
+          <span class="t-line"><span class="t-success">✓ All systems live.</span> <span class="t-comment">Ready.</span></span>
+          <span class="t-line"><span class="t-prompt">$ </span><span class="t-cursor"></span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PORTFOLIO ─── -->
+<section id="portfolio">
+  <div class="section-eyebrow">Our Software</div>
+  <div class="portfolio-intro">
+    <h2 class="section-title reveal">Tools We've<br>Built & Use</h2>
+    <p class="reveal">From proprietary internal systems we run ourselves, to specialised platforms for agriculture and creators — every product solves a real operational problem.</p>
+  </div>
+
+  <div class="products-grid">
+
+    <!-- AutoFlow -->
+    <div class="product-card reveal">
+      <div class="product-screen">
+        <div class="screen-bar" style="background:#050810;">
+          <div class="s-dot"></div><div class="s-dot"></div><div class="s-dot"></div>
+          <span class="s-url">autoflow.workforge.co — Operations Hub</span>
+        </div>
+        <div class="af-mock">
+          <div class="af-mock-sidebar">
+            <div class="af-mock-logo">AF</div>
+            <div class="af-mock-nav active">⚡</div>
+            <div class="af-mock-nav">🛠</div>
+            <div class="af-mock-nav">📋</div>
+            <div class="af-mock-nav">👥</div>
+            <div class="af-mock-nav">🔄</div>
+            <div class="af-mock-nav">💰</div>
+            <div class="af-mock-nav">🗺</div>
+          </div>
+          <div class="af-mock-main">
+            <div class="af-mock-topbar">
+              <div>
+                <div class="af-mock-title">DASHBOARD</div>
+                <div style="font-size:6px;color:#4a6480;font-family:'JetBrains Mono',monospace;letter-spacing:1px;margin-top:1px;">AUTOFLOW CO. · OPS HUB</div>
+              </div>
+              <div class="af-mock-pill"><div class="af-mock-dot"></div>LIVE</div>
+            </div>
+            <div class="af-mock-content">
+              <div class="af-mock-stag">01 · OVERVIEW</div>
+              <div class="af-mock-kpis">
+                <div class="af-mock-kpi">
+                  <div class="af-mock-kpi-icon">👥</div>
+                  <div class="af-mock-kpi-l">Active Clients</div>
+                  <div class="af-mock-kpi-v">—</div>
+                  <div class="af-mock-kpi-d">↑ growing</div>
+                </div>
+                <div class="af-mock-kpi">
+                  <div class="af-mock-kpi-icon">💰</div>
+                  <div class="af-mock-kpi-l">MRR</div>
+                  <div class="af-mock-kpi-v">—</div>
+                  <div class="af-mock-kpi-d" style="color:#9b70ff;">tracked</div>
+                </div>
+                <div class="af-mock-kpi">
+                  <div class="af-mock-kpi-icon">⚡</div>
+                  <div class="af-mock-kpi-l">Pipeline Runs</div>
+                  <div class="af-mock-kpi-v">2.4K</div>
+                  <div class="af-mock-kpi-d">this month</div>
+                </div>
+                <div class="af-mock-kpi">
+                  <div class="af-mock-kpi-icon">📋</div>
+                  <div class="af-mock-kpi-l">Open Intakes</div>
+                  <div class="af-mock-kpi-v">7</div>
+                  <div class="af-mock-kpi-d" style="color:#ffb830;">pending</div>
+                </div>
+              </div>
+              <div class="af-mock-tools">
+                <div class="af-mock-tc">
+                  <div class="af-mock-tc-head"><div class="af-mock-tc-icon">📋</div><span class="af-mock-tc-s">ACTIVE</span></div>
+                  <div class="af-mock-tc-name">Client Intake</div>
+                  <div class="af-mock-tc-desc">Multi-step onboarding forms</div>
+                </div>
+                <div class="af-mock-tc">
+                  <div class="af-mock-tc-head"><div class="af-mock-tc-icon">🔄</div><span class="af-mock-tc-s">ACTIVE</span></div>
+                  <div class="af-mock-tc-name">Pipeline CRM</div>
+                  <div class="af-mock-tc-desc">Deal stages & tracking</div>
+                </div>
+                <div class="af-mock-tc">
+                  <div class="af-mock-tc-head"><div class="af-mock-tc-icon">💰</div><span class="af-mock-tc-s" style="color:#9b70ff;background:rgba(155,112,255,0.1);border-color:rgba(155,112,255,0.2);">LOCKED</span></div>
+                  <div class="af-mock-tc-name">Finance</div>
+                  <div class="af-mock-tc-desc">Revenue & cost tracking</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="product-label">Proprietary · Internal Use <span class="prop-badge">🔒 COMPANY TOOL</span></div>
+      <div class="product-name">AutoFlow</div>
+      <p class="product-desc">Our internal operations hub. Client intake, CRM, pipeline management, finance tracking, and business intelligence — all in one locked portal that runs how we run.</p>
+      <div class="product-tags">
+        <span class="product-tag">Operations</span>
+        <span class="product-tag">CRM</span>
+        <span class="product-tag">Finance</span>
+        <span class="product-tag">Internal Only</span>
+      </div>
+    </div>
+
+    <!-- Sales Tool -->
+    <div class="product-card reveal">
+      <div class="product-screen">
+        <div class="screen-bar" style="background:#050508;">
+          <div class="s-dot"></div><div class="s-dot"></div><div class="s-dot"></div>
+          <span class="s-url">salestool.workforge.co — v2.0</span>
+        </div>
+        <div class="st-mock">
+          <div class="st-mock-header">
+            <div class="st-mock-logo">
+              <div class="st-mock-logo-icon">ST</div>
+              <div>
+                <span class="st-mock-logo-name">Sales Tool</span>
+                <span class="st-mock-logo-ver">v2.0</span>
+              </div>
+            </div>
+            <div class="st-mock-btns">
+              <div class="st-mock-btn">↓ Export</div>
+              <div class="st-mock-btn pink">⬡ Send to Manager</div>
+            </div>
+          </div>
+          <div class="st-mock-nav">
+            <div class="st-mock-tab active">Onboarding</div>
+            <div class="st-mock-tab">Strategy</div>
+            <div class="st-mock-tab">Lead Tracker</div>
+            <div class="st-mock-tab">Targets</div>
+          </div>
+          <div class="st-mock-body">
+            <div class="st-mock-eyebrow">Read This First</div>
+            <div class="st-mock-h">Are You Built For This?</div>
+            <div class="st-mock-sub">Six slides. Be honest with yourself. Then go make some calls.</div>
+            <div class="st-mock-slide">
+              <div class="st-mock-slide-top">
+                <div class="st-mock-slide-num">01</div>
+                <div class="st-mock-slide-tag">The Role</div>
+                <div class="st-mock-slide-h">You're selling software to people who don't know they need it yet.</div>
+              </div>
+              <div class="st-mock-slide-body">
+                <div class="st-mock-slide-p">You'll be reaching out to HVAC companies, auto shops, roofers — owners running real businesses on sticky notes. Your job: connect their pain to our solution, in plain language.</div>
+                <div class="st-mock-chips">
+                  <span class="st-mock-chip">Digital-First</span>
+                  <span class="st-mock-chip b">Phone + Email</span>
+                  <span class="st-mock-chip t">Commission Upside</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="product-label">Proprietary · Internal Use <span class="prop-badge">🔒 COMPANY TOOL</span></div>
+      <div class="product-name">Sales Tool</div>
+      <p class="product-desc">Our internal sales infrastructure. Lead tracking, 14-day outreach sequences, ideal client profiling, strategy playbooks, and locked pricing tiers — everything our reps need to close deals.</p>
+      <div class="product-tags">
+        <span class="product-tag">Sales Pipeline</span>
+        <span class="product-tag">Lead Tracker</span>
+        <span class="product-tag">Playbooks</span>
+        <span class="product-tag">Internal Only</span>
+      </div>
+    </div>
+
+    <!-- AgriCore -->
+    <div class="product-card under-dev reveal">
+      <div class="product-screen">
+        <div class="screen-bar" style="background:#080810;">
+          <div class="s-dot"></div><div class="s-dot"></div><div class="s-dot"></div>
+          <span class="s-url">agricore.workforge.co — Advanced Mode</span>
+        </div>
+        <div class="ag-mock">
+          <div class="ag-mock-sidebar">
+            <div class="ag-mock-logo">
+              <div class="ag-mock-logo-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              </div>
+              <div>
+                <div class="ag-mock-logo-t1">WORKFORGE</div>
+                <div class="ag-mock-logo-t2">AGRICORE</div>
+              </div>
+            </div>
+            <div class="ag-mock-sect">Operations</div>
+            <div class="ag-mock-nav active">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+              Dashboard
+              </div>
+            <div class="ag-mock-nav">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 17H3"/></svg>
+              Field Manager
+              <span class="ag-mock-badge">12</span>
+            </div>
+            <div class="ag-mock-nav">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="3"/><path d="M12 8v13"/></svg>
+              Crop Planning
+            </div>
+            <div class="ag-mock-nav">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/></svg>
+              Spray Log
+              <span class="ag-mock-badge red">3</span>
+            </div>
+            <div class="ag-mock-farm">
+              <div class="ag-mock-farm-lbl">Active Farm</div>
+              <div class="ag-mock-farm-name">Rosewood Ranch</div>
+              <div class="ag-mock-farm-sub">↳ 847 ac · Fresno, CA</div>
+            </div>
+          </div>
+          <div class="ag-mock-main">
+            <div class="ag-mock-topbar">
+              <div class="ag-mock-page-title">OVERVIEW <span>DASHBOARD</span></div>
+              <div class="ag-mock-mode">
+                <span class="ag-mock-mode-lbl">VIEW:</span>
+                <span class="ag-mock-mode-pill">ADVANCED</span>
+              </div>
+            </div>
+            <div class="ag-mock-content">
+              <div class="ag-mock-kpis">
+                <div class="ag-mock-kpi">
+                  <div class="ag-mock-kpi-icon">🌾</div>
+                  <div class="ag-mock-kpi-l">Avg Yield</div>
+                  <div class="ag-mock-kpi-v">4.2T</div>
+                  <div class="ag-mock-kpi-sub">per hectare</div>
+                </div>
+                <div class="ag-mock-kpi">
+                  <div class="ag-mock-kpi-icon">💧</div>
+                  <div class="ag-mock-kpi-l">Soil Moisture</div>
+                  <div class="ag-mock-kpi-v">68%</div>
+                  <div class="ag-mock-kpi-sub">zone avg</div>
+                </div>
+                <div class="ag-mock-kpi">
+                  <div class="ag-mock-kpi-icon">📍</div>
+                  <div class="ag-mock-kpi-l">Active Zones</div>
+                  <div class="ag-mock-kpi-v">12</div>
+                  <div class="ag-mock-kpi-sub">monitored</div>
+                </div>
+                <div class="ag-mock-kpi">
+                  <div class="ag-mock-kpi-icon">⚠️</div>
+                  <div class="ag-mock-kpi-l">Alerts</div>
+                  <div class="ag-mock-kpi-v red">2</div>
+                  <div class="ag-mock-kpi-sub">action needed</div>
+                </div>
+              </div>
+              <div class="ag-mock-chart-wrap">
+                <div class="ag-mock-chart-title">Yield by Zone — Current Season</div>
+                <div class="ag-mock-chart">
+                  <div class="ag-mock-bar" style="height:40%"></div>
+                  <div class="ag-mock-bar" style="height:58%"></div>
+                  <div class="ag-mock-bar hi" style="height:82%"></div>
+                  <div class="ag-mock-bar" style="height:64%"></div>
+                  <div class="ag-mock-bar" style="height:72%"></div>
+                  <div class="ag-mock-bar hi" style="height:91%"></div>
+                  <div class="ag-mock-bar" style="height:77%"></div>
+                  <div class="ag-mock-bar" style="height:55%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="product-label">Agriculture Technology <span class="dev-badge">Under Development</span></div>
+      <div class="product-name">AgriCore</div>
+      <p class="product-desc">Precision agriculture management platform. Real-time crop health monitoring, yield forecasting, soil moisture tracking across multiple farm zones, and automated alert systems for field operators.</p>
+      <div class="product-tags">
+        <span class="product-tag">Precision AgriTech</span>
+        <span class="product-tag">IoT Sensors</span>
+        <span class="product-tag">Yield Analytics</span>
+        <span class="product-tag">Farm Management</span>
+      </div>
+    </div>
+
+    <!-- Video Scraper Pipeline -->
+    <div class="product-card reveal">
+      <div class="product-screen">
+        <div class="screen-bar" style="background:#050505;">
+          <div class="s-dot"></div><div class="s-dot"></div><div class="s-dot"></div>
+          <span class="s-url">video-scraper — pipeline runner v1.4</span>
+        </div>
+        <div class="vs-mock">
+          <div class="vs-mock-topbar">
+            <div class="vs-mock-title-wrap">
+              <div class="vs-mock-title">VIDEO SCRAPER</div>
+              <div class="vs-mock-sub">beat-sync pipeline · python 3.11</div>
+            </div>
+            <div class="vs-mock-status">
+              <div class="vs-mock-status-dot"></div>
+              PROCESSING
+            </div>
+          </div>
+          <div class="vs-mock-files">
+            <div class="vs-mock-files-label">Input Queue</div>
+            <div class="vs-mock-file-row">
+              <div class="vs-mock-file-icon">🎬</div>
+              <div class="vs-mock-file-name">raw_clips_batch_04/</div>
+              <div class="vs-mock-file-dur">14 files · 4.2 GB</div>
+            </div>
+            <div class="vs-mock-file-row">
+              <div class="vs-mock-file-icon">🎵</div>
+              <div class="vs-mock-file-name">nostalgia_mix_v2.mp3</div>
+              <div class="vs-mock-file-dur">3:47</div>
+            </div>
+          </div>
+          <div class="vs-mock-pipeline-label">Pipeline Steps</div>
+          <div class="vs-mock-step">
+            <div class="vs-mock-step-icon" style="color:#00d4b4">✓</div>
+            <div class="vs-mock-step-text">Beat detection — music sync</div>
+            <div class="vs-mock-step-done">DONE</div>
+          </div>
+          <div class="vs-mock-step">
+            <div class="vs-mock-step-icon" style="color:#00d4b4">✓</div>
+            <div class="vs-mock-step-text">Motion filtering — skip stills</div>
+            <div class="vs-mock-step-done">DONE</div>
+          </div>
+          <div class="vs-mock-step">
+            <div class="vs-mock-step-icon" style="color:#ff0055">→</div>
+            <div class="vs-mock-step-text">Glitch transitions rendering</div>
+            <div class="vs-mock-step-prog">
+              <div class="vs-mock-prog-bar"><div class="vs-mock-prog-fill" style="width:72%"></div></div>
+            </div>
+          </div>
+          <div class="vs-mock-step">
+            <div class="vs-mock-step-icon" style="color:rgba(255,255,255,0.2)">○</div>
+            <div class="vs-mock-step-text dim">Film grain overlay — 9:16 output</div>
+          </div>
+          <div class="vs-mock-output">→ output/nostalgia_reel_v3.mp4 · 1080×1920 · 47s</div>
+        </div>
+      </div>
+      <div class="product-label">Media Pipeline</div>
+      <div class="product-name">Video Scraper</div>
+      <p class="product-desc">Automated beat-synced video pipeline. Detects musical beats, cuts clips on the beat, skips frozen footage using motion detection, adds glitch and dissolve transitions, film grain, and exports vertical-format reels.</p>
+      <div class="product-tags">
+        <span class="product-tag">Beat Sync</span>
+        <span class="product-tag">Motion Detection</span>
+        <span class="product-tag">9:16 Output</span>
+        <span class="product-tag">Auto-Edit</span>
+      </div>
+    </div>
+
+    <!-- Influencer Hub -->
+    <div class="product-card full-width reveal">
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+        <div>
+          <div class="product-screen">
+            <div class="screen-bar" style="background:#111;">
+              <div class="s-dot"></div><div class="s-dot"></div><div class="s-dot"></div>
+              <span class="s-url">nexus.workforge.co — Influencer Hub</span>
+            </div>
+            <div class="ih-mock">
+              <div class="ih-mock-header">
+                <div class="ih-mock-logo">
+                  <div class="ih-mock-logo-icon">
+                    <div class="ih-mock-logo-r1"></div>
+                    <div class="ih-mock-logo-r2"></div>
+                    <div class="ih-mock-logo-r3"></div>
+                  </div>
+                  <div class="ih-mock-logo-text">
+                    <div class="ih-mock-logo-t1">WORKFORGE</div>
+                    <div class="ih-mock-logo-t2">NEXUS</div>
+                  </div>
+                </div>
+                <div class="ih-mock-mode-toggle">
+                  <div class="ih-mock-mode-btn">Simple</div>
+                  <div class="ih-mock-mode-btn active">Advanced</div>
+                </div>
+              </div>
+              <div class="ih-mock-tabs">
+                <div class="ih-mock-tab active">DASHBOARD</div>
+                <div class="ih-mock-tab">ROSTER</div>
+                <div class="ih-mock-tab">COLLAB IDEAS</div>
+                <div class="ih-mock-tab">BRAND DEALS</div>
+              </div>
+              <div class="ih-mock-body">
+                <div class="ih-mock-kpis">
+                  <div class="ih-mock-kpi">
+                    <div class="ih-mock-kpi-l">Total Influencers</div>
+                    <div class="ih-mock-kpi-v">5</div>
+                    <div class="ih-mock-kpi-sub">on roster</div>
+                  </div>
+                  <div class="ih-mock-kpi">
+                    <div class="ih-mock-kpi-l">Active Deals</div>
+                    <div class="ih-mock-kpi-v">2</div>
+                    <div class="ih-mock-kpi-sub">in progress</div>
+                  </div>
+                  <div class="ih-mock-kpi">
+                    <div class="ih-mock-kpi-l">Deal Value</div>
+                    <div class="ih-mock-kpi-v">18K</div>
+                    <div class="ih-mock-kpi-sub">pipeline</div>
+                  </div>
+                  <div class="ih-mock-kpi">
+                    <div class="ih-mock-kpi-l">Niches</div>
+                    <div class="ih-mock-kpi-v">5</div>
+                    <div class="ih-mock-kpi-sub">covered</div>
+                  </div>
+                </div>
+                <div class="ih-mock-roster">
+                  <div class="ih-mock-card">
+                    <div class="ih-mock-card-avatar" style="background:linear-gradient(135deg,#FF0055,#ff5588);">MC</div>
+                    <div class="ih-mock-card-name">Maya Chen</div>
+                    <div class="ih-mock-card-handle">@mayabeauty</div>
+                    <div class="ih-mock-card-row">
+                      <div class="ih-mock-card-followers">1.2M</div>
+                      <div class="ih-mock-card-plat">Instagram</div>
+                    </div>
+                    <div class="ih-mock-card-niche">Beauty & Makeup</div>
+                  </div>
+                  <div class="ih-mock-card">
+                    <div class="ih-mock-card-avatar" style="background:linear-gradient(135deg,#FF5C35,#ffae00);">KM</div>
+                    <div class="ih-mock-card-name">Kojo Mensah</div>
+                    <div class="ih-mock-card-handle">@kojoskits</div>
+                    <div class="ih-mock-card-row">
+                      <div class="ih-mock-card-followers">890K</div>
+                      <div class="ih-mock-card-plat">TikTok</div>
+                    </div>
+                    <div class="ih-mock-card-niche">Comedy & Skits</div>
+                  </div>
+                  <div class="ih-mock-card">
+                    <div class="ih-mock-card-avatar" style="background:linear-gradient(135deg,#C04BFF,#FF0055);">RM</div>
+                    <div class="ih-mock-card-name">Rae Monroe</div>
+                    <div class="ih-mock-card-handle">@raefashion</div>
+                    <div class="ih-mock-card-row">
+                      <div class="ih-mock-card-followers">780K</div>
+                      <div class="ih-mock-card-plat">TikTok</div>
+                    </div>
+                    <div class="ih-mock-card-niche">Fashion & Style</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="product-label">Creator Economy Platform</div>
+          <div class="product-name">Influencer Hub</div>
+          <p class="product-desc">Full-stack creator management platform. Track influencer rosters across all platforms, manage brand deals from prospect to payment, run collab-matching across niches, and monitor deal stages with a built-in pipeline CRM. Built for agencies and talent managers who need structure without the spreadsheet chaos.</p>
+          <div class="product-tags" style="margin-top:20px;">
+            <span class="product-tag">Influencer CRM</span>
+            <span class="product-tag">Brand Deals</span>
+            <span class="product-tag">Collab Matching</span>
+            <span class="product-tag">Multi-Platform</span>
+            <span class="product-tag">Pipeline Tracking</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── CTA ─── -->
+<section id="cta" class="cta-section">
+  <div class="cta-inner">
+    <h2 class="cta-title">Ready to Stop<br>Doing It Manually?</h2>
+    <p class="cta-body">Book a free 45-minute call. We'll walk through your biggest bottleneck and show you exactly how we'd automate it — no commitment, no pitch deck.</p>
+    <a href="#contact" class="btn-cta-dark">Book a Free Call</a>
+    <p class="cta-sub"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5b333e3737341b2c3429303d34293c3e2822282f3e362875383436">[email&#160;protected]</a> &nbsp;·&nbsp; No commitment, no pitch deck</p>
+  </div>
+</section>
+
+<!-- ─── CONTACT ─── -->
+<section id="contact" class="contact-section">
+  <div class="section-eyebrow">Get In Touch</div>
+  <h2 class="section-title reveal">Let's Build<br>Something</h2>
+
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <h3>Start With a<br>Free Audit</h3>
+      <p>Tell us what you're working with. We'll review your current workflows and come back with a clear picture of what's automatable, what it would take, and what it would save you.</p>
+      <div class="contact-detail"><span>→</span> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="563e333a3a39162139243d3039243133252f2522333b257835393b">[email&#160;protected]</a></div>
+      <div class="contact-detail"><span>→</span> 45-minute discovery call, no obligation</div>
+      <div class="contact-detail"><span>→</span> Response within 1 business day</div>
+    </div>
+    <div class="contact-form-wrap reveal">
+      <div id="contact-form">
+        <div class="form-row">
+          <div class="form-field"><label>Your Name</label><input type="text" id="cf-name" placeholder="Full name" /></div>
+          <div class="form-field"><label>Company</label><input type="text" id="cf-company" placeholder="Company name" /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-field"><label>Email</label><input type="email" id="cf-email" placeholder="your@email.com" /></div>
+          <div class="form-field"><label>Phone (optional)</label><input type="tel" id="cf-phone" placeholder="+1 (555) 000-0000" /></div>
+        </div>
+        <div class="form-field">
+          <label>What Do You Need?</label>
+          <select id="cf-service">
+            <option value="">— Select a service —</option>
+            <option>Workflow Automation</option>
+            <option>System Integration</option>
+            <option>Custom Dashboard</option>
+            <option>AgriCore / Agriculture Software</option>
+            <option>Influencer / Creator Tools</option>
+            <option>Video Pipeline / Media Tool</option>
+            <option>Something Custom</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Tell Us About Your Situation</label>
+          <textarea id="cf-message" placeholder="What processes are costing you the most time or money right now?"></textarea>
+        </div>
+        <button class="form-submit" onclick="submitContact()">Send Message →</button>
+      </div>
+      <div class="form-success" id="contact-success">
+        <div class="checkmark">✓</div>
+        <h4>Got It — We'll Be In Touch</h4>
+        <p>Thanks for reaching out. We'll review your details and get back to you within one business day with some initial thoughts.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <span class="footer-logo">WORKFORGE<span>SYSTEMS</span></span>
+      <p class="footer-tagline">Custom-built systems for businesses serious about scaling without the overhead.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <ul class="footer-links">
+        <li>Workflow Automation</li>
+        <li>System Integration</li>
+        <li>Custom Dashboards</li>
+        <li>AgriTech Software</li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Products</div>
+      <ul class="footer-links">
+        <li>AgriCore</li>
+        <li>Influencer Hub</li>
+        <li>Video Pipeline</li>
+        <li>Custom Builds</li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Contact</div>
+      <ul class="footer-links">
+        <li><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="167e737a7a79566179647d7079647173656f6562737b653875797b">[email&#160;protected]</a></li>
+        <li onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book a Call</li>
+        <li>LinkedIn</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 WORKFORGE SYSTEMS — All Rights Reserved</span>
+    <span class="footer-copy" style="cursor:pointer;opacity:0.5;" onclick="window.exportVisitorData && exportVisitorData()">⬡ Admin</span>
+  </div>
+</footer>
+
+<!-- ─── TEAM WORKSPACE MODALS ─── -->
+
+<div id="tool-select">
+  <button class="modal-x" onclick="closeToolSelect()">✕</button>
+  <div class="ts-title">TEAM WORKSPACE</div>
+  <div class="ts-sub">Workforge Systems · Internal Portal</div>
+
+  <div class="ts-pitch">
+    <div class="ts-pitch-headline">⚡ Why You're Going to Love Selling This</div>
+    <p class="ts-pitch-tagline">Workforge builds done-for-you digital systems — the kind every serious business needs but has no idea how to build. We sell transformation: automations, custom tools, and full-stack ops that save time and generate real ROI. Growing market, lean competition at our level, and we're just getting started.</p>
+    <div class="ts-stats">
+      <div class="ts-stat"><div class="ts-stat-num">∞</div><div class="ts-stat-label">Uncapped Commission</div></div>
+      <div class="ts-stat"><div class="ts-stat-num">48hr</div><div class="ts-stat-label">Avg Build Kickoff</div></div>
+      <div class="ts-stat"><div class="ts-stat-num">5+</div><div class="ts-stat-label">Products to Sell</div></div>
+    </div>
+    <div class="ts-products">
+      <div class="ts-product-pill"><span class="pill-icon">⚙️</span><div class="ts-product-pill-inner"><div>Automation Systems</div><div class="pill-desc">Replaces manual ops · High-ticket</div></div></div>
+      <div class="ts-product-pill"><span class="pill-icon">🌾</span><div class="ts-product-pill-inner"><div>AgriCore Platform</div><div class="pill-desc">Precision agriculture software</div></div></div>
+      <div class="ts-product-pill"><span class="pill-icon">🎯</span><div class="ts-product-pill-inner"><div>Influencer Hub</div><div class="pill-desc">Creator & talent management</div></div></div>
+      <div class="ts-product-pill"><span class="pill-icon">🎬</span><div class="ts-product-pill-inner"><div>Video Pipeline</div><div class="pill-desc">Beat-sync auto-editing</div></div></div>
+      <div class="ts-product-pill"><span class="pill-icon">⚙️</span><div class="ts-product-pill-inner"><div>Custom Workflow Builds</div><div class="pill-desc">End-to-end ops for SMBs</div></div></div>
+    </div>
+  </div>
+
+  <div class="ts-divider-label">Your Tools</div>
+
+  <!-- Inline password unlock -->
+  <div class="ts-inline-pw" id="ts-inline-pw">
+    <div class="ts-inline-pw-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <div class="ts-inline-pw-text">Enter your team password to unlock the tools below</div>
+    <div class="ts-inline-pw-row">
+      <input id="ts-pw-input" class="ts-pw-input" type="password" placeholder="Team password" maxlength="24" onkeydown="if(event.key==='Enter')checkInlinePw()" autocomplete="off" spellcheck="false" />
+      <button class="ts-pw-btn" onclick="checkInlinePw()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+    <div id="ts-pw-err" class="ts-pw-err"></div>
+  </div>
+
+  <div class="ts-cards">
+    <div class="ts-card" id="ts-card-ops" onclick="handleCardClick('ops')">
+      <div class="ts-card-lock" id="lock-ops">
+        <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div class="ts-card-unlocked-icon" id="icon-ops" style="display:none;font-size:36px;color:var(--accent)">⬡</div>
+      <div class="ts-card-name">AUTOFLOW</div>
+      <div class="ts-card-desc">Workforge Operations Hub — workflow mapping, client intake, dashboards and internal ops tooling.</div>
+      <div class="ts-card-cta" id="cta-ops">UNLOCK TO ACCESS →</div>
+    </div>
+    <div class="ts-card" id="ts-card-sales" onclick="handleCardClick('sales')">
+      <div class="ts-card-lock" id="lock-sales">
+        <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div class="ts-card-unlocked-icon" id="icon-sales" style="display:none;font-size:36px;color:var(--accent)">◈</div>
+      <div class="ts-card-name">SALES TOOL</div>
+      <div class="ts-card-desc">Lead tracking, pipeline management, outreach scripts and closing playbooks for the sales team.</div>
+      <div class="ts-card-cta" id="cta-sales">UNLOCK TO ACCESS →</div>
+    </div>
+  </div>
+
+  <!-- Confetti + Welcome overlay -->
+  <div id="welcome-overlay">
+    <div class="welcome-text">WELCOME</div>
+  </div>
+</div>
+
+<div id="workspace">
+  <div class="ws-bar">
+    <a href="#" class="ws-brand" onclick="closeWorkspace(); return false;">
+      <svg width="24" height="22" viewBox="0 0 64 48" fill="none" stroke="var(--accent)" stroke-width="4" style="filter: drop-shadow(0 0 6px var(--accent));">
+        <path d="M12 16 L8 24 L16 32 H48 L56 24 L52 16 H12 Z" fill="rgba(255,0,85,0.2)"/>
+        <path d="M24 16 V8 H40 V16" /><path d="M24 32 V40 H40 V32" />
+        <line x1="20" y1="24" x2="44" y2="24" stroke="var(--accent)" stroke-width="3" />
+      </svg>
+      <span>WORKFORGE WORKSPACE</span>
+    </a>
+    <div class="ws-tabs">
+      <button id="tab-btn-ops" class="ws-tab" onclick="switchWsTab('ops',this)">⬡ AUTOFLOW</button>
+      <button id="tab-btn-sales" class="ws-tab" onclick="switchWsTab('sales',this)">◈ SALES TOOL</button>
+    </div>
+    <button class="ws-exit" onclick="closeWorkspace()">← RETURN TO SITE</button>
+  </div>
+  <div class="ws-frames">
+    <iframe id="frame-ops" class="ws-frame" src="autoflow.html" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-downloads"></iframe>
+    <iframe id="frame-sales" class="ws-frame" src="sales-tool.html" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-downloads"></iframe>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="data-logger.js"></script>
+<script>
+// ── MOBILE MENU ──
+function toggleMenu() {
+  var menu = document.getElementById('mobileMenu');
+  var burger = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  burger.classList.toggle('open');
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+}
+function closeMobile() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── PARTICLE CANVAS ──
+(function() {
+  var canvas = document.getElementById('particleCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var particles = [];
+  var mouse = { x: -9999, y: -9999 };
+  function resize() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+  canvas.parentElement.addEventListener('mousemove', function(e) {
+    var rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left; mouse.y = e.clientY - rect.top;
+  });
+  for (var i = 0; i < 55; i++) {
+    particles.push({ x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.24, size: Math.random()*1.8+0.8, opacity: Math.random()*0.22+0.12 });
+  }
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var i = 0; i < particles.length; i++) {
+      for (var j = i+1; j < particles.length; j++) {
+        var dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
+        var dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 140) { ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.strokeStyle = 'rgba(255,0,85,'+(0.07*(1-dist/140))+')'; ctx.lineWidth=1; ctx.stroke(); }
+      }
+    }
+    particles.forEach(function(p) {
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fillStyle = 'rgba(255,0,85,'+p.opacity+')'; ctx.fill();
+      var mdx = mouse.x-p.x, mdy = mouse.y-p.y, mdist = Math.sqrt(mdx*mdx+mdy*mdy);
+      if (mdist < 160) { p.vx += (mdx/mdist)*0.008; p.vy += (mdy/mdist)*0.008; }
+      var speed = Math.sqrt(p.vx*p.vx+p.vy*p.vy);
+      if (speed > 0.7) { p.vx *= 0.95; p.vy *= 0.95; }
+      p.x += p.vx; p.y += p.vy;
+      if(p.x<0) p.x=canvas.width; if(p.x>canvas.width) p.x=0;
+      if(p.y<0) p.y=canvas.height; if(p.y>canvas.height) p.y=0;
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── NAV SCROLL ──
+var nav = document.getElementById('nav');
+var freeBar = document.getElementById('freeToolsBar');
+window.addEventListener('scroll', function() {
+  var scrollY = window.scrollY;
+  nav.classList.toggle('scrolled', scrollY > 40);
+  if (freeBar && window.innerWidth > 900) {
+    if (scrollY > 80) {
+      freeBar.classList.add('hidden');
+      nav.style.top = '0';
+    } else {
+      freeBar.classList.remove('hidden');
+      nav.style.top = freeBar.offsetHeight + 'px';
+    }
+  }
+});
+
+// ── REVEAL ON SCROLL ──
+var revealEls = document.querySelectorAll('.reveal, .stat-item');
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      var el = entry.target;
+      var siblings = Array.from(el.parentElement.querySelectorAll('.reveal, .stat-item'));
+      var idx = siblings.indexOf(el);
+      setTimeout(function() { el.classList.add('visible'); }, Math.min(idx * 100, 300));
+      observer.unobserve(el);
+    }
+  });
+}, { threshold: 0.08 });
+revealEls.forEach(function(el) { observer.observe(el); });
+
+// ── CONTACT FORM ──
+function submitContact() {
+  var name = document.getElementById('cf-name').value.trim();
+  var email = document.getElementById('cf-email').value.trim();
+  var service = document.getElementById('cf-service').value;
+  var message = document.getElementById('cf-message').value.trim();
+  if (!name || !email) { alert('Please enter your name and email.'); return; }
+  if (typeof window.logContact === 'function') {
+    window.logContact({
+      name: name,
+      company: document.getElementById('cf-company').value.trim(),
+      email: email,
+      phone: document.getElementById('cf-phone').value.trim(),
+      service: service,
+      message: message
+    });
+  }
+  document.getElementById('contact-form').style.display = 'none';
+  document.getElementById('contact-success').style.display = 'block';
+}
+
+// ── WORKSPACE AUTH ──
+var unlockedAll = false;
+
+function openToolSelect(e) {
+  if(e) e.preventDefault();
+  document.getElementById('tool-select').classList.add('open');
+  document.body.style.overflow='hidden';
+  var mft = document.getElementById('mobileFreeTools');
+  if(mft) mft.style.display = 'none';
+}
+function closeToolSelect() {
+  document.getElementById('tool-select').classList.remove('open');
+  if(!document.getElementById('workspace').classList.contains('open')) {
+    document.body.style.overflow='';
+    var mft = document.getElementById('mobileFreeTools');
+    if(mft) mft.style.display = '';
+  }
+}
+
+// Inline password check (the field inside the modal)
+function checkInlinePw() {
+  var val = document.getElementById('ts-pw-input').value;
+  var inp = document.getElementById('ts-pw-input');
+  var err = document.getElementById('ts-pw-err');
+  if (val === 'demo2026') {
+    unlockedAll = true;
+    err.textContent = '';
+    inp.value = '';
+    // Mark pw box as unlocked state
+    document.getElementById('ts-inline-pw').classList.add('unlocked-state');
+    unlockAllCards(null);
+  } else {
+    err.textContent = 'INCORRECT PASSWORD.';
+    inp.classList.add('shake');
+    inp.value = '';
+    setTimeout(function(){ inp.classList.remove('shake'); inp.focus(); }, 400);
+  }
+}
+
+// Clicking a locked card nudges the password field, clicking unlocked card launches it
+function handleCardClick(target) {
+  if (unlockedAll) {
+    launchTool(target);
+  } else {
+    // Focus and briefly highlight the password input
+    var inp = document.getElementById('ts-pw-input');
+    var box = document.getElementById('ts-inline-pw');
+    inp.focus();
+    box.style.transition = 'box-shadow 0.15s, border-color 0.15s';
+    box.style.borderColor = 'rgba(255,0,85,0.7)';
+    box.style.boxShadow = '0 0 0 4px rgba(255,0,85,0.15)';
+    setTimeout(function() {
+      box.style.borderColor = '';
+      box.style.boxShadow = '';
+    }, 800);
+  }
+}
+
+function unlockAllCards(launchAfter) {
+  ['ops','sales'].forEach(function(id, i) {
+    setTimeout(function() {
+      var lock = document.getElementById('lock-' + id);
+      var icon = document.getElementById('icon-' + id);
+      var cta = document.getElementById('cta-' + id);
+      var card = document.getElementById('ts-card-' + id);
+      if (lock) {
+        lock.classList.add('unlocking');
+        setTimeout(function() {
+          lock.style.display = 'none';
+          if(icon) { icon.style.display = 'block'; icon.style.animation = 'iconPop 0.4s cubic-bezier(0.16,1,0.3,1) forwards'; }
+          if(cta) { cta.textContent = id === 'ops' ? 'OPEN AUTOFLOW →' : 'OPEN SALES TOOL →'; cta.style.color = 'var(--accent)'; }
+          if(card) card.classList.add('unlocked');
+        }, 350);
+      }
+    }, i * 150);
+  });
+
+  setTimeout(function() { showWelcome(); }, 300);
+
+  if (launchAfter) {
+    setTimeout(function() { launchTool(launchAfter); }, 1800);
+  }
+}
+
+function showWelcome() {
+  var overlay = document.getElementById('welcome-overlay');
+  if (!overlay) return;
+  overlay.classList.add('active');
+  spawnConfetti();
+  setTimeout(function() { overlay.classList.remove('active'); }, 2400);
+}
+
+function spawnConfetti() {
+  var colors = ['#ff0055','#ff5588','#ffffff','#ffb830','#00d4b4','#6c3fff'];
+  for (var i = 0; i < 90; i++) {
+    (function(idx) {
+      setTimeout(function() {
+        var c = document.createElement('div');
+        c.className = 'confetti-piece';
+        c.style.left = (5 + Math.random() * 90) + '%';
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        c.style.width = (4 + Math.random() * 8) + 'px';
+        c.style.height = (4 + Math.random() * 8) + 'px';
+        c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        c.style.animationDuration = (0.9 + Math.random() * 1.2) + 's';
+        c.style.animationDelay = (Math.random() * 0.4) + 's';
+        document.body.appendChild(c);
+        setTimeout(function() { c.remove(); }, 2800);
+      }, idx * 8);
+    })(i);
+  }
+}
+
+function launchTool(target) {
+  closeToolSelect();
+  document.getElementById('workspace').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  var mft = document.getElementById('mobileFreeTools');
+  if(mft) mft.style.display = 'none';
+  document.querySelectorAll('.ws-frame').forEach(function(f){ f.classList.remove('active'); });
+  document.querySelectorAll('.ws-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.getElementById('frame-'+target).classList.add('active');
+  document.getElementById('tab-btn-'+target).classList.add('active');
+}
+
+function closeWorkspace() {
+  document.getElementById('workspace').classList.remove('open');
+  document.body.style.overflow='';
+  var mft = document.getElementById('mobileFreeTools');
+  if(mft) mft.style.display = '';
+}
+
+function switchWsTab(target, btn) {
+  if (!unlockedAll) {
+    closeWorkspace();
+    openToolSelect(null);
+    setTimeout(function(){ document.getElementById('ts-pw-input').focus(); }, 300);
+    return;
+  }
+  document.querySelectorAll('.ws-frame').forEach(function(f){ f.classList.remove('active'); });
+  document.querySelectorAll('.ws-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.getElementById('frame-'+target).classList.add('active');
+  document.getElementById('tab-btn-'+target).classList.add('active');
+}
+</script>
+</body>
+</html>

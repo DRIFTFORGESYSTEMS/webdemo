@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOLT — Live Entertainment & Events</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0e0c0a;
+  --paper: #f5f0e8;
+  --cream: #ede7d4;
+  --warm: #d4a96a;
+  --rust: #c4421a;
+  --rust-dim: rgba(196,66,26,0.12);
+  --olive: #4a5240;
+  --muted: #7a7060;
+  --border: rgba(14,12,10,0.12);
+  --glow: none;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'Libre Baskerville',serif;overflow-x:hidden;}
+
+/* GRAIN TEXTURE */
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
+  opacity:0.6;mix-blend-mode:multiply;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:28px 60px;transition:all 0.4s;
+}
+nav.scrolled{
+  background:rgba(245,240,232,0.97);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);padding:18px 60px;
+}
+.nav-logo{
+  font-family:'Playfair Display',serif;font-size:30px;font-weight:900;font-style:italic;
+  color:var(--rust);text-decoration:none;letter-spacing:-1px;
+}
+.nav-links{display:flex;gap:40px;list-style:none;}
+.nav-links a{
+  font-family:'DM Mono',monospace;font-size:11px;font-weight:400;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;transition:color 0.2s;
+}
+.nav-links a:hover{color:var(--rust);}
+.nav-cta{
+  font-family:'DM Mono',monospace;font-size:11px;font-weight:500;
+  letter-spacing:2px;text-transform:uppercase;
+  padding:12px 28px;background:var(--rust);color:var(--paper);
+  text-decoration:none;transition:all 0.2s;
+  border:2px solid var(--rust);
+}
+.nav-cta:hover{background:transparent;color:var(--rust);}
+.hamburger{display:none;flex-direction:column;gap:6px;cursor:pointer;z-index:201;padding:4px;}
+.hamburger span{display:block;width:24px;height:1.5px;background:var(--ink);transition:all 0.3s;}
+.hamburger.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg);}
+.mobile-menu{
+  display:none;position:fixed;inset:0;background:var(--ink);
+  z-index:199;flex-direction:column;justify-content:center;align-items:center;
+  gap:36px;opacity:0;pointer-events:none;transition:opacity 0.3s;
+}
+.mobile-menu.open{opacity:1;pointer-events:all;}
+.mobile-menu a{
+  font-family:'Playfair Display',serif;font-size:52px;font-weight:900;font-style:italic;
+  color:var(--paper);text-decoration:none;transition:color 0.2s;
+}
+.mobile-menu a:hover{color:var(--warm);}
+
+/* HERO — full vinyl record vibe */
+.hero{
+  min-height:100vh;display:grid;grid-template-columns:1fr 1fr;
+  align-items:center;padding:120px 60px 80px;gap:64px;
+  position:relative;overflow:hidden;background:var(--ink);
+}
+.hero-bg-lines{
+  position:absolute;inset:0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(245,240,232,0.03) 60px);
+  pointer-events:none;
+}
+.hero-left{position:relative;z-index:2;}
+.hero-tag{
+  font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;
+  text-transform:uppercase;color:var(--warm);margin-bottom:28px;
+  display:flex;align-items:center;gap:16px;
+}
+.hero-tag::before{content:"";display:block;width:40px;height:1px;background:var(--warm);}
+.hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(72px,9vw,128px);
+  font-weight:900;font-style:italic;line-height:0.88;
+  color:var(--paper);margin-bottom:32px;letter-spacing:-3px;
+}
+.hero-title em{font-style:normal;color:var(--warm);display:block;}
+.hero-title .ghost{
+  -webkit-text-stroke:1px rgba(245,240,232,0.18);
+  color:transparent;display:block;font-style:normal;
+}
+.hero-desc{
+  font-size:16px;line-height:1.9;color:rgba(245,240,232,0.55);
+  max-width:400px;margin-bottom:40px;font-weight:400;
+}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;}
+.btn-primary{
+  font-family:'DM Mono',monospace;font-size:11px;font-weight:500;
+  letter-spacing:2.5px;text-transform:uppercase;
+  padding:16px 36px;background:var(--rust);color:var(--paper);
+  text-decoration:none;transition:all 0.25s;border:2px solid var(--rust);display:inline-block;
+}
+.btn-primary:hover{background:var(--warm);border-color:var(--warm);}
+.btn-ghost{
+  font-family:'DM Mono',monospace;font-size:11px;font-weight:500;
+  letter-spacing:2.5px;text-transform:uppercase;
+  padding:14px 36px;border:1px solid rgba(245,240,232,0.3);
+  color:rgba(245,240,232,0.7);text-decoration:none;transition:all 0.25s;
+}
+.btn-ghost:hover{border-color:var(--warm);color:var(--warm);}
+
+/* VINYL RECORD — decorative right side */
+.hero-right{
+  position:relative;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+}
+.vinyl-wrap{
+  position:relative;width:clamp(280px,40vw,460px);height:clamp(280px,40vw,460px);
+}
+.vinyl{
+  width:100%;height:100%;border-radius:50%;
+  background:conic-gradient(
+    #111 0deg, #1a1a1a 5deg, #111 10deg, #1a1a1a 15deg, #111 20deg,
+    #1a1a1a 25deg, #111 30deg, #1a1a1a 35deg, #111 40deg,
+    #1a1a1a 45deg, #111 50deg, #1a1a1a 55deg, #111 60deg,
+    #1a1a1a 65deg, #111 70deg, #1a1a1a 75deg, #111 80deg,
+    #1a1a1a 85deg, #111 90deg, #1a1a1a 95deg, #111 100deg,
+    #1a1a1a 105deg, #111 110deg, #1a1a1a 115deg, #111 120deg,
+    #1a1a1a 125deg, #111 130deg, #1a1a1a 135deg, #111 140deg,
+    #1a1a1a 145deg, #111 150deg, #1a1a1a 155deg, #111 160deg,
+    #1a1a1a 165deg, #111 170deg, #1a1a1a 175deg, #111 180deg,
+    #1a1a1a 185deg, #111 190deg, #1a1a1a 195deg, #111 200deg,
+    #1a1a1a 205deg, #111 210deg, #1a1a1a 215deg, #111 220deg,
+    #1a1a1a 225deg, #111 230deg, #1a1a1a 235deg, #111 240deg,
+    #1a1a1a 245deg, #111 250deg, #1a1a1a 255deg, #111 260deg,
+    #1a1a1a 265deg, #111 270deg, #1a1a1a 275deg, #111 280deg,
+    #1a1a1a 285deg, #111 290deg, #1a1a1a 295deg, #111 300deg,
+    #1a1a1a 305deg, #111 310deg, #1a1a1a 315deg, #111 320deg,
+    #1a1a1a 325deg, #111 330deg, #1a1a1a 335deg, #111 340deg,
+    #1a1a1a 345deg, #111 350deg, #1a1a1a 355deg, #111 360deg
+  );
+  animation:spin-vinyl 8s linear infinite;
+  box-shadow:0 0 60px rgba(0,0,0,0.8), 0 0 120px rgba(196,66,26,0.15);
+  position:relative;
+}
+.vinyl::before{
+  content:"";position:absolute;inset:20%;border-radius:50%;
+  background:radial-gradient(circle, #c4421a 0%, #8a2e10 30%, #1a1a1a 60%);
+  z-index:2;
+}
+.vinyl::after{
+  content:"";position:absolute;inset:45%;border-radius:50%;
+  background:#e8e8e8;z-index:3;
+  box-shadow:0 0 0 3px #d0d0d0;
+}
+@keyframes spin-vinyl{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+.vinyl-label{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  z-index:10;text-align:center;pointer-events:none;
+}
+.vinyl-label-text{
+  font-family:'Playfair Display',serif;font-size:clamp(10px,1.5vw,14px);
+  font-weight:700;font-style:italic;color:#1a1a1a;line-height:1.2;
+  background:#e8e8e8;border-radius:50%;
+  width:clamp(60px,9vw,90px);height:clamp(60px,9vw,90px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  margin:0 auto;
+}
+.hero-badge{
+  position:absolute;bottom:-20px;left:-20px;
+  background:var(--rust);color:var(--paper);
+  width:120px;height:120px;border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;z-index:20;
+  transform:rotate(-12deg);
+  box-shadow:0 8px 32px rgba(196,66,26,0.5);
+}
+.hero-badge-top{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;opacity:0.8;}
+.hero-badge-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;line-height:1;}
+.hero-badge-bot{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;opacity:0.8;}
+
+/* TAPE TICKER */
+.ticker{
+  background:var(--rust);padding:14px 0;overflow:hidden;
+}
+.ticker-track{display:flex;animation:tick 22s linear infinite;white-space:nowrap;}
+.ticker-item{
+  font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--paper);padding:0 24px;
+  display:inline-flex;align-items:center;gap:24px;
+}
+.ticker-item .sep{opacity:0.4;}
+@keyframes tick{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* SECTIONS */
+section{padding:96px 60px;}
+.section-tag{
+  font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;
+  text-transform:uppercase;color:var(--rust);margin-bottom:16px;
+  display:flex;align-items:center;gap:14px;
+}
+.section-tag::after{content:"";flex:1;max-width:60px;height:1px;background:var(--rust);}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(44px,6vw,80px);
+  font-weight:900;font-style:italic;line-height:0.92;letter-spacing:-2px;
+  margin-bottom:20px;
+}
+.section-title em{font-style:normal;color:var(--rust);}
+
+/* EVENTS */
+#events{background:var(--cream);}
+.events-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:48px;flex-wrap:wrap;gap:20px;}
+.events-header-right{
+  font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--rust);cursor:pointer;transition:opacity 0.2s;
+}
+.events-header-right:hover{opacity:0.7;}
+.events-list{display:flex;flex-direction:column;gap:1px;background:var(--border);}
+.event-row{
+  background:var(--cream);
+  display:grid;grid-template-columns:110px 1fr auto auto;
+  align-items:center;gap:28px;padding:28px 32px;
+  border-left:3px solid transparent;
+  transition:all 0.3s;cursor:pointer;
+}
+.event-row:hover{background:var(--paper);border-left-color:var(--rust);}
+.event-date{
+  font-family:'Playfair Display',serif;font-size:48px;font-weight:900;font-style:italic;
+  line-height:0.85;color:var(--rust);
+}
+.event-date span{display:block;font-family:'DM Mono',monospace;font-size:11px;font-style:normal;color:var(--muted);letter-spacing:3px;margin-top:6px;}
+.event-info-title{
+  font-family:'Playfair Display',serif;font-size:24px;font-weight:700;font-style:italic;
+  letter-spacing:-0.5px;margin-bottom:8px;
+}
+.event-info-meta{display:flex;gap:10px;flex-wrap:wrap;}
+.event-tag{
+  font-family:'DM Mono',monospace;font-size:9px;font-weight:500;
+  letter-spacing:2px;text-transform:uppercase;
+  padding:4px 10px;border:1px solid var(--border);color:var(--muted);
+}
+.event-tag.featured{border-color:rgba(196,66,26,0.4);color:var(--rust);}
+.event-venue{font-size:13px;color:var(--muted);text-align:right;font-style:italic;}
+.event-venue strong{display:block;color:var(--ink);font-family:'Playfair Display',serif;font-size:16px;margin-bottom:4px;font-style:italic;}
+.event-price{
+  font-family:'Playfair Display',serif;font-size:28px;font-weight:900;font-style:italic;
+  color:var(--rust);text-align:right;letter-spacing:-1px;
+}
+
+/* SERVICES */
+#services{background:var(--ink);}
+#services .section-tag{color:var(--warm);}
+#services .section-tag::after{background:var(--warm);}
+#services .section-title{color:var(--paper);}
+#services .section-title em{color:var(--warm);}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(245,240,232,0.08);margin-top:56px;}
+.service-box{
+  background:var(--ink);padding:48px 36px;position:relative;overflow:hidden;
+  transition:background 0.3s;border:1px solid rgba(245,240,232,0.06);
+}
+.service-box:hover{background:#1a1512;}
+.service-box::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg, var(--rust), var(--warm));
+  transform:scaleX(0);transform-origin:left;transition:transform 0.4s ease;
+}
+.service-box:hover::before{transform:scaleX(1);}
+.service-box-num{
+  font-family:'Playfair Display',serif;font-size:80px;font-weight:900;font-style:italic;
+  color:rgba(245,240,232,0.03);position:absolute;top:8px;right:16px;line-height:1;
+}
+.service-box-icon{font-size:28px;margin-bottom:20px;display:block;}
+.service-box-name{
+  font-family:'Playfair Display',serif;font-size:22px;font-weight:700;font-style:italic;
+  color:var(--paper);margin-bottom:12px;
+}
+.service-box-desc{font-size:14px;line-height:1.9;color:rgba(245,240,232,0.45);}
+
+/* ABOUT BAND */
+.about-band{
+  background:var(--rust);padding:80px 60px;
+  position:relative;overflow:hidden;
+}
+.about-band::before{
+  content:"ENERGY";
+  position:absolute;font-family:'Playfair Display',serif;font-weight:900;font-style:italic;
+  font-size:clamp(120px,20vw,240px);color:rgba(0,0,0,0.08);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  white-space:nowrap;pointer-events:none;letter-spacing:4px;
+}
+.about-inner{max-width:760px;position:relative;z-index:1;}
+.about-band-label{
+  font-family:'DM Mono',monospace;font-size:11px;font-weight:500;
+  letter-spacing:4px;text-transform:uppercase;color:rgba(245,240,232,0.65);margin-bottom:16px;
+}
+.about-band-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(48px,7vw,84px);font-weight:900;font-style:italic;letter-spacing:-2px;line-height:0.9;
+  text-transform:none;color:#fff;margin-bottom:24px;
+}
+.about-band-body{
+  font-size:17px;line-height:1.9;color:rgba(255,255,255,0.72);
+  max-width:540px;margin-bottom:40px;
+}
+.about-stats-row{display:flex;gap:48px;flex-wrap:wrap;}
+.about-stat-num{
+  font-family:'Playfair Display',serif;font-size:54px;font-weight:900;font-style:italic;
+  color:#fff;line-height:1;letter-spacing:-2px;
+}
+.about-stat-label{
+  font-family:'DM Mono',monospace;font-size:10px;font-weight:500;
+  letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-top:6px;
+}
+
+/* TESTIMONIALS */
+#testimonials{background:var(--paper);}
+.testimonial-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px;}
+.testimonial-box{
+  background:var(--cream);padding:40px 32px;
+  border:1px solid var(--border);position:relative;
+  transition:transform 0.3s,box-shadow 0.3s;
+}
+.testimonial-box:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(14,12,10,0.08);}
+.t-quote-mark{
+  font-family:'Playfair Display',serif;font-size:80px;font-style:italic;
+  color:rgba(196,66,26,0.08);position:absolute;top:-16px;left:20px;line-height:1;
+}
+.t-stars{color:var(--rust);font-size:11px;letter-spacing:3px;margin-bottom:14px;}
+.t-body{
+  font-size:15px;line-height:1.85;color:var(--muted);
+  margin-bottom:20px;font-style:italic;
+}
+.t-author{
+  font-family:'DM Mono',monospace;font-size:10px;font-weight:500;
+  letter-spacing:2px;text-transform:uppercase;color:var(--rust);
+}
+.t-event{font-size:12px;color:var(--muted);margin-top:4px;}
+
+/* BOOKING */
+#booking{background:var(--cream);}
+.booking-layout{display:grid;grid-template-columns:1fr 1fr;gap:72px;margin-top:56px;align-items:start;}
+.booking-info p{font-size:15px;line-height:1.9;color:var(--muted);margin-bottom:28px;font-style:italic;}
+.info-row{margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border);}
+.info-row:last-child{border-bottom:none;}
+.info-row-label{
+  font-family:'DM Mono',monospace;font-size:10px;font-weight:500;
+  letter-spacing:3px;text-transform:uppercase;color:var(--rust);margin-bottom:6px;
+}
+.info-row-val{font-size:14px;color:var(--ink);line-height:1.6;}
+.booking-form{
+  background:var(--paper);border:1px solid var(--border);padding:44px;
+  position:relative;
+}
+.booking-form::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg, var(--rust), var(--warm));
+}
+.field{margin-bottom:18px;}
+.field label{
+  display:block;font-family:'DM Mono',monospace;font-size:10px;font-weight:500;
+  letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;
+}
+.field input,.field select,.field textarea{
+  width:100%;background:transparent;border:none;border-bottom:1px solid var(--border);
+  color:var(--ink);padding:12px 0;font-family:'Libre Baskerville',serif;
+  font-size:14px;outline:none;transition:all 0.2s;
+  appearance:none;-webkit-appearance:none;border-radius:0;
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+  border-bottom-color:var(--rust);
+}
+.field input::placeholder,.field textarea::placeholder{color:rgba(122,112,96,0.4);}
+.field select{
+  cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c4421a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 4px center;padding-right:24px;
+}
+.field select option{background:var(--paper);color:var(--ink);}
+.field textarea{resize:vertical;min-height:110px;line-height:1.7;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-submit{
+  width:100%;background:var(--rust);color:var(--paper);border:2px solid var(--rust);
+  padding:16px;font-family:'DM Mono',monospace;font-size:12px;
+  font-weight:500;letter-spacing:3px;text-transform:uppercase;
+  cursor:pointer;transition:all 0.25s;margin-top:20px;
+}
+.form-submit:hover{background:transparent;color:var(--rust);}
+.form-success{display:none;text-align:center;padding:48px 24px;}
+.form-success-icon{font-size:48px;margin-bottom:16px;}
+.form-success h4{
+  font-family:'Playfair Display',serif;font-size:36px;font-weight:900;font-style:italic;
+  color:var(--rust);margin-bottom:12px;
+}
+.form-success p{font-size:14px;color:var(--muted);line-height:1.7;}
+
+/* FOOTER */
+footer{background:var(--ink);border-top:1px solid rgba(245,240,232,0.06);padding:64px 60px 32px;}
+.footer-top{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;
+  padding-bottom:48px;border-bottom:1px solid rgba(245,240,232,0.08);margin-bottom:28px;
+}
+.footer-brand{
+  font-family:'Playfair Display',serif;font-size:42px;font-weight:900;font-style:italic;
+  color:var(--rust);letter-spacing:-2px;
+}
+.footer-tagline{font-size:13px;color:rgba(245,240,232,0.35);line-height:1.7;max-width:200px;margin-top:12px;}
+.footer-col-title{
+  font-family:'DM Mono',monospace;font-size:10px;font-weight:500;
+  letter-spacing:3px;text-transform:uppercase;color:rgba(245,240,232,0.3);margin-bottom:20px;
+}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.footer-links li{font-size:13px;color:rgba(245,240,232,0.35);cursor:pointer;transition:color 0.2s;}
+.footer-links li:hover{color:var(--warm);}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-copy{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(122,112,96,0.4);}
+
+/* ANIMATIONS */
+@keyframes up{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.hero-left > *{animation:up 0.7s ease forwards;opacity:0;}
+.hero-left > *:nth-child(1){animation-delay:0.1s;}
+.hero-left > *:nth-child(2){animation-delay:0.2s;}
+.hero-left > *:nth-child(3){animation-delay:0.35s;}
+.hero-left > *:nth-child(4){animation-delay:0.45s;}
+.hero-right{animation:up 0.9s 0.3s ease forwards;opacity:0;}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  nav{padding:20px 28px;}
+  nav.scrolled{padding:14px 28px;}
+  .nav-links,.nav-cta{display:none;}
+  .hamburger{display:flex;}
+  .mobile-menu{display:flex;}
+  .hero{grid-template-columns:1fr;padding:120px 28px 60px;text-align:left;}
+  .hero-right{display:none;}
+  section{padding:64px 28px;}
+  .event-row{grid-template-columns:80px 1fr;gap:16px;padding:20px;}
+  .event-venue,.event-price{display:none;}
+  .services-grid{grid-template-columns:1fr;}
+  .testimonial-grid{grid-template-columns:1fr;}
+  .booking-layout{grid-template-columns:1fr;gap:40px;}
+  .footer-top{grid-template-columns:1fr 1fr;gap:28px;}
+  footer{padding:48px 28px 28px;}
+  .about-band{padding:56px 28px;}
+}
+@media(max-width:600px){
+  nav{padding:18px 20px;}
+  section{padding:52px 20px;}
+  .hero{padding:110px 20px 56px;}
+  .hero-title{font-size:clamp(60px,18vw,96px);}
+  .hero-actions{flex-direction:column;}
+  .btn-primary,.btn-ghost{width:100%;text-align:center;}
+  .section-title{font-size:clamp(40px,12vw,64px);}
+  .form-grid{grid-template-columns:1fr;}
+  .footer-top{grid-template-columns:1fr;}
+  footer{padding:40px 20px 24px;}
+  .booking-form{padding:28px 20px;}
+  .about-stats-row{gap:28px;}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="#">Volt</a>
+  <ul class="nav-links">
+    <li><a href="#events">Events</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#booking">Book Us</a></li>
+  </ul>
+  <a href="#booking" class="nav-cta">Get a Quote</a>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#events" onclick="closeMobile()">Events</a>
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#testimonials" onclick="closeMobile()">Reviews</a>
+  <a href="#booking" onclick="closeMobile()">Book Us</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg-lines"></div>
+  <div class="hero-left">
+    <div class="hero-tag">Live Entertainment · Events · Production</div>
+    <h1 class="hero-title">
+      We Make
+      <em>Nights</em>
+      <span class="ghost">Unforgettable.</span>
+    </h1>
+    <p class="hero-desc">Full-service entertainment and event production. We bring the energy, the talent, the craft, and the moments people talk about for years.</p>
+    <div class="hero-actions">
+      <a href="#booking" class="btn-primary">Get a Quote</a>
+      <a href="#events" class="btn-ghost">Upcoming Events</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="vinyl-wrap">
+      <div class="vinyl"></div>
+      <div class="vinyl-label">
+        <div class="vinyl-label-text">VOLT<br><span style="font-size:0.7em;font-style:normal;font-family:'DM Mono',monospace;letter-spacing:1px;">LA</span></div>
+      </div>
+      <div class="hero-badge">
+        <div class="hero-badge-top">Est.</div>
+        <div class="hero-badge-num">350+</div>
+        <div class="hero-badge-bot">Events</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">Live Events <span class="sep">◆</span> Corporate Parties <span class="sep">◆</span> DJ Booking <span class="sep">◆</span> Sound & Lighting <span class="sep">◆</span> Nightlife Experiences <span class="sep">◆</span> VIP Packages <span class="sep">◆</span></span>
+    <span class="ticker-item">Live Events <span class="sep">◆</span> Corporate Parties <span class="sep">◆</span> DJ Booking <span class="sep">◆</span> Sound & Lighting <span class="sep">◆</span> Nightlife Experiences <span class="sep">◆</span> VIP Packages <span class="sep">◆</span></span>
+  </div>
+</div>
+
+<!-- EVENTS -->
+<section id="events">
+  <div class="events-header">
+    <div>
+      <div class="section-tag reveal">On Deck</div>
+      <h2 class="section-title reveal">Upcoming <em>Events</em></h2>
+    </div>
+    <div class="events-header-right reveal">→ View Full Calendar</div>
+  </div>
+  <div class="events-list">
+    <div class="event-row reveal">
+      <div class="event-date">21<span>MAR · FRI</span></div>
+      <div>
+        <div class="event-info-title">After Dark — Season Opener</div>
+        <div class="event-info-meta">
+          <span class="event-tag featured">HEADLINE SHOW</span>
+          <span class="event-tag">DOORS 9PM</span>
+          <span class="event-tag">18+</span>
+        </div>
+      </div>
+      <div class="event-venue"><strong>The Vault</strong>Downtown LA</div>
+      <div class="event-price">$35</div>
+    </div>
+    <div class="event-row reveal">
+      <div class="event-date">05<span>APR · SAT</span></div>
+      <div>
+        <div class="event-info-title">Neon City Block Party</div>
+        <div class="event-info-meta">
+          <span class="event-tag featured">OUTDOOR</span>
+          <span class="event-tag">ALL AGES</span>
+          <span class="event-tag">MULTI-STAGE</span>
+        </div>
+      </div>
+      <div class="event-venue"><strong>Arts District</strong>East LA</div>
+      <div class="event-price">$25</div>
+    </div>
+    <div class="event-row reveal">
+      <div class="event-date">19<span>APR · SAT</span></div>
+      <div>
+        <div class="event-info-title">Corporate Gala — Meridian Group</div>
+        <div class="event-info-meta">
+          <span class="event-tag">PRIVATE EVENT</span>
+          <span class="event-tag">FULL PRODUCTION</span>
+        </div>
+      </div>
+      <div class="event-venue"><strong>Skyline Ballroom</strong>Beverly Hills</div>
+      <div class="event-price">PRIVATE</div>
+    </div>
+    <div class="event-row reveal">
+      <div class="event-date">02<span>MAY · FRI</span></div>
+      <div>
+        <div class="event-info-title">Frequency — Electronic Night</div>
+        <div class="event-info-meta">
+          <span class="event-tag featured">HEADLINE SHOW</span>
+          <span class="event-tag">DOORS 10PM</span>
+          <span class="event-tag">21+</span>
+        </div>
+      </div>
+      <div class="event-venue"><strong>Terminal 7</strong>Hollywood</div>
+      <div class="event-price">$45</div>
+    </div>
+    <div class="event-row reveal">
+      <div class="event-date">24<span>MAY · SAT</span></div>
+      <div>
+        <div class="event-info-title">Rooftop Sessions Vol. 3</div>
+        <div class="event-info-meta">
+          <span class="event-tag featured">SOLD OUT SERIES</span>
+          <span class="event-tag">LIMITED CAPACITY</span>
+        </div>
+      </div>
+      <div class="event-venue"><strong>The Peak Venue</strong>West Hollywood</div>
+      <div class="event-price">$60</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-tag reveal">What We Do</div>
+  <h2 class="section-title reveal">Full-Service <em>Production</em></h2>
+  <div class="services-grid">
+    <div class="service-box reveal">
+      <div class="service-box-num">01</div>
+      <span class="service-box-icon">🎤</span>
+      <div class="service-box-name">Live Event Production</div>
+      <p class="service-box-desc">From concept to close of doors. We handle venue scouting, talent booking, A/V setup, crowd flow, security coordination, and full event-night management.</p>
+    </div>
+    <div class="service-box reveal">
+      <div class="service-box-num">02</div>
+      <span class="service-box-icon">🎛</span>
+      <div class="service-box-name">DJ & Artist Booking</div>
+      <p class="service-box-desc">Access to a curated roster of professional DJs, bands, performers, and MCs. We match the talent to your vibe, budget, and audience — every time.</p>
+    </div>
+    <div class="service-box reveal">
+      <div class="service-box-num">03</div>
+      <span class="service-box-icon">💡</span>
+      <div class="service-box-name">Sound & Lighting Design</div>
+      <p class="service-box-desc">Professional-grade A/V packages designed around your space. Laser rigs, LED panels, line-array systems, and full stage builds available.</p>
+    </div>
+    <div class="service-box reveal">
+      <div class="service-box-num">04</div>
+      <span class="service-box-icon">🏢</span>
+      <div class="service-box-name">Corporate Events</div>
+      <p class="service-box-desc">Award nights, product launches, company parties — we turn corporate occasions into genuine experiences your guests will remember and talk about.</p>
+    </div>
+    <div class="service-box reveal">
+      <div class="service-box-num">05</div>
+      <span class="service-box-icon">🌙</span>
+      <div class="service-box-name">Nightlife Partnerships</div>
+      <p class="service-box-desc">Ongoing partnerships with clubs, bars, and venues. Resident DJ programs, weekly event series, and promotional campaigns that drive consistent foot traffic.</p>
+    </div>
+    <div class="service-box reveal">
+      <div class="service-box-num">06</div>
+      <span class="service-box-icon">🎥</span>
+      <div class="service-box-name">Event Coverage</div>
+      <p class="service-box-desc">Photo, video, and social content packages. Same-night highlights, multi-camera live streaming, and post-event recap reels that amplify the event after it's over.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT BAND -->
+<div class="about-band">
+  <div class="about-inner">
+    <div class="about-band-label">Who We Are</div>
+    <div class="about-band-title">We Live For<br>The Energy</div>
+    <p class="about-band-body">VOLT started as a passion project between two friends who believed every crowd deserved a world-class experience — regardless of the budget or the city. Today we're one of LA's most trusted names in independent event production, known for creating nights that actually feel alive.</p>
+    <div class="about-stats-row">
+      <div>
+        <div class="about-stat-num">350+</div>
+        <div class="about-stat-label">Events Produced</div>
+      </div>
+      <div>
+        <div class="about-stat-num">80K+</div>
+        <div class="about-stat-label">Attendees</div>
+      </div>
+      <div>
+        <div class="about-stat-num">7yr</div>
+        <div class="about-stat-label">In Business</div>
+      </div>
+      <div>
+        <div class="about-stat-num">100%</div>
+        <div class="about-stat-label">Client Retention</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-tag reveal">What They Say</div>
+  <h2 class="section-title reveal">The Reviews <em>Don't Lie</em></h2>
+  <div class="testimonial-grid">
+    <div class="testimonial-box reveal">
+      <div class="t-quote-mark">"</div>
+      <div class="t-stars">★★★★★</div>
+      <p class="t-body">We hired VOLT for our company's annual party and the transformation was unbelievable. Walked in thinking it'd be a regular event, walked out with a full highlight reel and 200 employees already asking about next year.</p>
+      <div class="t-author">Jordan P.</div>
+      <div class="t-event">Corporate Annual Gala · 200 guests</div>
+    </div>
+    <div class="testimonial-box reveal">
+      <div class="t-quote-mark">"</div>
+      <div class="t-stars">★★★★★</div>
+      <p class="t-body">Three years running our rooftop series with VOLT. Each one sold out faster than the last. They've built something real here. The energy, the production, the crowd — it's always right.</p>
+      <div class="t-author">Sienna C.</div>
+      <div class="t-event">Rooftop Sessions Series · Vol. 1–3</div>
+    </div>
+    <div class="testimonial-box reveal">
+      <div class="t-quote-mark">"</div>
+      <div class="t-stars">★★★★★</div>
+      <p class="t-body">I've worked with a lot of event teams. Nobody else moves the way VOLT does. Fast, communicative, and they actually care about how the night lands. Will be coming back every time.</p>
+      <div class="t-author">Marcus L.</div>
+      <div class="t-event">Product Launch Event · 400 guests</div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking">
+  <div class="section-tag reveal">Work With Us</div>
+  <h2 class="section-title reveal">Let's Build<br><em>Something Electric</em></h2>
+  <div class="booking-layout">
+    <div class="booking-info reveal">
+      <p>Whether you're planning a 50-person private party or a 1,000-person public event — we start with a conversation. Tell us your vision, your date, and your vibe. We'll handle the rest.</p>
+      <div class="info-row">
+        <div class="info-row-label">Response Time</div>
+        <div class="info-row-val">All inquiries responded to within 4 hours</div>
+      </div>
+      <div class="info-row">
+        <div class="info-row-label">Events We Cover</div>
+        <div class="info-row-val">Nightlife, corporate, private, outdoor, multi-day</div>
+      </div>
+      <div class="info-row">
+        <div class="info-row-label">Service Area</div>
+        <div class="info-row-val">Los Angeles metro · Travel available</div>
+      </div>
+      <div class="info-row">
+        <div class="info-row-label">Lead Time</div>
+        <div class="info-row-val">Minimum 2 weeks · Preferred 4+ weeks</div>
+      </div>
+    </div>
+    <div class="booking-form reveal">
+      <div id="booking-fields">
+        <div class="form-grid">
+          <div class="field"><label>First Name</label><input type="text" placeholder="First name" id="bfn"></div>
+          <div class="field"><label>Last Name</label><input type="text" placeholder="Last name" id="bln"></div>
+        </div>
+        <div class="field"><label>Email</label><input type="email" placeholder="your@email.com" id="be"></div>
+        <div class="field"><label>Phone</label><input type="tel" placeholder="+1 (555) 000-0000" id="bp"></div>
+        <div class="field">
+          <label>Type of Event</label>
+          <select id="btype">
+            <option value="">Select event type…</option>
+            <option>Nightclub / Party Night</option>
+            <option>Corporate Event</option>
+            <option>Private Party</option>
+            <option>Outdoor / Block Event</option>
+            <option>Product Launch</option>
+            <option>Wedding / Celebration</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label>Expected Attendance</label><input type="text" placeholder="Approx. # guests" id="batt"></div>
+          <div class="field"><label>Event Date</label><input type="date" id="bdate"></div>
+        </div>
+        <div class="field">
+          <label>Tell us more</label>
+          <textarea placeholder="Venue, vibe, budget, special requirements…" id="bnotes"></textarea>
+        </div>
+        <button class="form-submit" onclick="submitBooking()">Send My Inquiry →</button>
+      </div>
+      <div class="form-success" id="bookingSuccess">
+        <div class="form-success-icon">🎵</div>
+        <h4>We're On It</h4>
+        <p>Your inquiry is in. Expect a response from our team within 4 hours. Get ready — this is going to be good.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">Volt</div>
+      <p class="footer-tagline">Live entertainment and event production for the people who want more than a party.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Events</div>
+      <ul class="footer-links">
+        <li>Upcoming Shows</li>
+        <li>Buy Tickets</li>
+        <li>VIP Access</li>
+        <li>Past Events</li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <ul class="footer-links">
+        <li>Event Production</li>
+        <li>DJ Booking</li>
+        <li>A/V & Lighting</li>
+        <li>Corporate Events</li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Connect</div>
+      <ul class="footer-links">
+        <li>Get a Quote</li>
+        <li>Instagram</li>
+        <li>TikTok</li>
+        <li>Contact Us</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 VOLT Entertainment — All Rights Reserved</span>
+    <span class="footer-copy">Built by WorkForge Systems</span>
+  </div>
+</footer>
+
+<script>
+function toggleMenu(){
+  var m=document.getElementById('mobileMenu'),b=document.getElementById('hamburger');
+  m.classList.toggle('open');b.classList.toggle('open');
+  document.body.style.overflow=m.classList.contains('open')?'hidden':'';
+}
+function closeMobile(){
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  document.body.style.overflow='';
+}
+window.addEventListener('scroll',function(){
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);
+});
+var obs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      var siblings=Array.from(e.target.parentElement.querySelectorAll('.reveal'));
+      var idx=siblings.indexOf(e.target);
+      setTimeout(function(){e.target.classList.add('visible');},Math.min(idx*80,280));
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+function submitBooking(){
+  var fn=document.getElementById('bfn').value.trim();
+  var em=document.getElementById('be').value.trim();
+  var tp=document.getElementById('btype').value;
+  if(!fn||!em||!tp){alert('Please fill in your name, email, and event type.');return;}
+  document.getElementById('booking-fields').style.display='none';
+  document.getElementById('bookingSuccess').style.display='block';
+}
+</script>
+</body>
+</html>
