@@ -450,6 +450,9 @@ footer{background:var(--ink);border-top:1px solid rgba(245,240,232,0.06);padding
 .hero-left > *:nth-child(4){animation-delay:0.45s;}
 .hero-right{animation:up 0.9s 0.3s ease forwards;opacity:0;}
 
+.stage-control { background:#090a12; border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:96px 60px; }
+.stage-grid { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr 1.2fr; gap:64px; align-items:center; }
+
 /* RESPONSIVE */
 @media(max-width:960px){
   nav{padding:20px 28px;}
@@ -458,6 +461,8 @@ footer{background:var(--ink);border-top:1px solid rgba(245,240,232,0.06);padding
   .hamburger{display:flex;}
   .mobile-menu{display:flex;}
   .hero{grid-template-columns:1fr;padding:120px 28px 60px;text-align:left;gap:40px;}
+  .stage-control{padding:64px 28px;}
+  .stage-grid{grid-template-columns:1fr;gap:40px;}
   .hero-right{display:flex; justify-content:center; align-items:center; height:auto; margin-top:20px;}
   .vinyl{width:280px;height:280px;}
   section{padding:64px 28px;}
@@ -473,7 +478,9 @@ footer{background:var(--ink);border-top:1px solid rgba(245,240,232,0.06);padding
 @media(max-width:600px){
   nav{padding:18px 20px;}
   section{padding:52px 20px;}
-  .hero{padding:90px 20px 32px;}
+  .hero{padding:90px 20px 32px; gap: 16px;}
+  .hero-right{margin-top:0;}
+  .stage-control{padding:52px 20px;}
   .hero-tag{margin-bottom: 16px;}
   .hero-title{font-size:clamp(40px,12vw,64px);margin-bottom: 16px;}
   .hero-desc{margin-bottom: 24px;}
@@ -545,8 +552,8 @@ footer{background:var(--ink);border-top:1px solid rgba(245,240,232,0.06);padding
 </div>
 
 <!-- Interactive Live Stage Lights Mixer Section -->
-<section id="stage-control" style="background:#090a12; border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:96px 60px;">
-  <div style="max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr 1.2fr; gap:64px; align-items:center;">
+<section id="stage-control" class="stage-control">
+  <div class="stage-grid">
     <div>
       <div class="section-tag" style="color:var(--warm);">Interactive Deck</div>
       <h2 class="section-title" style="color:#fff; margin-bottom:24px; text-transform:none;">Volt Stage<br><em>Atmosphere Mixer</em></h2>
