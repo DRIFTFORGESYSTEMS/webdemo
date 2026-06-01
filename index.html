@@ -74,6 +74,16 @@ body{color:var(--white);font-family:'DM Sans',sans-serif;}
   flex: 1;
   border-bottom: none;
 }
+
+@media (max-width: 768px) {
+  .banner-row1 { padding: 0 16px; justify-content: space-between; }
+  .b-center { display: none; }
+  .b-logo { border-right: none; padding-right: 0; }
+  .b-right { border-left: none; padding-left: 0; gap: 8px; }
+  .b-live span { display: none; }
+  .cards { grid-template-columns: 1fr; }
+  .welcome h2 { font-size: 24px !important; text-align: center; }
+}
 </style>
 </head>
 <body>
