@@ -4,805 +4,561 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lumière — Premium Care & Wellness</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ivory: #faf8f4;
-  --cream: #f4f0ea;
-  --warm: #ede8df;
-  --deep: #1a1510;
-  --charcoal: #2e2820;
-  --mid: #6b6358;
-  --sage: #7a8b72;
-  --rose: #c4887a;
-  --rose-light: #e8c5bc;
-  --gold: #b89a6a;
-  --gold-light: rgba(184,154,106,0.15);
-  --border: rgba(26,21,16,0.12);
-  --soft: rgba(26,21,16,0.05);
+  --alabaster: #FBFBF9;
+  --cream: #F2EFE9;
+  --sage: #8A9A86;
+  --sage-light: #B4BDB1;
+  --charcoal: #2A2F2A;
+  --text-body: #5A5F5A;
+  --gold: #D4AF37;
+  --border: rgba(42, 47, 42, 0.1);
+  --glass: rgba(251, 251, 249, 0.85);
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{background:var(--ivory);color:var(--deep);font-family:'Jost',sans-serif;font-weight:300;overflow-x:hidden;}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--alabaster);
+  color: var(--charcoal);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, .serif {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+}
+.italic { font-style: italic; color: var(--sage); }
 
 /* NAV */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:200;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:28px 56px;transition:all 0.5s;
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 32px 64px; transition: all 0.4s ease;
 }
-nav.scrolled{
-  background:rgba(250,248,244,0.96);backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);padding:18px 56px;
+nav.scrolled {
+  background: var(--glass); backdrop-filter: blur(20px);
+  padding: 20px 64px; border-bottom: 1px solid var(--border);
 }
-.nav-logo{
-  font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;
-  letter-spacing:4px;color:var(--deep);text-decoration:none;
+.nav-logo {
+  font-size: 28px; letter-spacing: 4px; color: var(--charcoal);
+  text-decoration: none; font-family: 'Cormorant Garamond', serif;
 }
-.nav-logo em{font-style:italic;color:var(--rose);}
-.nav-links{display:flex;gap:40px;list-style:none;}
-.nav-links a{
-  font-family:'Jost',sans-serif;font-size:11px;font-weight:500;
-  letter-spacing:3px;text-transform:uppercase;
-  color:var(--mid);text-decoration:none;transition:color 0.3s;
+.nav-links { display: flex; gap: 48px; list-style: none; margin-left: auto; margin-right: 16px; }
+.nav-links a {
+  font-size: 11px; font-weight: 500; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--text-body);
+  text-decoration: none; transition: color 0.3s;
 }
-.nav-links a:hover{color:var(--deep);}
-.nav-cta{
-  font-family:'Jost',sans-serif;font-size:11px;font-weight:500;
-  letter-spacing:3px;text-transform:uppercase;
-  padding:12px 28px;border:1px solid var(--deep);
-  color:var(--deep);text-decoration:none;transition:all 0.3s;
+.nav-links a:hover { color: var(--charcoal); }
+.nav-cta {
+  font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase;
+  padding: 14px 32px; border: 1px solid var(--charcoal); color: var(--charcoal);
+  text-decoration: none; transition: all 0.4s ease;
 }
-.nav-cta:hover{background:var(--deep);color:var(--ivory);}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:201;padding:4px;}
-.hamburger span{display:block;width:22px;height:1px;background:var(--deep);transition:all 0.3s;}
-.hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
-.hamburger.open span:nth-child(2){opacity:0;}
-.hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
-.mobile-menu{
-  display:none;position:fixed;inset:0;background:var(--ivory);
-  z-index:199;flex-direction:column;justify-content:center;align-items:center;
-  gap:36px;opacity:0;pointer-events:none;transition:opacity 0.3s;
+.nav-cta:hover { background: var(--charcoal); color: var(--alabaster); }
+
+/* MOBILE MENU */
+.hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 200; }
+.hamburger span { width: 24px; height: 1px; background: var(--charcoal); transition: all 0.3s; }
+.mobile-menu {
+  display: none; position: fixed; inset: 0; background: var(--alabaster);
+  z-index: 150; flex-direction: column; justify-content: center; align-items: center;
+  gap: 40px; opacity: 0; pointer-events: none; transition: opacity 0.4s;
 }
-.mobile-menu.open{opacity:1;pointer-events:all;}
-.mobile-menu a{
-  font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;
-  letter-spacing:4px;color:var(--deep);text-decoration:none;
-}
-.mobile-menu a:hover{color:var(--rose);}
+.mobile-menu.open { opacity: 1; pointer-events: all; }
+.mobile-menu a { font-size: 32px; font-family: 'Cormorant Garamond', serif; color: var(--charcoal); text-decoration: none; letter-spacing: 2px; }
 
 /* HERO */
-.hero{
-  min-height:100vh;display:grid;grid-template-columns:1fr 1fr;
-  position:relative;overflow:hidden;
+.hero {
+  min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr;
 }
-.hero-left{
-  display:flex;flex-direction:column;justify-content:center;
-  padding:160px 64px 80px 56px;position:relative;z-index:2;
+.hero-content {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 160px 80px 80px; z-index: 10;
 }
-.hero-right{
-  position:relative;overflow:hidden;
-  background:var(--warm);
+.hero-badge {
+  font-size: 10px; font-weight: 500; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--sage); margin-bottom: 32px; display: flex; align-items: center; gap: 16px;
+  animation: fadeUp 1s 0.2s both;
 }
-.hero-right-pattern{
-  position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 80% 80% at 60% 40%, rgba(196,136,122,0.2) 0%, transparent 65%),
-    radial-gradient(ellipse 60% 60% at 20% 80%, rgba(184,154,106,0.15) 0%, transparent 55%);
+.hero-badge::before { content: ""; width: 32px; height: 1px; background: var(--sage); }
+.hero-title {
+  font-size: clamp(56px, 7vw, 100px); line-height: 0.95; letter-spacing: -1px;
+  margin-bottom: 32px; animation: fadeUp 1s 0.4s both;
 }
-/* Abstract botanical shape */
-.hero-right-shape{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+.hero-desc {
+  font-size: 17px; line-height: 1.8; color: var(--text-body); max-width: 440px;
+  margin-bottom: 48px; animation: fadeUp 1s 0.6s both;
 }
-.hero-right-shape svg{width:70%;height:70%;opacity:0.35;}
-.hero-badge{
-  font-family:'Jost',sans-serif;font-size:10px;font-weight:500;
-  letter-spacing:5px;text-transform:uppercase;color:var(--rose);
-  margin-bottom:24px;display:flex;align-items:center;gap:12px;
-  opacity:0;animation:fadeUp 0.8s 0.2s ease forwards;
+.hero-actions { display: flex; gap: 24px; animation: fadeUp 1s 0.8s both; align-items: center; }
+.btn-solid {
+  background: var(--charcoal); color: var(--alabaster); padding: 18px 40px;
+  font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase;
+  text-decoration: none; transition: all 0.4s ease; border: 1px solid var(--charcoal);
 }
-.hero-badge::before{content:"";display:block;width:28px;height:1px;background:var(--rose);}
-.hero-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(54px,6vw,88px);font-weight:300;
-  line-height:1.0;letter-spacing:-1px;
-  color:var(--deep);margin-bottom:28px;
-  opacity:0;animation:fadeUp 0.8s 0.35s ease forwards;
-}
-.hero-title em{font-style:italic;color:var(--rose);}
-.hero-title .small-line{font-size:0.6em;color:var(--gold);letter-spacing:6px;text-transform:uppercase;font-style:normal;font-weight:400;display:block;margin-bottom:4px;}
-.hero-body{
-  font-size:16px;line-height:1.9;color:var(--mid);max-width:420px;
-  margin-bottom:40px;
-  opacity:0;animation:fadeUp 0.8s 0.5s ease forwards;
-}
-.hero-actions{
-  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
-  opacity:0;animation:fadeUp 0.8s 0.65s ease forwards;
-}
-.btn-dark{
-  font-family:'Jost',sans-serif;font-size:11px;font-weight:500;
-  letter-spacing:3px;text-transform:uppercase;
-  padding:16px 36px;background:var(--deep);color:var(--ivory);
-  text-decoration:none;transition:all 0.3s;display:inline-block;
-}
-.btn-dark:hover{background:var(--charcoal);transform:translateY(-2px);}
-.btn-text{
-  font-family:'Jost',sans-serif;font-size:11px;font-weight:500;
-  letter-spacing:3px;text-transform:uppercase;color:var(--mid);
-  text-decoration:none;border-bottom:1px solid var(--border);padding-bottom:3px;
-  transition:all 0.3s;
-}
-.btn-text:hover{color:var(--deep);border-color:var(--deep);}
-.hero-social-proof{
-  display:flex;align-items:center;gap:16px;margin-top:48px;
-  padding-top:28px;border-top:1px solid var(--border);
-  opacity:0;animation:fadeUp 0.8s 0.8s ease forwards;
-  flex-wrap:wrap;
-}
-.hero-rating{
-  display:flex;align-items:center;gap:8px;
-}
-.stars{color:var(--gold);font-size:12px;letter-spacing:2px;}
-.rating-text{font-size:12px;color:var(--mid);letter-spacing:1px;}
-.hero-divider{width:1px;height:32px;background:var(--border);}
-.hero-clients{font-size:12px;color:var(--mid);letter-spacing:1px;}
+.btn-solid:hover { background: transparent; color: var(--charcoal); }
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.hero-image {
+  position: relative; background: var(--cream); overflow: hidden;
+}
+.hero-image::after {
+  content: ""; position: absolute; inset: 0;
+  background: url('lumiere_hero.png') center/cover;
+  opacity: 0.8; filter: sepia(0.2) contrast(0.9) brightness(1.1);
+  animation: slowZoom 20s infinite alternate linear;
+}
 
-/* DIVIDER BAND */
-.band{
-  background:var(--deep);padding:20px 56px;
-  display:flex;align-items:center;justify-content:center;gap:60px;
-  flex-wrap:wrap;
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.05); } }
+
+/* BAND */
+.band {
+  background: var(--charcoal); color: var(--cream); padding: 24px 64px;
+  display: flex; justify-content: space-around; flex-wrap: wrap; gap: 32px;
 }
-.band-item{
-  font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;
-  letter-spacing:3px;color:rgba(250,248,244,0.55);
-  display:flex;align-items:center;gap:16px;
-}
-.band-item em{font-style:italic;color:var(--rose-light);}
-.band-sep{color:rgba(250,248,244,0.2);}
+.band-item { font-family: 'Cormorant Garamond', serif; font-size: 20px; letter-spacing: 2px; }
 
 /* SECTIONS */
-section{padding:96px 56px;}
-.eyebrow{
-  font-family:'Jost',sans-serif;font-size:10px;font-weight:500;
-  letter-spacing:5px;text-transform:uppercase;color:var(--rose);
-  margin-bottom:16px;
+section { padding: 140px 64px; }
+.section-header { text-align: center; max-width: 600px; margin: 0 auto 80px; }
+.eyebrow {
+  font-size: 10px; font-weight: 500; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--sage); margin-bottom: 24px;
 }
-.section-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(40px,5vw,68px);font-weight:300;
-  line-height:1.05;color:var(--deep);margin-bottom:20px;
-}
-.section-title em{font-style:italic;color:var(--rose);}
+.section-title { font-size: clamp(40px, 5vw, 64px); line-height: 1.1; color: var(--charcoal); }
 
-/* ABOUT / PHILOSOPHY */
-#about{background:var(--cream);}
-.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:16px;}
-.about-text p{font-size:16px;line-height:1.95;color:var(--mid);margin-bottom:20px;}
-.about-pillars{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);margin-top:36px;}
-.pillar{
-  background:var(--cream);padding:28px 24px;
-  border-bottom:2px solid transparent;transition:all 0.3s;
+/* PHILOSOPHY (ABOUT) */
+.philosophy-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
 }
-.pillar:hover{border-bottom-color:var(--rose);background:var(--ivory);}
-.pillar-icon{font-size:22px;margin-bottom:10px;}
-.pillar-title{
-  font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;
-  color:var(--deep);margin-bottom:6px;
+.phil-image { position: relative; height: 600px; overflow: hidden; }
+.phil-image img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%) sepia(10%); }
+.phil-content p { font-size: 18px; line-height: 1.9; color: var(--text-body); margin-bottom: 32px; }
+.quote-block {
+  padding-left: 32px; border-left: 1px solid var(--sage); margin-top: 48px;
 }
-.pillar-desc{font-size:13px;line-height:1.8;color:var(--mid);}
-.about-visual{
-  display:flex;flex-direction:column;align-items:center;gap:24px;
-}
-.about-quote-box{
-  background:var(--deep);padding:48px 40px;text-align:center;
-  position:relative;
-}
-.about-quote-box::before{
-  content:"\201C";font-family:'Cormorant Garamond',serif;font-size:120px;
-  color:rgba(196,136,122,0.15);position:absolute;top:-20px;left:20px;
-  line-height:1;
-}
-.about-quote{
-  font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;
-  font-style:italic;line-height:1.65;color:rgba(250,248,244,0.85);
-  position:relative;z-index:1;margin-bottom:16px;
-}
-.about-quote-attr{
-  font-family:'Jost',sans-serif;font-size:10px;font-weight:500;
-  letter-spacing:3px;text-transform:uppercase;color:var(--rose-light);
-}
-.about-stats-row{
-  display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);
-  width:100%;
-}
-.about-stat{
-  background:var(--ivory);padding:24px;text-align:center;
-}
-.about-stat-num{
-  font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;
-  color:var(--rose);line-height:1;
-}
-.about-stat-label{
-  font-family:'Jost',sans-serif;font-size:10px;font-weight:500;
-  letter-spacing:3px;text-transform:uppercase;color:var(--mid);margin-top:6px;
-}
+.quote-block p { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-style: italic; color: var(--charcoal); line-height: 1.4; margin-bottom: 16px; }
+.quote-block span { font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--sage); }
 
 /* SERVICES */
-#services{background:var(--ivory);}
-.services-intro{max-width:560px;margin-bottom:60px;}
-.services-intro p{font-size:16px;line-height:1.9;color:var(--mid);margin-top:12px;}
-.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border);}
-.service-item{
-  background:var(--ivory);padding:44px 36px;
-  position:relative;overflow:hidden;transition:all 0.4s;
-  border-bottom:3px solid transparent;
+.services { background: var(--cream); }
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border); }
+.service-card {
+  background: var(--cream); padding: 64px 48px; text-align: center;
+  transition: all 0.5s ease;
 }
-.service-item:hover{background:var(--cream);border-bottom-color:var(--rose);}
-.service-item-num{
-  font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:400;
-  letter-spacing:4px;color:var(--rose);margin-bottom:20px;
-}
-.service-item-icon{font-size:28px;margin-bottom:16px;display:block;}
-.service-item-name{
-  font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;
-  color:var(--deep);margin-bottom:12px;
-}
-.service-item-desc{font-size:14px;line-height:1.85;color:var(--mid);margin-bottom:18px;}
-.service-item-price{
-  font-family:'Jost',sans-serif;font-size:11px;font-weight:500;
-  letter-spacing:3px;text-transform:uppercase;color:var(--gold);
-}
+.service-card:hover { background: var(--alabaster); transform: translateY(-4px); }
+.s-icon { font-size: 32px; margin-bottom: 24px; color: var(--sage); }
+.s-title { font-size: 26px; margin-bottom: 16px; color: var(--charcoal); }
+.s-desc { font-size: 15px; color: var(--text-body); line-height: 1.8; margin-bottom: 24px; }
+.s-price { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: 500; color: var(--sage); }
 
-/* PROCESS */
-#process{background:var(--deep);color:var(--ivory);}
-#process .eyebrow{color:var(--rose-light);}
-#process .section-title{color:var(--ivory);}
-#process .section-title em{color:var(--rose-light);}
-.process-steps{display:flex;flex-direction:column;gap:0;margin-top:56px;max-width:760px;margin-left:auto;margin-right:auto;}
-.process-row{
-  display:grid;grid-template-columns:64px 1fr;gap:32px;
-  padding:32px 0;border-bottom:1px solid rgba(250,248,244,0.08);
-  align-items:start;transition:all 0.3s;
+/* CURATOR APP (Interactive) */
+.curator-wrapper {
+  max-width: 1000px; margin: 0 auto 120px; background: var(--alabaster);
+  border: 1px solid var(--border); padding: 64px; box-shadow: 0 20px 60px rgba(0,0,0,0.03);
 }
-.process-row:last-child{border-bottom:none;}
-.process-row:hover{padding-left:12px;}
-.process-row-num{
-  font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;
-  color:var(--rose);line-height:1;
+.curator-header { text-align: center; margin-bottom: 48px; }
+.curator-header h3 { font-size: 36px; margin-bottom: 16px; }
+.curator-header p { color: var(--text-body); max-width: 500px; margin: 0 auto; }
+.c-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+.c-step-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 16px; color: var(--charcoal); }
+.c-btn-group { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 40px; }
+.c-btn {
+  background: transparent; border: 1px solid var(--border); padding: 12px 24px;
+  font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 1px; color: var(--text-body);
+  cursor: pointer; transition: all 0.3s;
 }
-.process-row-title{
-  font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;
-  color:var(--ivory);margin-bottom:10px;
+.c-btn.active { background: var(--sage); border-color: var(--sage); color: var(--alabaster); }
+.c-result {
+  background: var(--cream); padding: 48px; display: flex; flex-direction: column; justify-content: center;
 }
-.process-row-desc{font-size:14px;line-height:1.85;color:rgba(250,248,244,0.55);}
+.c-result-label { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: var(--sage); margin-bottom: 16px; }
+.c-result-title { font-size: 28px; margin-bottom: 16px; color: var(--charcoal); }
+.c-result-desc { font-size: 15px; color: var(--text-body); line-height: 1.7; margin-bottom: 32px; }
+.c-result-meta { display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid var(--border); padding-top: 24px; margin-bottom: 32px; }
+.c-result-dur { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; }
+.c-result-price { font-size: 32px; font-family: 'Cormorant Garamond', serif; }
+.c-apply-btn {
+  background: var(--charcoal); color: var(--alabaster); border: none; padding: 16px;
+  width: 100%; font-family: 'Jost', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 3px;
+  cursor: pointer; transition: all 0.3s;
+}
+.c-apply-btn:hover { background: var(--sage); }
 
-/* TESTIMONIALS */
-#testimonials{background:var(--cream);}
-.testimonial-layout{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);margin-top:56px;}
-.testimonial{
-  background:var(--cream);padding:44px 40px;transition:background 0.3s;
-}
-.testimonial:hover{background:var(--ivory);}
-.testimonial-stars{color:var(--gold);font-size:14px;letter-spacing:3px;margin-bottom:18px;}
-.testimonial-body{
-  font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:300;
-  font-style:italic;line-height:1.75;color:var(--deep);margin-bottom:24px;
-}
-.testimonial-author-name{
-  font-family:'Jost',sans-serif;font-size:11px;font-weight:600;
-  letter-spacing:3px;text-transform:uppercase;color:var(--deep);
-}
-.testimonial-author-note{font-size:12px;color:var(--mid);margin-top:4px;letter-spacing:1px;}
+/* REVIEWS */
+.reviews-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+.review-card { padding: 48px; border: 1px solid var(--border); }
+.r-stars { color: var(--gold); font-size: 16px; letter-spacing: 4px; margin-bottom: 24px; }
+.r-text { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; line-height: 1.6; margin-bottom: 32px; }
+.r-author { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: 500; }
 
 /* BOOKING */
-#booking{background:var(--ivory);}
-.booking-layout{display:grid;grid-template-columns:5fr 7fr;gap:80px;margin-top:56px;align-items:start;}
-.booking-info-title{
-  font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;
-  color:var(--deep);margin-bottom:16px;line-height:1.2;
+.booking-section { background: var(--charcoal); color: var(--alabaster); }
+.booking-section .section-title { color: var(--alabaster); }
+.booking-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; max-width: 1200px; margin: 0 auto; }
+.b-info { font-size: 16px; line-height: 1.9; color: rgba(251,251,249,0.7); }
+.b-details { margin-top: 48px; display: grid; gap: 32px; }
+.b-detail-label { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: var(--sage); margin-bottom: 8px; }
+.b-detail-val { font-size: 16px; color: var(--alabaster); }
+.b-form { background: var(--alabaster); padding: 56px; color: var(--charcoal); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+.f-field { margin-bottom: 24px; }
+.f-field label { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; color: var(--text-body); }
+.f-field input, .f-field select, .f-field textarea {
+  width: 100%; border: none; border-bottom: 1px solid var(--border);
+  padding: 12px 0; background: transparent; font-family: 'Jost', sans-serif;
+  font-size: 15px; outline: none; transition: border-color 0.3s;
 }
-.booking-info-body{font-size:15px;line-height:1.9;color:var(--mid);margin-bottom:32px;}
-.booking-detail{margin-bottom:18px;}
-.booking-detail-label{
-  font-family:'Jost',sans-serif;font-size:10px;font-weight:600;
-  letter-spacing:3px;text-transform:uppercase;color:var(--rose);margin-bottom:4px;
+.f-field input:focus, .f-field select:focus, .f-field textarea:focus { border-bottom-color: var(--sage); }
+.f-field select { appearance: none; border-radius: 0; }
+.btn-submit {
+  width: 100%; background: var(--charcoal); color: var(--alabaster); padding: 20px;
+  border: none; font-family: 'Jost', sans-serif; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 3px; cursor: pointer; transition: background 0.3s; margin-top: 16px;
 }
-.booking-detail-val{font-size:14px;color:var(--charcoal);line-height:1.6;}
-.booking-form{background:var(--cream);padding:48px;}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
-.field{margin-bottom:16px;}
-.field label{
-  display:block;font-family:'Jost',sans-serif;font-size:10px;font-weight:600;
-  letter-spacing:3px;text-transform:uppercase;color:var(--mid);margin-bottom:8px;
-}
-.field input,.field select,.field textarea{
-  width:100%;background:var(--ivory);border:1px solid var(--border);
-  color:var(--deep);padding:14px 16px;font-family:'Jost',sans-serif;
-  font-size:14px;font-weight:300;outline:none;transition:all 0.3s;
-  appearance:none;-webkit-appearance:none;
-}
-.field input:focus,.field select:focus,.field textarea:focus{
-  border-color:var(--rose);background:var(--ivory);
-  box-shadow:0 0 0 3px rgba(196,136,122,0.1);
-}
-.field input::placeholder,.field textarea::placeholder{color:rgba(107,99,88,0.4);}
-.field select{
-  cursor:pointer;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c4887a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 14px center;
-  background-color:var(--ivory);padding-right:40px;
-}
-.field select option{background:var(--ivory);color:var(--deep);}
-.field textarea{resize:vertical;min-height:100px;line-height:1.6;}
-.form-submit{
-  width:100%;background:var(--deep);color:var(--ivory);border:none;
-  padding:18px;font-family:'Jost',sans-serif;font-size:11px;
-  font-weight:600;letter-spacing:4px;text-transform:uppercase;
-  cursor:pointer;transition:all 0.3s;
-}
-.form-submit:hover{background:var(--charcoal);}
-.form-note{font-size:12px;color:var(--mid);margin-top:14px;text-align:center;letter-spacing:1px;}
-.form-success{display:none;text-align:center;padding:48px 24px;}
-.form-success h4{
-  font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;
-  font-style:italic;color:var(--deep);margin-bottom:12px;
-}
-.form-success p{font-size:15px;color:var(--mid);line-height:1.8;}
-.form-success .check{font-size:40px;margin-bottom:16px;display:block;}
+.btn-submit:hover { background: var(--sage); }
+.form-success { display: none; text-align: center; padding: 64px 0; }
+.form-success h4 { font-size: 36px; margin-bottom: 16px; }
 
 /* FOOTER */
-footer{
-  background:var(--deep);color:rgba(250,248,244,0.6);
-  padding:64px 56px 32px;
-}
-.footer-top{
-  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;
-  padding-bottom:48px;border-bottom:1px solid rgba(250,248,244,0.08);
-  margin-bottom:28px;
-}
-.footer-logo-name{
-  font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;
-  letter-spacing:4px;color:var(--ivory);margin-bottom:10px;
-}
-.footer-logo-name em{font-style:italic;color:var(--rose-light);}
-.footer-tagline{font-size:13px;line-height:1.8;max-width:200px;margin-top:8px;}
-.footer-col-title{
-  font-family:'Jost',sans-serif;font-size:10px;font-weight:600;
-  letter-spacing:4px;text-transform:uppercase;
-  color:rgba(250,248,244,0.4);margin-bottom:20px;
-}
-.footer-links{list-style:none;display:flex;flex-direction:column;gap:10px;}
-.footer-links li{font-size:13px;cursor:pointer;transition:color 0.2s;}
-.footer-links li:hover{color:var(--ivory);}
-.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
-.footer-copy{font-size:11px;letter-spacing:2px;text-transform:uppercase;opacity:0.35;}
+footer { padding: 80px 64px 40px; text-align: center; border-top: 1px solid var(--border); }
+.f-logo { font-size: 36px; font-family: 'Cormorant Garamond', serif; letter-spacing: 4px; margin-bottom: 24px; display: inline-block; }
+.f-links { display: flex; justify-content: center; gap: 40px; list-style: none; margin-bottom: 64px; }
+.f-links a { font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--text-body); text-decoration: none; }
+.f-links a:hover { color: var(--charcoal); }
+.f-bottom { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-body); }
 
-/* SCROLL REVEAL */
-.reveal{opacity:0;transform:translateY(32px);transition:opacity 0.8s ease,transform 0.8s ease;}
-.reveal.visible{opacity:1;transform:translateY(0);}
+/* ANIMATIONS */
+.reveal { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
 
 /* RESPONSIVE */
-@media(max-width:900px){
-  nav{padding:18px 24px;}
-  nav.scrolled{padding:14px 24px;}
-  .nav-links,.nav-cta{display:none;}
-  .hamburger{display:flex;}
-  .mobile-menu{display:flex;}
-  .hero{grid-template-columns:1fr;min-height:auto;}
-  .hero-left{padding:140px 24px 60px;}
-  .hero-right{height:320px;}
-  section{padding:64px 24px;}
-  .about-layout{grid-template-columns:1fr;gap:40px;}
-  .services-grid{grid-template-columns:1fr;}
-  .testimonial-layout{grid-template-columns:1fr;}
-  .booking-layout{grid-template-columns:1fr;gap:40px;}
-  .footer-top{grid-template-columns:1fr 1fr;gap:28px;}
-  footer{padding:48px 24px 28px;}
-  .band{padding:18px 24px;gap:24px;}
+@media (max-width: 1024px) {
+  .hero-content { padding: 120px 40px 60px; }
+  section { padding: 100px 40px; }
+  .philosophy-grid { grid-template-columns: 1fr; }
+  .services-grid { grid-template-columns: 1fr 1fr; }
+  .booking-layout, .c-layout { grid-template-columns: 1fr; }
 }
-@media(max-width:600px){
-  .hero-left{padding:130px 18px 52px;}
-  section{padding:52px 18px;}
-  .about-pillars,.about-stats-row{grid-template-columns:1fr;}
-  .form-row{grid-template-columns:1fr;}
-  .footer-top{grid-template-columns:1fr;}
-  footer{padding:40px 18px 24px;}
-  .hero-actions{flex-direction:column;align-items:flex-start;}
-  .btn-dark{width:100%;text-align:center;}
-  .band{flex-direction:column;gap:16px;text-align:center;}
+@media (max-width: 768px) {
+  nav { padding: 20px 24px; }
+  nav.scrolled { padding: 16px 24px; }
+  .nav-links, .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  .hero { grid-template-columns: 1fr; }
+  .hero-image { height: 400px; order: -1; }
+  .hero-content { padding: 60px 24px; text-align: center; align-items: center; }
+  .hero-actions { flex-direction: column; width: 100%; }
+  .btn-solid { width: 100%; text-align: center; }
+  section { padding: 60px 24px; }
+  .band { padding: 24px; flex-direction: column; text-align: center; }
+  .services-grid, .reviews-grid { grid-template-columns: 1fr; }
+  .curator-wrapper { padding: 32px 24px; }
+  .c-result { padding: 32px 24px; }
+  .form-row { grid-template-columns: 1fr; }
+  .b-form { padding: 32px 24px; }
+  .f-links { flex-direction: column; gap: 24px; }
 }
 </style>
 </head>
 <body>
 
 <nav id="nav">
-  <a class="nav-logo" href="#">Lumi<em>ère</em></a>
+  <a class="nav-logo" href="#">Lumi<span class="italic">ère</span></a>
   <ul class="nav-links">
-    <li><a href="#about">About</a></li>
+    <li><a href="#philosophy">Philosophy</a></li>
     <li><a href="#services">Services</a></li>
-    <li><a href="#testimonials">Reviews</a></li>
-    <li><a href="#booking">Book</a></li>
+    <li><a href="#reviews">Reviews</a></li>
   </ul>
-  <a href="#booking" class="nav-cta">Book Appointment</a>
+  <a href="#booking" class="nav-cta">Book Session</a>
   <div class="hamburger" id="hamburger" onclick="toggleMenu()">
     <span></span><span></span><span></span>
   </div>
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#philosophy" onclick="closeMobile()">Philosophy</a>
   <a href="#services" onclick="closeMobile()">Services</a>
-  <a href="#testimonials" onclick="closeMobile()">Reviews</a>
-  <a href="#booking" onclick="closeMobile()">Book</a>
+  <a href="#reviews" onclick="closeMobile()">Reviews</a>
+  <a href="#booking" onclick="closeMobile()">Book Session</a>
 </div>
 
-<!-- HERO -->
 <div class="hero">
-  <div class="hero-left">
-    <div class="hero-badge">Premium Care & Wellness</div>
-    <h1 class="hero-title">
-      <span class="small-line">The art of</span>
-      Looking &<br><em>Feeling</em><br>Your Best.
-    </h1>
-    <p class="hero-body">Expert care delivered with intention. We combine proven science with a deeply personal approach to help you look and feel like yourself — only better.</p>
+  <div class="hero-content">
+    <div class="hero-badge">Premium Wellness</div>
+    <h1 class="hero-title">Elevate your <br><span class="italic">well-being.</span></h1>
+    <p class="hero-desc">Expert care delivered with intention. We combine holistic practices with deep expertise to restore your natural balance.</p>
     <div class="hero-actions">
-      <a href="#booking" class="btn-dark">Book a Consultation</a>
-      <a href="#services" class="btn-text">See Our Services</a>
-    </div>
-    <div class="hero-social-proof">
-      <div class="hero-rating">
-        <div class="stars">★★★★★</div>
-        <div class="rating-text">4.97 avg rating</div>
-      </div>
-      <div class="hero-divider"></div>
-      <div class="hero-clients">2,000+ happy clients</div>
-      <div class="hero-divider"></div>
-      <div class="hero-clients">Trusted since 2011</div>
+      <a href="#booking" class="btn-solid">Reserve a Session</a>
     </div>
   </div>
-  <div class="hero-right">
-    <div class="hero-right-pattern"></div>
-    <div class="hero-right-shape">
-      <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="200" cy="200" r="160" stroke="#c4887a" stroke-width="0.75" opacity="0.6"/>
-        <circle cx="200" cy="200" r="120" stroke="#b89a6a" stroke-width="0.5" opacity="0.5"/>
-        <circle cx="200" cy="200" r="80" stroke="#c4887a" stroke-width="0.5" opacity="0.4"/>
-        <ellipse cx="200" cy="200" rx="140" ry="80" stroke="#b89a6a" stroke-width="0.5" opacity="0.3"/>
-        <ellipse cx="200" cy="200" rx="80" ry="140" stroke="#c4887a" stroke-width="0.5" opacity="0.3"/>
-        <path d="M200 40 Q260 120 200 200 Q140 280 200 360" stroke="#c4887a" stroke-width="1" opacity="0.5"/>
-        <path d="M40 200 Q120 140 200 200 Q280 260 360 200" stroke="#b89a6a" stroke-width="1" opacity="0.4"/>
-        <circle cx="200" cy="200" r="8" fill="#c4887a" opacity="0.6"/>
-        <circle cx="200" cy="40" r="4" fill="#b89a6a" opacity="0.4"/>
-        <circle cx="200" cy="360" r="4" fill="#b89a6a" opacity="0.4"/>
-        <circle cx="40" cy="200" r="4" fill="#c4887a" opacity="0.4"/>
-        <circle cx="360" cy="200" r="4" fill="#c4887a" opacity="0.4"/>
-      </svg>
-    </div>
-  </div>
+  <div class="hero-image"></div>
 </div>
 
 <div class="band">
-  <div class="band-item"><em>Science</em>-backed</div>
-  <span class="band-sep">·</span>
-  <div class="band-item">Personalized care</div>
-  <span class="band-sep">·</span>
-  <div class="band-item"><em>Results</em>-focused</div>
-  <span class="band-sep">·</span>
-  <div class="band-item">Licensed professionals</div>
-  <span class="band-sep">·</span>
-  <div class="band-item">Trusted since <em>2011</em></div>
+  <div class="band-item">Holistic Approach</div>
+  <div class="band-item">Licensed Experts</div>
+  <div class="band-item">Curated Environments</div>
+  <div class="band-item">Bespoke Treatments</div>
 </div>
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="about-layout">
-    <div class="about-text reveal">
+<section id="philosophy">
+  <div class="philosophy-grid">
+    <div class="phil-image reveal">
+      <img src="lumiere_philosophy.png" alt="Spa environment">
+    </div>
+    <div class="phil-content reveal">
       <div class="eyebrow">Our Philosophy</div>
-      <h2 class="section-title">Care that goes<br><em>deeper</em></h2>
-      <p>We believe genuine care starts with listening. Before any treatment or service, we take time to understand you — your goals, your concerns, your life. That shapes everything we do.</p>
+      <h2 class="section-title">Care that goes <span class="italic">deeper.</span></h2>
+      <p>We believe genuine care starts with listening. Before any treatment, we take time to understand you — your goals, your concerns, your lifestyle. That shapes everything we do.</p>
       <p>Our team combines clinical expertise with a warm, unhurried approach. No pressure, no upselling — just honest guidance and exceptional results.</p>
-      <div class="about-pillars">
-        <div class="pillar">
-          <div class="pillar-icon">🌿</div>
-          <div class="pillar-title">Natural Methods</div>
-          <p class="pillar-desc">We use only clean, clinically-proven formulations that respect your body.</p>
-        </div>
-        <div class="pillar">
-          <div class="pillar-icon">🎯</div>
-          <div class="pillar-title">Targeted Results</div>
-          <p class="pillar-desc">Every treatment plan is built around your specific goals and skin type.</p>
-        </div>
-        <div class="pillar">
-          <div class="pillar-icon">🤝</div>
-          <div class="pillar-title">Ongoing Support</div>
-          <p class="pillar-desc">We're with you between visits — with guidance, check-ins, and care.</p>
-        </div>
-        <div class="pillar">
-          <div class="pillar-icon">✨</div>
-          <div class="pillar-title">Lasting Impact</div>
-          <p class="pillar-desc">We focus on sustainable improvement, not quick fixes that fade.</p>
-        </div>
-      </div>
-    </div>
-    <div class="about-visual reveal">
-      <div class="about-quote-box">
-        <p class="about-quote">"The goal isn't to change who you are. It's to help you look and feel like the best version of yourself."</p>
-        <div class="about-quote-attr">— Our founding principle</div>
-      </div>
-      <div class="about-stats-row">
-        <div class="about-stat"><div class="about-stat-num">2,000+</div><div class="about-stat-label">Clients Served</div></div>
-        <div class="about-stat"><div class="about-stat-num">97%</div><div class="about-stat-label">Would Return</div></div>
-        <div class="about-stat"><div class="about-stat-num">14yr</div><div class="about-stat-label">In Practice</div></div>
-        <div class="about-stat"><div class="about-stat-num">5★</div><div class="about-stat-label">Avg Review</div></div>
+      <div class="quote-block">
+        <p>"The goal isn't to change who you are. It's to help you feel like the most vibrant version of yourself."</p>
+        <span>— The Lumière Promise</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SERVICES -->
-<section id="services">
-  <div class="services-intro reveal">
-    <div class="eyebrow">What We Offer</div>
-    <h2 class="section-title">Services tailored<br>to <em>you</em></h2>
-    <p>Whether you're coming in for the first time or you're a regular — every session is customized. We don't do cookie-cutter treatments.</p>
+<section id="services" class="services">
+  <div class="section-header reveal">
+    <div class="eyebrow">Treatments</div>
+    <h2 class="section-title">Tailored to <span class="italic">you.</span></h2>
+    <p style="color:var(--text-body); margin-top:24px; font-size:16px;">Every session is completely customized. We adapt our techniques and formulations to what your body needs today.</p>
   </div>
+
+  <div class="curator-wrapper reveal">
+    <div class="curator-header">
+      <h3 class="serif">The Wellness Curator</h3>
+      <p>Select your primary focus and available time. We'll instantly design your ideal holistic experience.</p>
+    </div>
+    <div class="c-layout">
+      <div>
+        <div class="c-step-title">1. Desired Outcome</div>
+        <div class="c-btn-group">
+          <button class="c-btn active" onclick="setCurator('restorative', this)">Deep Rest</button>
+          <button class="c-btn" onclick="setCurator('radiance', this)">Skin Radiance</button>
+          <button class="c-btn" onclick="setCurator('detox', this)">Purifying Detox</button>
+        </div>
+        <div class="c-step-title">2. Session Length</div>
+        <div class="c-btn-group">
+          <button class="c-btn active" onclick="setDur(60, this)">60 Min</button>
+          <button class="c-btn" onclick="setDur(90, this)">90 Min</button>
+          <button class="c-btn" onclick="setDur(120, this)">120 Min</button>
+        </div>
+      </div>
+      <div class="c-result">
+        <div class="c-result-label">Your Regimen</div>
+        <h4 class="c-result-title serif" id="c-name">Restorative Botanical Escape</h4>
+        <p class="c-result-desc" id="c-desc">A peaceful full-body treatment combining warm herbal oils, massage, and deep meditative care. Ideal for complete mental and physical restoration.</p>
+        <div class="c-result-meta">
+          <div class="c-result-dur" id="c-dur">60 MINUTE SESSION</div>
+          <div class="c-result-price" id="c-price">$135</div>
+        </div>
+        <button class="c-apply-btn" onclick="applyCurator()">Apply to Booking</button>
+      </div>
+    </div>
+  </div>
+
   <div class="services-grid">
-    <div class="service-item reveal">
-      <div class="service-item-num">01</div>
-      <span class="service-item-icon">🌸</span>
-      <div class="service-item-name">Initial Consultation</div>
-      <p class="service-item-desc">A thorough assessment of your concerns, goals, and history. We build your personalized care plan from the ground up.</p>
-      <div class="service-item-price">Complimentary</div>
+    <div class="service-card reveal">
+      <div class="s-icon">✧</div>
+      <h3 class="s-title serif">Initial Consultation</h3>
+      <p class="s-desc">A thorough assessment of your concerns, goals, and history. We build your personalized care plan from the ground up.</p>
+      <div class="s-price">Complimentary</div>
     </div>
-    <div class="service-item reveal">
-      <div class="service-item-num">02</div>
-      <span class="service-item-icon">💆</span>
-      <div class="service-item-name">Deep Treatment</div>
-      <p class="service-item-desc">Our signature full session — thorough, restorative, and deeply effective. Leaves you refreshed and renewed.</p>
-      <div class="service-item-price">From $120 · 60 min</div>
+    <div class="service-card reveal">
+      <div class="s-icon">✦</div>
+      <h3 class="s-title serif">Deep Treatment</h3>
+      <p class="s-desc">Our signature full session — thorough, restorative, and deeply effective. Leaves you refreshed and profoundly renewed.</p>
+      <div class="s-price">From $120</div>
     </div>
-    <div class="service-item reveal">
-      <div class="service-item-num">03</div>
-      <span class="service-item-icon">✨</span>
-      <div class="service-item-name">Brightening Treatment</div>
-      <p class="service-item-desc">Targeted treatment to restore luminosity, even tone, and a healthy, natural glow that lasts.</p>
-      <div class="service-item-price">From $95 · 45 min</div>
-    </div>
-    <div class="service-item reveal">
-      <div class="service-item-num">04</div>
-      <span class="service-item-icon">🌙</span>
-      <div class="service-item-name">Restorative Session</div>
-      <p class="service-item-desc">Repair, recovery, and deep restoration. Ideal after stress, travel, or environmental exposure.</p>
-      <div class="service-item-price">From $140 · 75 min</div>
-    </div>
-    <div class="service-item reveal">
-      <div class="service-item-num">05</div>
-      <span class="service-item-icon">🛁</span>
-      <div class="service-item-name">Maintenance Plan</div>
-      <p class="service-item-desc">Monthly or bi-monthly sessions designed to maintain your results and keep you looking and feeling consistently great.</p>
-      <div class="service-item-price">Custom pricing</div>
-    </div>
-    <div class="service-item reveal">
-      <div class="service-item-num">06</div>
-      <span class="service-item-icon">🎁</span>
-      <div class="service-item-name">Gift Experience</div>
-      <p class="service-item-desc">Gift a session to someone you care about. Available in digital or printed format, redeemable any time.</p>
-      <div class="service-item-price">From $95</div>
+    <div class="service-card reveal">
+      <div class="s-icon">⟡</div>
+      <h3 class="s-title serif">Brightening Facial</h3>
+      <p class="s-desc">Targeted treatment to restore luminosity, even tone, and a healthy, natural glow that lasts for weeks.</p>
+      <div class="s-price">From $95</div>
     </div>
   </div>
 </section>
 
-<!-- PROCESS -->
-<section id="process">
-  <div style="text-align:center;">
-    <div class="eyebrow reveal" style="justify-content:center;">Your Journey</div>
-    <h2 class="section-title reveal">What to <em>Expect</em></h2>
+<section id="reviews">
+  <div class="section-header reveal">
+    <div class="eyebrow">Testimonials</div>
+    <h2 class="section-title">Client <span class="italic">Reflections</span></h2>
   </div>
-  <div class="process-steps">
-    <div class="process-row reveal">
-      <div class="process-row-num">01</div>
-      <div>
-        <div class="process-row-title">Book Your Appointment</div>
-        <p class="process-row-desc">Choose a time that works for you. Our online booking takes under 2 minutes. You'll receive a confirmation and a brief intake form to complete beforehand.</p>
-      </div>
+  <div class="reviews-grid">
+    <div class="review-card reveal">
+      <div class="r-stars">★★★★★</div>
+      <p class="r-text">"I've tried everything over the years. This is the first place where I felt genuinely heard. The experience is unparalleled."</p>
+      <div class="r-author">Sophia R.</div>
     </div>
-    <div class="process-row reveal">
-      <div class="process-row-num">02</div>
-      <div>
-        <div class="process-row-title">We Get to Know You</div>
-        <p class="process-row-desc">Your first visit begins with a detailed conversation — no rushing. We want to understand your goals, concerns, and what you've tried before we recommend anything.</p>
-      </div>
-    </div>
-    <div class="process-row reveal">
-      <div class="process-row-num">03</div>
-      <div>
-        <div class="process-row-title">Your Session</div>
-        <p class="process-row-desc">Sit back and relax. Your treatment is tailored to you and performed with the utmost care by our licensed professionals.</p>
-      </div>
-    </div>
-    <div class="process-row reveal">
-      <div class="process-row-num">04</div>
-      <div>
-        <div class="process-row-title">Your Plan Going Forward</div>
-        <p class="process-row-desc">Before you leave, we'll outline recommendations for home care and, if you'd like, set up a maintenance plan to keep your results looking their best.</p>
-      </div>
+    <div class="review-card reveal">
+      <div class="r-stars">★★★★★</div>
+      <p class="r-text">"The personalized approach is what sets this place apart. They remember every detail. I wouldn't go anywhere else."</p>
+      <div class="r-author">James M.</div>
     </div>
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
-<section id="testimonials">
-  <div class="eyebrow reveal">Kind Words</div>
-  <h2 class="section-title reveal">What our clients<br><em>say</em></h2>
-  <div class="testimonial-layout">
-    <div class="testimonial reveal">
-      <div class="testimonial-stars">★★★★★</div>
-      <p class="testimonial-body">"I've tried everything over the years. This is the first place where I felt genuinely heard. The results speak for themselves, but it's the experience that keeps me coming back."</p>
-      <div class="testimonial-author-name">Sophia R.</div>
-      <div class="testimonial-author-note">Client since 2021</div>
-    </div>
-    <div class="testimonial reveal">
-      <div class="testimonial-stars">★★★★★</div>
-      <p class="testimonial-body">"The difference between a great provider and an exceptional one is how much they care. Here, it's clearly a passion, not just a job. I wouldn't go anywhere else."</p>
-      <div class="testimonial-author-name">James M.</div>
-      <div class="testimonial-author-note">Client since 2020</div>
-    </div>
-    <div class="testimonial reveal">
-      <div class="testimonial-stars">★★★★★</div>
-      <p class="testimonial-body">"I was nervous coming in for the first time, but the team was so warm and non-judgmental. I walked out feeling a hundred times more confident. Worth every single penny."</p>
-      <div class="testimonial-author-name">Aaliyah T.</div>
-      <div class="testimonial-author-note">Client since 2023</div>
-    </div>
-    <div class="testimonial reveal">
-      <div class="testimonial-stars">★★★★★</div>
-      <p class="testimonial-body">"The personalized approach is what sets this place apart. They actually remember what I told them three months ago. That kind of attention to detail is rare and deeply appreciated."</p>
-      <div class="testimonial-author-name">David K.</div>
-      <div class="testimonial-author-note">Client since 2022</div>
-    </div>
-  </div>
-</section>
-
-<!-- BOOKING -->
-<section id="booking">
-  <div class="eyebrow reveal">Book Now</div>
-  <h2 class="section-title reveal">Begin your<br><em>journey</em></h2>
+<section id="booking" class="booking-section">
   <div class="booking-layout">
-    <div class="booking-info reveal">
-      <div class="booking-info-title">Let's start with a conversation</div>
-      <p class="booking-info-body">Your first consultation is always complimentary. Come in with questions — we'll come prepared with answers, options, and a plan that actually makes sense for you.</p>
-      <div class="booking-detail">
-        <div class="booking-detail-label">Hours</div>
-        <div class="booking-detail-val">Monday – Saturday, 9am – 7pm<br>Sunday by appointment only</div>
-      </div>
-      <div class="booking-detail">
-        <div class="booking-detail-label">Location</div>
-        <div class="booking-detail-val">In-office and home visit options available</div>
-      </div>
-      <div class="booking-detail">
-        <div class="booking-detail-label">Response Time</div>
-        <div class="booking-detail-val">All inquiries responded to within 3 hours</div>
-      </div>
-      <div class="booking-detail">
-        <div class="booking-detail-label">Cancellation</div>
-        <div class="booking-detail-val">Free rescheduling up to 24 hours before appointment</div>
+    <div class="b-info reveal">
+      <div class="eyebrow">Reservations</div>
+      <h2 class="section-title">Begin your <br><span class="italic">journey.</span></h2>
+      <div class="b-details">
+        <div>
+          <div class="b-detail-label">Location</div>
+          <div class="b-detail-val">1200 Wellness Ave, Suite 300<br>San Francisco, CA 94109</div>
+        </div>
+        <div>
+          <div class="b-detail-label">Hours</div>
+          <div class="b-detail-val">Mon – Sat: 9am – 7pm<br>Sun: By Appointment</div>
+        </div>
+        <div>
+          <div class="b-detail-label">Contact</div>
+          <div class="b-detail-val">hello@lumierespa.com<br>+1 (555) 123-4567</div>
+        </div>
       </div>
     </div>
-    <div class="booking-form reveal">
-      <div id="booking-fields">
+    <div class="b-form reveal">
+      <div id="form-wrap">
         <div class="form-row">
-          <div class="field"><label>First Name</label><input type="text" placeholder="Your first name" id="fname"></div>
-          <div class="field"><label>Last Name</label><input type="text" placeholder="Your last name" id="lname"></div>
+          <div class="f-field"><label>First Name</label><input type="text" id="fname" placeholder="Jane"></div>
+          <div class="f-field"><label>Last Name</label><input type="text" id="lname" placeholder="Doe"></div>
         </div>
         <div class="form-row">
-          <div class="field"><label>Email</label><input type="email" placeholder="you@email.com" id="femail"></div>
-          <div class="field"><label>Phone</label><input type="tel" placeholder="+1 (555) 000-0000" id="fphone"></div>
+          <div class="f-field"><label>Email</label><input type="email" id="femail" placeholder="jane@example.com"></div>
+          <div class="f-field"><label>Phone</label><input type="tel" id="fphone" placeholder="(555) 000-0000"></div>
         </div>
-        <div class="field">
-          <label>Service Interest</label>
+        <div class="f-field">
+          <label>Service</label>
           <select id="fservice">
-            <option value="">Select a service…</option>
-            <option>Free Initial Consultation</option>
-            <option>Deep Treatment — from $120</option>
-            <option>Brightening Treatment — from $95</option>
-            <option>Restorative Session — from $140</option>
-            <option>Monthly Maintenance Plan</option>
-            <option>Gift Experience</option>
+            <option value="">Select a service...</option>
+            <option>Initial Consultation</option>
+            <option>Deep Treatment</option>
+            <option>Brightening Facial</option>
           </select>
         </div>
-        <div class="field"><label>Preferred Date</label><input type="date" id="fdate"></div>
-        <div class="field">
-          <label>Tell us a little about yourself (optional)</label>
-          <textarea placeholder="Any concerns, goals, or things we should know beforehand…" id="fnotes"></textarea>
+        <div class="f-field">
+          <label>Preferred Date</label>
+          <input type="date" id="fdate">
         </div>
-        <button class="form-submit" onclick="submitForm()">Request Appointment →</button>
-        <p class="form-note">We'll confirm your appointment within 3 hours of receiving your request.</p>
+        <div class="f-field">
+          <label>Notes (Optional)</label>
+          <textarea id="fnotes" rows="3" placeholder="Tell us about your goals..."></textarea>
+        </div>
+        <button class="btn-submit" onclick="submitForm()">Request Appointment</button>
       </div>
-      <div class="form-success" id="formSuccess">
-        <span class="check">✦</span>
-        <h4>Thank you, we'll be in touch.</h4>
-        <p>Your request has been received. We'll reach out within 3 hours to confirm and send over any prep information.</p>
+      <div id="form-success" class="form-success">
+        <h4 class="serif italic">Thank you.</h4>
+        <p>Your request has been received. Our concierge will contact you shortly to confirm your session.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
-  <div class="footer-top">
-    <div>
-      <div class="footer-logo-name">Lumi<em>ère</em></div>
-      <p class="footer-tagline">Premium care for those who believe they deserve the best.</p>
-    </div>
-    <div>
-      <div class="footer-col-title">Services</div>
-      <ul class="footer-links">
-        <li>Consultation</li>
-        <li>Deep Treatment</li>
-        <li>Brightening</li>
-        <li>Restorative</li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-col-title">Company</div>
-      <ul class="footer-links">
-        <li>About Us</li>
-        <li>Our Team</li>
-        <li>Testimonials</li>
-        <li>Gift Cards</li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-col-title">Contact</div>
-      <ul class="footer-links">
-        <li>Book Online</li>
-        <li>Email Us</li>
-        <li>Instagram</li>
-        <li>Privacy Policy</li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span class="footer-copy">© 2026 Lumière — All Rights Reserved</span>
-    <span class="footer-copy">Built by WorkForge Systems</span>
-  </div>
+  <a href="#" class="f-logo">Lumi<span class="italic">ère</span></a>
+  <ul class="f-links">
+    <li><a href="#philosophy">Philosophy</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#">Privacy</a></li>
+    <li><a href="#">Terms</a></li>
+  </ul>
+  <div class="f-bottom">© 2026 Lumière Spa. Crafted by DriftForge Systems.</div>
 </footer>
 
 <script>
-function toggleMenu(){
-  var m=document.getElementById('mobileMenu'),b=document.getElementById('hamburger');
-  m.classList.toggle('open');b.classList.toggle('open');
-  document.body.style.overflow=m.classList.contains('open')?'hidden':'';
+// Menu
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
 }
-function closeMobile(){
+function closeMobile() {
   document.getElementById('mobileMenu').classList.remove('open');
-  document.getElementById('hamburger').classList.remove('open');
-  document.body.style.overflow='';
 }
-window.addEventListener('scroll',function(){
-  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);
+
+// Nav Scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
 });
-var obs=new IntersectionObserver(function(entries){
-  entries.forEach(function(e){
-    if(e.isIntersecting){
-      var siblings=Array.from(e.target.parentElement.querySelectorAll('.reveal'));
-      var idx=siblings.indexOf(e.target);
-      setTimeout(function(){e.target.classList.add('visible');},Math.min(idx*80,280));
-      obs.unobserve(e.target);
+
+// Reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
     }
   });
-},{threshold:0.08});
-document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
-function submitForm(){
-  var fn=document.getElementById('fname').value.trim();
-  var em=document.getElementById('femail').value.trim();
-  var sv=document.getElementById('fservice').value;
-  if(!fn||!em||!sv){alert('Please fill in your name, email, and service interest.');return;}
-  document.getElementById('booking-fields').style.display='none';
-  document.getElementById('formSuccess').style.display='block';
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Curator Logic
+const C_DATA = {
+  restorative: { name: "Restorative Botanical Escape", desc: "A peaceful full-body treatment combining warm herbal oils, massage, and deep meditative care. Ideal for complete mental and physical restoration.", basePrice: 135 },
+  radiance: { name: "Luminous Radiance Cure", desc: "Deep skin restoration focusing on lymphatic drainage, natural exfoliating acids, and glowing oxygenation. Brings out your natural vibrant light.", basePrice: 145 },
+  detox: { name: "Intense Herbal Clarifier", desc: "A powerful clay wrap and botanical scrub designed to draw out cellular impurities, activate circulation, and completely refresh energy channels.", basePrice: 125 }
+};
+let cFoc = 'restorative';
+let cDur = 60;
+
+function setCurator(foc, el) {
+  cFoc = foc;
+  el.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  updateC();
+}
+function setDur(dur, el) {
+  cDur = dur;
+  el.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  updateC();
+}
+function updateC() {
+  const d = C_DATA[cFoc];
+  const mult = cDur === 60 ? 1 : (cDur === 90 ? 1.4 : 1.75);
+  const p = Math.round(d.basePrice * mult);
+  document.getElementById('c-name').textContent = d.name;
+  document.getElementById('c-desc').textContent = d.desc;
+  document.getElementById('c-dur').textContent = cDur + " Minute Session";
+  document.getElementById('c-price').textContent = "$" + p;
+}
+function applyCurator() {
+  const name = document.getElementById('c-name').textContent;
+  const dur = document.getElementById('c-dur').textContent;
+  const pr = document.getElementById('c-price').textContent;
+  
+  const sel = document.getElementById('fservice');
+  let opt = document.getElementById('dyn-opt');
+  if(!opt) {
+    opt = document.createElement('option');
+    opt.id = 'dyn-opt';
+    sel.appendChild(opt);
+  }
+  opt.value = `Curated: ${name} (${dur} - ${pr})`;
+  opt.text = opt.value;
+  opt.selected = true;
+  
+  document.getElementById('fnotes').value = `Selected Curated Experience:\n- Package: ${name}\n- Length: ${dur}\n- Price Quote: ${pr}`;
+  document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Form Submit
+function submitForm() {
+  const fn = document.getElementById('fname').value;
+  const em = document.getElementById('femail').value;
+  const sv = document.getElementById('fservice').value;
+  if(!fn || !em || !sv) { alert("Please complete name, email, and service."); return; }
+  document.getElementById('form-wrap').style.display = 'none';
+  document.getElementById('form-success').style.display = 'block';
 }
 </script>
 </body>

@@ -7,20 +7,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ink: #0e0c0a;
-  --paper: #f5f0e8;
-  --cream: #ede7d4;
-  --warm: #d4a96a;
-  --rust: #c4421a;
-  --rust-dim: rgba(196,66,26,0.12);
-  --olive: #4a5240;
-  --muted: #7a7060;
-  --border: rgba(14,12,10,0.12);
-  --glow: none;
+  --ink: #f2f3f8;     /* Light text */
+  --paper: #08090d;   /* Space Black */
+  --cream: #121420;   /* Panel grey/blue */
+  --warm: #ff8c42;    /* Electric Orange */
+  --rust: #ff0055;    /* Cyber Magenta */
+  --rust-dim: rgba(255, 0, 85, 0.12);
+  --olive: #3b82f6;   /* Electric Blue */
+  --muted: #7e84a3;   /* Slate Gray */
+  --border: rgba(255, 255, 255, 0.08);
+  --glow: 0 0 20px rgba(255, 0, 85, 0.5);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{background:var(--paper);color:var(--ink);font-family:'Libre Baskerville',serif;overflow-x:hidden;}
+@keyframes bounceDot {
+  0% { transform: translateY(0) scale(1); opacity: 0.6; }
+  100% { transform: translateY(-30px) scale(1.15); opacity: 1; filter: drop-shadow(0 0 8px var(--rust)); }
+}
 
 /* GRAIN TEXTURE */
 body::after{
@@ -36,7 +40,7 @@ nav{
   padding:28px 60px;transition:all 0.4s;
 }
 nav.scrolled{
-  background:rgba(245,240,232,0.97);backdrop-filter:blur(12px);
+  background:rgba(8,9,13,0.95);backdrop-filter:blur(12px);
   border-bottom:1px solid var(--border);padding:18px 60px;
 }
 .nav-logo{
@@ -64,7 +68,7 @@ nav.scrolled{
 .hamburger.open span:nth-child(2){opacity:0;}
 .hamburger.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg);}
 .mobile-menu{
-  display:none;position:fixed;inset:0;background:var(--ink);
+  display:none;position:fixed;inset:0;background:var(--paper);
   z-index:199;flex-direction:column;justify-content:center;align-items:center;
   gap:36px;opacity:0;pointer-events:none;transition:opacity 0.3s;
 }
@@ -97,16 +101,15 @@ nav.scrolled{
 .hero-title{
   font-family:'Playfair Display',serif;
   font-size:clamp(72px,9vw,128px);
-  font-weight:900;font-style:italic;line-height:0.88;
+  font-weight:900;font-style:italic;line-height:1;
   color:var(--paper);margin-bottom:32px;letter-spacing:-3px;
 }
 .hero-title em{font-style:normal;color:var(--warm);display:block;}
 .hero-title .ghost{
-  -webkit-text-stroke:1px rgba(245,240,232,0.18);
-  color:transparent;display:block;font-style:normal;
+  color:var(--paper);display:block;font-style:normal;
 }
 .hero-desc{
-  font-size:16px;line-height:1.9;color:rgba(245,240,232,0.55);
+  font-size:16px;line-height:1.9;color:rgba(8,9,13,0.7);
   max-width:400px;margin-bottom:40px;font-weight:400;
 }
 .hero-actions{display:flex;gap:16px;flex-wrap:wrap;}
@@ -273,9 +276,9 @@ section{padding:96px 60px;}
 .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(245,240,232,0.08);margin-top:56px;}
 .service-box{
   background:var(--ink);padding:48px 36px;position:relative;overflow:hidden;
-  transition:background 0.3s;border:1px solid rgba(245,240,232,0.06);
+  transition:all 0.3s;border:1px solid rgba(8,9,13,0.06);color:var(--paper);
 }
-.service-box:hover{background:#1a1512;}
+.service-box:hover{background:#1a1512;color:var(--ink);}
 .service-box::before{
   content:"";position:absolute;top:0;left:0;right:0;height:2px;
   background:linear-gradient(90deg, var(--rust), var(--warm));
@@ -284,14 +287,19 @@ section{padding:96px 60px;}
 .service-box:hover::before{transform:scaleX(1);}
 .service-box-num{
   font-family:'Playfair Display',serif;font-size:80px;font-weight:900;font-style:italic;
-  color:rgba(245,240,232,0.03);position:absolute;top:8px;right:16px;line-height:1;
+  color:rgba(8,9,13,0.05);position:absolute;top:8px;right:16px;line-height:1;transition:color 0.3s;
 }
+.service-box:hover .service-box-num{color:rgba(245,240,232,0.03);}
 .service-box-icon{font-size:28px;margin-bottom:20px;display:block;}
 .service-box-name{
-  font-family:'Playfair Display',serif;font-size:22px;font-weight:700;font-style:italic;
-  color:var(--paper);margin-bottom:12px;
+  font-family:'DM Mono',monospace;font-size:14px;font-weight:500;
+  text-transform:uppercase;color:var(--paper);margin-bottom:12px;letter-spacing:1px;transition:color 0.3s;
 }
-.service-box-desc{font-size:14px;line-height:1.9;color:rgba(245,240,232,0.45);}
+.service-box:hover .service-box-name{color:#fff;}
+.service-box-desc{
+  font-size:14px;line-height:1.8;color:rgba(8,9,13,0.7);font-weight:400;transition:color 0.3s;
+}
+.service-box:hover .service-box-desc{color:rgba(245,240,232,0.7);}
 
 /* ABOUT BAND */
 .about-band{
@@ -531,12 +539,78 @@ footer{background:var(--ink);border-top:1px solid rgba(245,240,232,0.06);padding
   </div>
 </div>
 
-<div class="ticker">
-  <div class="ticker-track">
-    <span class="ticker-item">Live Events <span class="sep">◆</span> Corporate Parties <span class="sep">◆</span> DJ Booking <span class="sep">◆</span> Sound & Lighting <span class="sep">◆</span> Nightlife Experiences <span class="sep">◆</span> VIP Packages <span class="sep">◆</span></span>
-    <span class="ticker-item">Live Events <span class="sep">◆</span> Corporate Parties <span class="sep">◆</span> DJ Booking <span class="sep">◆</span> Sound & Lighting <span class="sep">◆</span> Nightlife Experiences <span class="sep">◆</span> VIP Packages <span class="sep">◆</span></span>
-  </div>
 </div>
+
+<!-- Interactive Live Stage Lights Mixer Section -->
+<section id="stage-control" style="background:#090a12; border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:96px 60px;">
+  <div style="max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr 1.2fr; gap:64px; align-items:center;">
+    <div>
+      <div class="section-tag" style="color:var(--warm);">Interactive Deck</div>
+      <h2 class="section-title" style="color:#fff; margin-bottom:24px; text-transform:none;">Volt Stage<br><em>Atmosphere Mixer</em></h2>
+      <p style="font-size:15px; line-height:1.9; color:var(--muted); margin-bottom:28px; font-style:italic;">Take command of our live concert visualizer. Slide the dials to dynamically modify laser frequencies, bass pressure, and tempo profiles. Watch the virtual stage react instantly.</p>
+      
+      <!-- Interactive Sliders -->
+      <div style="display:flex; flex-direction:column; gap:24px;">
+        <div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-family:'DM Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:2px; color:var(--rust);">
+            <span>Laser Pulse Speed</span>
+            <span id="val-lasers">1.0x</span>
+          </div>
+          <input type="range" min="5" max="30" value="10" oninput="adjustStageLasers(this.value)" style="width:100%; accent-color:var(--rust); background:var(--cream); border:none; height:4px; outline:none; cursor:pointer;">
+        </div>
+        
+        <div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-family:'DM Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:2px; color:var(--warm);">
+            <span>Bass Pressure EQ</span>
+            <span id="val-bass">40Hz</span>
+          </div>
+          <input type="range" min="10" max="60" value="40" oninput="adjustStageBass(this.value)" style="width:100%; accent-color:var(--warm); background:var(--cream); border:none; height:4px; outline:none; cursor:pointer;">
+        </div>
+        
+        <div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-family:'DM Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:2px; color:var(--olive);">
+            <span>Visualizer Crowd Vibe</span>
+            <span id="val-crowd">Ambient Chill</span>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:8px;">
+            <button type="button" class="btn-mixer active" onclick="setCrowdVibe('ambient', this)" style="flex:1; background:var(--cream); border:1px solid var(--warm); padding:10px; color:#fff; font-family:'DM Mono'; font-size:10px; text-transform:uppercase; cursor:pointer; letter-spacing:1px; transition:all 0.3s;">Ambient</button>
+            <button type="button" class="btn-mixer" onclick="setCrowdVibe('electro', this)" style="flex:1; background:var(--cream); border:1px solid var(--border); padding:10px; color:var(--muted); font-family:'DM Mono'; font-size:10px; text-transform:uppercase; cursor:pointer; letter-spacing:1px; transition:all 0.3s;">Electro</button>
+            <button type="button" class="btn-mixer" onclick="setCrowdVibe('hyper', this)" style="flex:1; background:var(--cream); border:1px solid var(--border); padding:10px; color:var(--muted); font-family:'DM Mono'; font-size:10px; text-transform:uppercase; cursor:pointer; letter-spacing:1px; transition:all 0.3s;">Hyper Rave</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Stage Visualizer Panel -->
+    <div style="background:#020204; border:1px solid var(--border); border-radius:4px; height:380px; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; box-shadow:0 24px 70px rgba(0,0,0,0.6);">
+      <!-- Glowing spotlights -->
+      <div id="beam-left" style="position:absolute; top:0; left:20%; width:6px; height:100%; background:linear-gradient(180deg, var(--rust), transparent); transform:rotate(20deg); transform-origin:top center; transition:all 0.1s; opacity:0.7; filter:blur(4px); animation: laserLeft 2s infinite alternate ease-in-out;"></div>
+      <div id="beam-right" style="position:absolute; top:0; right:20%; width:6px; height:100%; background:linear-gradient(180deg, var(--olive), transparent); transform:rotate(-20deg); transform-origin:top center; transition:all 0.1s; opacity:0.7; filter:blur(4px); animation: laserRight 2s infinite alternate ease-in-out;"></div>
+      
+      <!-- CSS Laser Keyframes -->
+      <style>
+        @keyframes laserLeft { 0% { transform: rotate(10deg); } 100% { transform: rotate(35deg); } }
+        @keyframes laserRight { 0% { transform: rotate(-10deg); } 100% { transform: rotate(-35deg); } }
+      </style>
+
+      <!-- Virtual Crowd dots -->
+      <div id="crowd-visual" style="position:absolute; bottom:0; left:0; width:100%; height:45%; background:linear-gradient(0deg, #020204, transparent); display:flex; align-items:flex-end; justify-content:space-around; padding:18px 24px; z-index:2;">
+        <div class="crowd-dot" style="width:12px; height:12px; border-radius:50%; background:var(--muted); animation:bounceDot 1s infinite alternate;"></div>
+        <div class="crowd-dot" style="width:16px; height:16px; border-radius:50%; background:var(--rust); animation:bounceDot 0.8s infinite alternate-reverse;"></div>
+        <div class="crowd-dot" style="width:14px; height:14px; border-radius:50%; background:var(--warm); animation:bounceDot 1.2s infinite alternate;"></div>
+        <div class="crowd-dot" style="width:18px; height:18px; border-radius:50%; background:var(--olive); animation:bounceDot 0.7s infinite alternate-reverse;"></div>
+        <div class="crowd-dot" style="width:13px; height:13px; border-radius:50%; background:var(--warm); animation:bounceDot 1.1s infinite alternate;"></div>
+        <div class="crowd-dot" style="width:15px; height:15px; border-radius:50%; background:var(--muted); animation:bounceDot 0.9s infinite alternate-reverse;"></div>
+      </div>
+      
+      <div style="text-align:center; z-index:3; position:relative; padding:20px;">
+        <div id="stage-status" style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--warm); margin-bottom:10px; font-weight:500;">📻 DYNAMIC OVERRIDE SYSTEM</div>
+        <h4 id="stage-vibe-name" style="font-family:'Playfair Display',serif; font-style:italic; font-size:38px; font-weight:900; color:#fff; text-shadow:0 0 15px rgba(255,255,255,0.3); line-height:1.1;">Techno Ambient Vibe</h4>
+        <p id="stage-vibe-detail" style="font-family:'DM Mono',monospace; font-size:9px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-top:12px;">BPM: 110 · LASERS: ACTIVE · EQ: 40Hz</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- EVENTS -->
 <section id="events">
@@ -621,37 +695,37 @@ footer{background:var(--ink);border-top:1px solid rgba(245,240,232,0.06);padding
   <div class="services-grid">
     <div class="service-box reveal">
       <div class="service-box-num">01</div>
-      <span class="service-box-icon">🎤</span>
+      <span class="service-box-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2v20M2 12h20"/></svg></span>
       <div class="service-box-name">Live Event Production</div>
       <p class="service-box-desc">From concept to close of doors. We handle venue scouting, talent booking, A/V setup, crowd flow, security coordination, and full event-night management.</p>
     </div>
     <div class="service-box reveal">
       <div class="service-box-num">02</div>
-      <span class="service-box-icon">🎛</span>
+      <span class="service-box-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2"/><circle cx="8" cy="12" r="3"/><circle cx="16" cy="12" r="3"/></svg></span>
       <div class="service-box-name">DJ & Artist Booking</div>
       <p class="service-box-desc">Access to a curated roster of professional DJs, bands, performers, and MCs. We match the talent to your vibe, budget, and audience — every time.</p>
     </div>
     <div class="service-box reveal">
       <div class="service-box-num">03</div>
-      <span class="service-box-icon">💡</span>
+      <span class="service-box-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 22h20L12 2z"/></svg></span>
       <div class="service-box-name">Sound & Lighting Design</div>
       <p class="service-box-desc">Professional-grade A/V packages designed around your space. Laser rigs, LED panels, line-array systems, and full stage builds available.</p>
     </div>
     <div class="service-box reveal">
       <div class="service-box-num">04</div>
-      <span class="service-box-icon">🏢</span>
+      <span class="service-box-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16M4 2h16v20H4zM12 2v20M8 2v20M16 2v20"/></svg></span>
       <div class="service-box-name">Corporate Events</div>
       <p class="service-box-desc">Award nights, product launches, company parties — we turn corporate occasions into genuine experiences your guests will remember and talk about.</p>
     </div>
     <div class="service-box reveal">
       <div class="service-box-num">05</div>
-      <span class="service-box-icon">🌙</span>
+      <span class="service-box-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
       <div class="service-box-name">Nightlife Partnerships</div>
       <p class="service-box-desc">Ongoing partnerships with clubs, bars, and venues. Resident DJ programs, weekly event series, and promotional campaigns that drive consistent foot traffic.</p>
     </div>
     <div class="service-box reveal">
       <div class="service-box-num">06</div>
-      <span class="service-box-icon">🎥</span>
+      <span class="service-box-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></span>
       <div class="service-box-name">Event Coverage</div>
       <p class="service-box-desc">Photo, video, and social content packages. Same-night highlights, multi-camera live streaming, and post-event recap reels that amplify the event after it's over.</p>
     </div>
@@ -737,6 +811,41 @@ footer{background:var(--ink);border-top:1px solid rgba(245,240,232,0.06);padding
         <div class="info-row-label">Lead Time</div>
         <div class="info-row-val">Minimum 2 weeks · Preferred 4+ weeks</div>
       </div>
+
+      <!-- Interactive 3D Seating Zone & Ticket Selector -->
+      <div class="venue-selector" style="background:var(--cream); border:1px solid var(--border); padding:24px; border-radius:4px; margin-top:36px;">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--warm); margin-bottom:16px; font-weight:500;">Interactive Ticket & Zone Selector</div>
+        
+        <div style="display:grid; grid-template-rows:auto 1fr; gap:14px; align-items:center; margin-bottom:18px;">
+          <div style="background:var(--rust-dim); border:1px solid var(--rust); padding:8px; text-align:center; font-family:'DM Mono'; font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--rust); font-weight:bold;">MAIN STAGE & DJ DECK</div>
+          
+          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px;">
+            <div id="seat-vip" onclick="selectVenueSection('VIP Lounge Suite', 150, 'Highly Limited', this)" style="background:rgba(255,255,255,0.02); border:1px solid var(--border); padding:14px 6px; text-align:center; cursor:pointer; transition:all 0.3s;">
+              <span style="font-family:'Playfair Display'; font-style:italic; font-size:13px; font-weight:700; color:#fff; display:block;">VIP Suite</span>
+              <span style="font-family:'DM Mono'; font-size:8px; color:var(--muted); display:block; margin-top:6px; letter-spacing:0.5px;">$150 · 14 Left</span>
+            </div>
+            <div id="seat-pit" onclick="selectVenueSection('GA Front Pit', 65, 'Active', this)" style="background:rgba(255, 140, 66, 0.08); border:1px solid var(--warm); padding:14px 6px; text-align:center; cursor:pointer; transition:all 0.3s;">
+              <span style="font-family:'Playfair Display'; font-style:italic; font-size:13px; font-weight:700; color:#fff; display:block;">GA Pit</span>
+              <span style="font-family:'DM Mono'; font-size:8px; color:var(--muted); display:block; margin-top:6px; letter-spacing:0.5px;">$65 · 120 Left</span>
+            </div>
+            <div id="seat-balcony" onclick="selectVenueSection('Skyline Balcony', 45, 'Limited', this)" style="background:rgba(255,255,255,0.02); border:1px solid var(--border); padding:14px 6px; text-align:center; cursor:pointer; transition:all 0.3s;">
+              <span style="font-family:'Playfair Display'; font-style:italic; font-size:13px; font-weight:700; color:#fff; display:block;">Balcony</span>
+              <span style="font-family:'DM Mono'; font-size:8px; color:var(--muted); display:block; margin-top:6px; letter-spacing:0.5px;">$45 · 8 Left</span>
+            </div>
+          </div>
+        </div>
+        
+        <div style="border-top:1px solid var(--border); padding-top:14px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:10px; font-family:'DM Mono'; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px;">Selected Zone</span>
+            <strong id="selected-zone-name" style="font-family:'Playfair Display'; font-style:italic; font-size:15px; color:#fff; display:block; margin-top:3px;">GA Front Pit</strong>
+          </div>
+          <div style="text-align:right;">
+            <span style="font-size:10px; font-family:'DM Mono'; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px;">Base Price</span>
+            <strong id="selected-zone-price" style="font-family:'Playfair Display'; font-style:italic; font-size:18px; color:var(--warm); display:block; margin-top:3px;">$65</strong>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="booking-form reveal">
       <div id="booking-fields">
@@ -815,7 +924,7 @@ footer{background:var(--ink);border-top:1px solid rgba(245,240,232,0.06);padding
   </div>
   <div class="footer-bottom">
     <span class="footer-copy">© 2026 VOLT Entertainment — All Rights Reserved</span>
-    <span class="footer-copy">Built by WorkForge Systems</span>
+    <span class="footer-copy">Built by DriftForge Systems</span>
   </div>
 </footer>
 
@@ -851,6 +960,100 @@ function submitBooking(){
   if(!fn||!em||!tp){alert('Please fill in your name, email, and event type.');return;}
   document.getElementById('booking-fields').style.display='none';
   document.getElementById('bookingSuccess').style.display='block';
+}
+
+// Stage Mixer Operations
+let currentLasers = 10;
+let currentBass = 40;
+let currentVibe = 'ambient';
+
+function adjustStageLasers(val) {
+  currentLasers = val;
+  const speedSec = (30 - val) / 5;
+  document.getElementById('val-lasers').textContent = (val / 10).toFixed(1) + "x";
+  
+  // Set animations speeds dynamically
+  document.getElementById('beam-left').style.animationDuration = speedSec + "s";
+  document.getElementById('beam-right').style.animationDuration = speedSec + "s";
+  updateMixerReadout();
+}
+
+function adjustStageBass(val) {
+  currentBass = val;
+  document.getElementById('val-bass').textContent = val + "Hz";
+  
+  // Adjust crowd bouncing sizes based on bass pressure
+  document.querySelectorAll('.crowd-dot').forEach((dot, idx) => {
+    const baseHeight = 12 + (idx * 2);
+    const size = baseHeight + (val / 8);
+    dot.style.width = size + "px";
+    dot.style.height = size + "px";
+  });
+  updateMixerReadout();
+}
+
+function setCrowdVibe(vibe, btnElement) {
+  currentVibe = vibe;
+  // Manage buttons
+  btnElement.parentElement.querySelectorAll('.btn-mixer').forEach(b => {
+    b.style.borderColor = 'var(--border)';
+    b.style.color = 'var(--muted)';
+  });
+  btnElement.style.borderColor = 'var(--warm)';
+  btnElement.style.color = '#fff';
+  
+  const textVal = document.getElementById('val-crowd');
+  const stageName = document.getElementById('stage-vibe-name');
+  
+  if (vibe === 'ambient') {
+    textVal.textContent = "Ambient Chill";
+    stageName.textContent = "Techno Ambient Vibe";
+    document.querySelectorAll('.crowd-dot').forEach(dot => dot.style.animationDuration = '1.3s');
+  } else if (vibe === 'electro') {
+    textVal.textContent = "Electro Dance";
+    stageName.textContent = "Slamming Electro";
+    document.querySelectorAll('.crowd-dot').forEach(dot => dot.style.animationDuration = '0.7s');
+  } else if (vibe === 'hyper') {
+    textVal.textContent = "Hyper Rave";
+    stageName.textContent = "HARDCORE INDUSTRIAL RAVE";
+    document.querySelectorAll('.crowd-dot').forEach(dot => dot.style.animationDuration = '0.35s');
+  }
+  updateMixerReadout();
+}
+
+function updateMixerReadout() {
+  const bpm = currentVibe === 'ambient' ? 110 : (currentVibe === 'electro' ? 128 : 155);
+  document.getElementById('stage-vibe-detail').textContent = 
+    "BPM: " + bpm + " · LASERS: " + (currentLasers / 10).toFixed(1) + "x · EQ: " + currentBass + "Hz";
+}
+
+// Booking Seating Selector
+function selectVenueSection(name, price, status, element) {
+  element.parentElement.querySelectorAll('div').forEach(el => {
+    el.style.background = 'rgba(255, 255, 255, 0.02)';
+    el.style.borderColor = 'var(--border)';
+  });
+  element.style.background = 'rgba(255, 140, 66, 0.08)';
+  element.style.borderColor = 'var(--warm)';
+  
+  document.getElementById('selected-zone-name').textContent = name;
+  document.getElementById('selected-zone-price').textContent = "$" + price;
+  
+  // Set in booking select
+  var typeSelect = document.getElementById('btype');
+  let dynamicOpt = document.getElementById('dynamic-ticket-opt');
+  if(!dynamicOpt) {
+    dynamicOpt = document.createElement('option');
+    dynamicOpt.id = 'dynamic-ticket-opt';
+    typeSelect.appendChild(dynamicOpt);
+  }
+  const fullVal = "Venue: " + name + " ($" + price + ")";
+  dynamicOpt.value = fullVal;
+  dynamicOpt.text = fullVal;
+  dynamicOpt.selected = true;
+  
+  // Pre-fill notes
+  document.getElementById('bnotes').value = "Selected Seating Zone Request:\n- Area: " + name + "\n- Rate: $" + price + " per ticket\n- Status: " + status + "\n\nWe would like to book this experience.";
 }
 </script>
 </body>
