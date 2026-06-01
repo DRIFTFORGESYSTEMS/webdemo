@@ -4,32 +4,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lumière — Premium Care & Wellness</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --alabaster: #FBFBF9;
-  --cream: #F2EFE9;
-  --sage: #8A9A86;
-  --sage-light: #B4BDB1;
-  --charcoal: #2A2F2A;
-  --text-body: #5A5F5A;
+  --alabaster: #FDFBF7;
+  --cream: #F5EFEB;
+  --sage: #A9A096;
+  --sage-light: #D4CCC1;
+  --charcoal: #2A2A2A;
+  --text-body: #666666;
   --gold: #D4AF37;
-  --border: rgba(42, 47, 42, 0.1);
-  --glass: rgba(251, 251, 249, 0.85);
+  --border: rgba(42, 42, 42, 0.08);
+  --glass: rgba(253, 251, 247, 0.85);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
   background: var(--alabaster);
   color: var(--charcoal);
-  font-family: 'Jost', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 300;
   overflow-x: hidden;
   line-height: 1.6;
 }
 
 h1, h2, h3, h4, .serif {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Playfair Display', serif;
   font-weight: 400;
 }
 .italic { font-style: italic; color: var(--sage); }
@@ -46,15 +46,21 @@ nav.scrolled {
 }
 .nav-logo {
   font-size: 28px; letter-spacing: 4px; color: var(--charcoal);
-  text-decoration: none; font-family: 'Cormorant Garamond', serif;
+  text-decoration: none; font-family: 'Playfair Display', serif;
 }
 .nav-links { display: flex; gap: 48px; list-style: none; margin-left: auto; margin-right: 16px; }
 .nav-links a {
   font-size: 11px; font-weight: 500; letter-spacing: 3px;
   text-transform: uppercase; color: var(--text-body);
   text-decoration: none; transition: color 0.3s;
+  position: relative;
+}
+.nav-links a::after {
+  content: ""; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
+  background: var(--charcoal); transition: width 0.3s ease;
 }
 .nav-links a:hover { color: var(--charcoal); }
+.nav-links a:hover::after { width: 100%; }
 .nav-cta {
   font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase;
   padding: 14px 32px; border: 1px solid var(--charcoal); color: var(--charcoal);
@@ -71,7 +77,7 @@ nav.scrolled {
   gap: 40px; opacity: 0; pointer-events: none; transition: opacity 0.4s;
 }
 .mobile-menu.open { opacity: 1; pointer-events: all; }
-.mobile-menu a { font-size: 32px; font-family: 'Cormorant Garamond', serif; color: var(--charcoal); text-decoration: none; letter-spacing: 2px; }
+.mobile-menu a { font-size: 32px; font-family: 'Playfair Display', serif; color: var(--charcoal); text-decoration: none; letter-spacing: 2px; }
 
 /* HERO */
 .hero {
@@ -79,7 +85,7 @@ nav.scrolled {
 }
 .hero-content {
   display: flex; flex-direction: column; justify-content: center;
-  padding: 160px 80px 80px; z-index: 10;
+  padding: 200px 80px 100px; z-index: 10;
 }
 .hero-badge {
   font-size: 10px; font-weight: 500; letter-spacing: 4px; text-transform: uppercase;
@@ -121,10 +127,10 @@ nav.scrolled {
   background: var(--charcoal); color: var(--cream); padding: 24px 64px;
   display: flex; justify-content: space-around; flex-wrap: wrap; gap: 32px;
 }
-.band-item { font-family: 'Cormorant Garamond', serif; font-size: 20px; letter-spacing: 2px; }
+.band-item { font-family: 'Playfair Display', serif; font-size: 20px; letter-spacing: 2px; }
 
 /* SECTIONS */
-section { padding: 140px 64px; }
+section { padding: 180px 64px; }
 .section-header { text-align: center; max-width: 600px; margin: 0 auto 80px; }
 .eyebrow {
   font-size: 10px; font-weight: 500; letter-spacing: 4px; text-transform: uppercase;
@@ -142,7 +148,7 @@ section { padding: 140px 64px; }
 .quote-block {
   padding-left: 32px; border-left: 1px solid var(--sage); margin-top: 48px;
 }
-.quote-block p { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-style: italic; color: var(--charcoal); line-height: 1.4; margin-bottom: 16px; }
+.quote-block p { font-family: 'Playfair Display', serif; font-size: 28px; font-style: italic; color: var(--charcoal); line-height: 1.4; margin-bottom: 16px; }
 .quote-block span { font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--sage); }
 
 /* SERVICES */
@@ -152,7 +158,7 @@ section { padding: 140px 64px; }
   background: var(--cream); padding: 64px 48px; text-align: center;
   transition: all 0.5s ease;
 }
-.service-card:hover { background: var(--alabaster); transform: translateY(-4px); }
+.service-card:hover { background: var(--alabaster); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.02); }
 .s-icon { font-size: 32px; margin-bottom: 24px; color: var(--sage); }
 .s-title { font-size: 26px; margin-bottom: 16px; color: var(--charcoal); }
 .s-desc { font-size: 15px; color: var(--text-body); line-height: 1.8; margin-bottom: 24px; }
@@ -171,7 +177,7 @@ section { padding: 140px 64px; }
 .c-btn-group { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 40px; }
 .c-btn {
   background: transparent; border: 1px solid var(--border); padding: 12px 24px;
-  font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 1px; color: var(--text-body);
+  font-family: 'Outfit', sans-serif; font-size: 12px; letter-spacing: 1px; color: var(--text-body);
   cursor: pointer; transition: all 0.3s;
 }
 .c-btn.active { background: var(--sage); border-color: var(--sage); color: var(--alabaster); }
@@ -183,10 +189,10 @@ section { padding: 140px 64px; }
 .c-result-desc { font-size: 15px; color: var(--text-body); line-height: 1.7; margin-bottom: 32px; }
 .c-result-meta { display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid var(--border); padding-top: 24px; margin-bottom: 32px; }
 .c-result-dur { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; }
-.c-result-price { font-size: 32px; font-family: 'Cormorant Garamond', serif; }
+.c-result-price { font-size: 32px; font-family: 'Playfair Display', serif; }
 .c-apply-btn {
   background: var(--charcoal); color: var(--alabaster); border: none; padding: 16px;
-  width: 100%; font-family: 'Jost', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 3px;
+  width: 100%; font-family: 'Outfit', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 3px;
   cursor: pointer; transition: all 0.3s;
 }
 .c-apply-btn:hover { background: var(--sage); }
@@ -195,7 +201,7 @@ section { padding: 140px 64px; }
 .reviews-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
 .review-card { padding: 48px; border: 1px solid var(--border); }
 .r-stars { color: var(--gold); font-size: 16px; letter-spacing: 4px; margin-bottom: 24px; }
-.r-text { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; line-height: 1.6; margin-bottom: 32px; }
+.r-text { font-family: 'Playfair Display', serif; font-size: 22px; font-style: italic; line-height: 1.6; margin-bottom: 32px; }
 .r-author { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: 500; }
 
 /* BOOKING */
@@ -212,14 +218,14 @@ section { padding: 140px 64px; }
 .f-field label { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; color: var(--text-body); }
 .f-field input, .f-field select, .f-field textarea {
   width: 100%; border: none; border-bottom: 1px solid var(--border);
-  padding: 12px 0; background: transparent; font-family: 'Jost', sans-serif;
+  padding: 12px 0; background: transparent; font-family: 'Outfit', sans-serif;
   font-size: 15px; outline: none; transition: border-color 0.3s;
 }
 .f-field input:focus, .f-field select:focus, .f-field textarea:focus { border-bottom-color: var(--sage); }
 .f-field select { appearance: none; border-radius: 0; }
 .btn-submit {
   width: 100%; background: var(--charcoal); color: var(--alabaster); padding: 20px;
-  border: none; font-family: 'Jost', sans-serif; font-size: 11px; text-transform: uppercase;
+  border: none; font-family: 'Outfit', sans-serif; font-size: 11px; text-transform: uppercase;
   letter-spacing: 3px; cursor: pointer; transition: background 0.3s; margin-top: 16px;
 }
 .btn-submit:hover { background: var(--sage); }
@@ -228,7 +234,7 @@ section { padding: 140px 64px; }
 
 /* FOOTER */
 footer { padding: 80px 64px 40px; text-align: center; border-top: 1px solid var(--border); }
-.f-logo { font-size: 36px; font-family: 'Cormorant Garamond', serif; letter-spacing: 4px; margin-bottom: 24px; display: inline-block; }
+.f-logo { font-size: 36px; font-family: 'Playfair Display', serif; letter-spacing: 4px; margin-bottom: 24px; display: inline-block; }
 .f-links { display: flex; justify-content: center; gap: 40px; list-style: none; margin-bottom: 64px; }
 .f-links a { font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--text-body); text-decoration: none; }
 .f-links a:hover { color: var(--charcoal); }
