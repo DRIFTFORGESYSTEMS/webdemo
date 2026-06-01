@@ -431,7 +431,7 @@
     position: relative;
     background: radial-gradient(circle, rgba(222,41,16,0.3), rgba(13,2,0,0.8));
     box-shadow: 0 0 40px rgba(222,41,16,0.3), inset 0 0 40px rgba(212,160,23,0.05);
-    animation: rotateSlow 30s linear infinite;
+    animation: rotateOnly 30s linear infinite;
   }
   .coin::before {
     content: "";
@@ -449,8 +449,13 @@
   }
   .coin-inner {
     font-size: 64px;
-    animation: rotateSlow 30s linear infinite reverse;
+    animation: rotateOnly 30s linear infinite reverse;
     filter: drop-shadow(0 0 12px rgba(212,160,23,0.6));
+  }
+  
+  @keyframes rotateOnly {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
 
   /* ─── SERVICES ─── */
